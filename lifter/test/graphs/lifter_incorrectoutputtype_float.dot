@@ -1,0 +1,550 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 1), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 0.0, 'step_list_0_x': 1, 'step_list_1_x': 0, 'step_list_2_x': 0, 'step_\
+list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 1, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 0.0, 'step_list_0_x': 0, 'step_list_1_x': 1, 'step_list_2_x': 0, 'step_\
+list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 0), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 1), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=None
+current_rack_delta=None",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_78_8[7:7] ^ current_rack_delta_78_8[7:7] & 6 - current_rack_delta_78_8[7:7] | (if 6 - current_rack_\
+delta_78_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 1, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 6.428484731059385e-40, 'step_list_0_x': 0, 'step_list_1_x': 1, 'step_\
+list_2_x': 0, 'step_list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_78_8[7:7] ^ current_rack_delta_78_8[7:7] & 6 - current_rack_delta_78_8[7:7] | (if 6 - current_rack_\
+delta_78_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 5.510143782464116e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 1, 'step_list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_78_8[7:7] ^ current_rack_delta_78_8[7:7] & 6 - current_rack_delta_78_8[7:7] | (if 6 - current_rack_\
+delta_78_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_117_8[7:7] ^ current_rack_delta_117_8[7:7] & 6 - current_rack_delta_117_8[7:7] | (if 6 - current_rack_\
+delta_117_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_117_8[7:7] ^ current_rack_delta_117_8[7:7] & 6 - current_rack_delta_117_8[7:7] | (if 6 - current_rack_\
+delta_117_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_117_8[7:7] ^ current_rack_delta_117_8[7:7] & 6 - current_rack_delta_117_8[7:7] | (if 6 - current_rack_\
+delta_117_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_152_8[7:7] ^ current_rack_delta_152_8[7:7] & 6 - current_rack_delta_152_8[7:7] | (if 6 - current_rack_\
+delta_152_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 1, 'CONVEYOR_MOTOR': 5.510129769479473e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 0, 'step_list_3_x': 1, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_98_64 + sec_delta_143_64 != 0x5 + tv_sec_98_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 6.428498744044028e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 1, 'step_list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_152_8[7:7] ^ current_rack_delta_152_8[7:7] & 6 - current_rack_delta_152_8[7:7] | (if 6 - current_rack_\
+delta_152_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 1.401298464324817e-45, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 1, 'step_list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_152_8[7:7] ^ current_rack_delta_152_8[7:7] & 6 - current_rack_delta_152_8[7:7] | (if 6 - current_rack_\
+delta_152_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_318_8[7:7] ^ current_rack_delta_318_8[7:7] & 6 - current_rack_delta_318_8[7:7] | (if 6 - current_rack_\
+delta_318_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 1, 'CONVEYOR_MOTOR': 6.428484731059385e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 0, 'step_list_3_x': 1, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_318_8[7:7] ^ current_rack_delta_318_8[7:7] & 6 - current_rack_delta_318_8[7:7] | (if 6 - current_rack_\
+delta_318_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 1.401298464324817e-45, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 0, 'step_list_3_x': 0, 'step_list_4_x': 1}"];
+	"(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_318_8[7:7] ^ current_rack_delta_318_8[7:7] & 6 - current_rack_delta_318_8[7:7] | (if 6 - current_rack_\
+delta_318_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_360_8[7:7] ^ current_rack_delta_360_8[7:7] & 6 - current_rack_delta_360_8[7:7] | (if 6 - current_rack_\
+delta_360_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_360_8[7:7] ^ current_rack_delta_360_8[7:7] & 6 - current_rack_delta_360_8[7:7] | (if 6 - current_rack_\
+delta_360_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_360_8[7:7] ^ current_rack_delta_360_8[7:7] & 6 - current_rack_delta_360_8[7:7] | (if 6 - current_rack_\
+delta_360_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_165_64 + sec_delta_353_64 != 0x5 + tv_sec_98_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_426_8[7:7] ^ current_rack_delta_426_8[7:7] & 6 - current_rack_delta_426_8[7:7] | (if 6 - current_rack_\
+delta_426_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_426_8[7:7] ^ current_rack_delta_426_8[7:7] & 6 - current_rack_delta_426_8[7:7] | (if 6 - current_rack_\
+delta_426_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_426_8[7:7] ^ current_rack_delta_426_8[7:7] & 6 - current_rack_delta_426_8[7:7] | (if 6 - current_rack_\
+delta_426_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 1, 'CONVEYOR_MOTOR': 0.0, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_list_2_x': 0, 'step_\
+list_3_x': 1, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 9), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_175_64 + sec_delta_419_64 != 0x5 + tv_sec_98_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 4), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_896_8[7:7] ^ current_rack_delta_896_8[7:7] & 6 - current_rack_delta_896_8[7:7] | (if 6 - current_rack_\
+delta_896_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_896_8[7:7] ^ current_rack_delta_896_8[7:7] & 6 - current_rack_delta_896_8[7:7] | (if 6 - current_rack_\
+delta_896_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_896_8[7:7] ^ current_rack_delta_896_8[7:7] & 6 - current_rack_delta_896_8[7:7] | (if 6 - current_rack_\
+delta_896_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 1), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_344_64 + sec_delta_952_64 != 0x5 + tv_sec_344_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_961_8[7:7] ^ current_rack_delta_961_8[7:7] & 6 - current_rack_delta_961_8[7:7] | (if 6 - current_rack_\
+delta_961_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 6.428498744044028e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 0, 'step_list_3_x': 0, 'step_list_4_x': 1}"];
+	"(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_961_8[7:7] ^ current_rack_delta_961_8[7:7] & 6 - current_rack_delta_961_8[7:7] | (if 6 - current_rack_\
+delta_961_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[outvars="{'LIFT_UP_MOTOR': 0, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 5.510143782464116e-40, 'step_list_0_x': 0, 'step_list_1_x': 0, 'step_\
+list_2_x': 0, 'step_list_3_x': 0, 'step_list_4_x': 1}"];
+	"(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_961_8[7:7] ^ current_rack_delta_961_8[7:7] & 6 - current_rack_delta_961_8[7:7] | (if 6 - current_rack_\
+delta_961_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1270_8[7:7] ^ current_rack_delta_1270_8[7:7] & 6 - current_rack_delta_1270_8[7:7] | (if 6 - current_\
+rack_delta_1270_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1270_8[7:7] ^ current_rack_delta_1270_8[7:7] & 6 - current_rack_delta_1270_8[7:7] | (if 6 - current_\
+rack_delta_1270_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 1), ('CONVEYOR_MOTOR', 0.0), ('step_list_0_x', 0), ('step_list_1_x', \
+0), ('step_list_2_x', 0), ('step_list_3_x', 1), ('step_list_4_x', 0))" -> "(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1270_8[7:7] ^ current_rack_delta_1270_8[7:7] & 6 - current_rack_delta_1270_8[7:7] | (if 6 - current_\
+rack_delta_1270_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 2), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428484731059385e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_974_64 + sec_delta_1953_64 != 0x5 + tv_sec_344_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1960_8[7:7] ^ current_rack_delta_1960_8[7:7] & 6 - current_rack_delta_1960_8[7:7] | (if 6 - current_\
+rack_delta_1960_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1960_8[7:7] ^ current_rack_delta_1960_8[7:7] & 6 - current_rack_delta_1960_8[7:7] | (if 6 - current_\
+rack_delta_1960_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1960_8[7:7] ^ current_rack_delta_1960_8[7:7] & 6 - current_rack_delta_1960_8[7:7] | (if 6 - current_\
+rack_delta_1960_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 8), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1993_8[7:7] ^ current_rack_delta_1993_8[7:7] & 6 - current_rack_delta_1993_8[7:7] | (if 6 - current_\
+rack_delta_1993_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 10), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1993_8[7:7] ^ current_rack_delta_1993_8[7:7] & 6 - current_rack_delta_1993_8[7:7] | (if 6 - current_\
+rack_delta_1993_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_1993_8[7:7] ^ current_rack_delta_1993_8[7:7] & 6 - current_rack_delta_1993_8[7:7] | (if 6 - current_\
+rack_delta_1993_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 12), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[outvars="{'LIFT_UP_MOTOR': 1, 'LIFT_DOWN_MOTOR': 0, 'CONVEYOR_MOTOR': 5.510129769479473e-40, 'step_list_0_x': 0, 'step_list_1_x': 1, 'step_\
+list_2_x': 0, 'step_list_3_x': 0, 'step_list_4_x': 0}"];
+	"(('NODE_CTR', 11), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 1))" -> "(('NODE_CTR', 12), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint=None,
+		current_rack_delta=None,
+		current_rack_src=None,
+		label="time_delta=5
+current_rack_delta=None",
+		time_delta=5,
+		time_delta_constraint="<Bool tv_sec_979_64 + sec_delta_1986_64 != 0x5 + tv_sec_344_64>",
+		time_delta_src="(4309089, 46)"];
+	"(('NODE_CTR', 12), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 3), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510143782464116e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_3849_8[7:7] ^ current_rack_delta_3849_8[7:7] & 6 - current_rack_delta_3849_8[7:7] | (if 6 - current_\
+rack_delta_3849_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=6,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=6",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 12), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 5), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 6.428498744044028e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_3849_8[7:7] ^ current_rack_delta_3849_8[7:7] & 6 - current_rack_delta_3849_8[7:7] | (if 6 - current_\
+rack_delta_3849_8 == 0 then 1 else 0)) != 0>",
+		current_rack_delta=7,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=7",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 12), ('LIFT_UP_MOTOR', 1), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 5.510129769479473e-40), ('step_list_0_x', 0), ('\
+step_list_1_x', 1), ('step_list_2_x', 0), ('step_list_3_x', 0), ('step_list_4_x', 0))" -> "(('NODE_CTR', 6), ('LIFT_UP_MOTOR', 0), ('LIFT_DOWN_MOTOR', 0), ('CONVEYOR_MOTOR', 1.401298464324817e-45), ('step_list_0_x', 0), ('\
+step_list_1_x', 0), ('step_list_2_x', 1), ('step_list_3_x', 0), ('step_list_4_x', 0))"	[key=0,
+		current_rack_constraint="<Bool (6 - current_rack_delta_3849_8[7:7] ^ current_rack_delta_3849_8[7:7] & 6 - current_rack_delta_3849_8[7:7] | (if 6 - current_\
+rack_delta_3849_8 == 0 then 1 else 0)) == 0>",
+		current_rack_delta=0,
+		current_rack_src="(4307354, 33)",
+		label="time_delta=None
+current_rack_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+}

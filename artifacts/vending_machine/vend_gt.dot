@@ -1,0 +1,18 @@
+strict digraph "" {
+	WAIT -> TWENTYFIVE	[dollar=None,
+		label="insert quarter",
+		quarter=1];
+	WAIT -> GIVE_CHANGE	[dollar=1,
+		label="insert dollar",
+		quarter=0];
+	TWENTYFIVE -> FIFTY	[dollar=None,
+		label="insert quarter",
+		quarter=1];
+	FIFTY -> DROP_CAN	[dollar=None,
+		label="insert quarter",
+		quarter=1];
+	GIVE_CHANGE -> DROP_CAN	[dollar=None,
+		quarter=None];
+	DROP_CAN -> WAIT	[dollar=None,
+		quarter=None];
+}

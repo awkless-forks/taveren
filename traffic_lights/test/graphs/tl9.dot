@@ -1,0 +1,240 @@
+strict digraph "" {
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 0, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 0, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 0, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 1, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=1,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 0, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 3), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=1,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 1, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 1, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 3), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 0), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 1), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 1, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 1, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 1, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 1), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=<Bool sec_delta_156_64 != 0x2>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=2,
+		time_delta_constraint="<Bool sec_delta_156_64 != 0x2>",
+		time_delta_src="(4380764, 33)"];
+	"(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 1, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 1), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 1), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 1, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 1, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 1), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=<Bool sec_delta_100_64 != 0x2>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=2,
+		time_delta_constraint="<Bool sec_delta_100_64 != 0x2>",
+		time_delta_src="(4381109, 33)"];
+	"(('NODE_CTR', 8), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 1, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 1}"];
+	"(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 1), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 8), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 1), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 1, 'statevar4': 0, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 1, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 0, 'PEDESTRIAN_GREEN_LIGHT': 1}"];
+	"(('NODE_CTR', 8), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))" -> "(('NODE_CTR', 9), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 1), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))"	[label="time_delta_constraint=<Bool sec_delta_114_64 != 0x28>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=40,
+		time_delta_constraint="<Bool sec_delta_114_64 != 0x28>",
+		time_delta_src="(4381454, 33)"];
+	"(('NODE_CTR', 10), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 1, 'statevar5': 0, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 9), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 1), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 0), ('PEDESTRIAN_GREEN_LIGHT', 1))" -> "(('NODE_CTR', 10), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 1), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 1, 'statevar5': 0, 'statevar6': 1, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 1, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 0, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 10), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 11), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 1), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=<Bool sec_delta_128_64 != 0x2>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=2,
+		time_delta_constraint="<Bool sec_delta_128_64 != 0x2>",
+		time_delta_src="(4381799, 33)"];
+	"(('NODE_CTR', 12), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 1, 'statevar6': 0, 'statevar7': 0, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 1, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 11), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+statevar6', 1), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 1), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 12), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 13), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 1), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 1, 'statevar6': 0, 'statevar7': 1, '\
+statevar8': 0, 'statevar9': 0, 'statevar10': 0, 'SWITCH_BUTTON': 1, 'RED_LIGHT': 0, 'ORANGE_LIGHT': 0, 'GREEN_LIGHT': 1, 'PEDESTRIAN_\
+RED_LIGHT': 1, 'PEDESTRIAN_GREEN_LIGHT': 0}"];
+	"(('NODE_CTR', 12), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 13), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 1), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=<Bool sec_delta_142_64 != 0x14>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=20,
+		time_delta_constraint="<Bool sec_delta_142_64 != 0x14>",
+		time_delta_src="(4382144, 33)"];
+	"(('NODE_CTR', 13), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 1), ('\
+statevar6', 0), ('statevar7', 1), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 0), ('GREEN_LIGHT', 1), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))" -> "(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+statevar6', 0), ('statevar7', 0), ('statevar8', 0), ('statevar9', 0), ('statevar10', 0), ('SWITCH_BUTTON', 1), ('RED_LIGHT', 0), ('\
+ORANGE_LIGHT', 1), ('GREEN_LIGHT', 0), ('PEDESTRIAN_RED_LIGHT', 1), ('PEDESTRIAN_GREEN_LIGHT', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+}

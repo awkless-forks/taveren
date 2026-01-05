@@ -1,0 +1,432 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0x20000BF8",
+  "time_addr": "0x200016B4",
+  "software": "beremiz",
+  "variables": [
+    {
+      "name": "statevar0",
+      "address": "0x6c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar1",
+      "address": "0x7c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar2",
+      "address": "0x8c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar3",
+      "address": "0x9c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar4",
+      "address": "0xac",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar5",
+      "address": "0xbc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar6",
+      "address": "0xcc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar7",
+      "address": "0xdc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar8",
+      "address": "0xec",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar9",
+      "address": "0xfc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar10",
+      "address": "0x10c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar11",
+      "address": "0x11c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar12",
+      "address": "0x12c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar13",
+      "address": "0x13c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar14",
+      "address": "0x14c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar15",
+      "address": "0x15c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar16",
+      "address": "0x16c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar17",
+      "address": "0x17c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar18",
+      "address": "0x18c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar19",
+      "address": "0x19c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar20",
+      "address": "0x1ac",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar21",
+      "address": "0x1bc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar22",
+      "address": "0x1cc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar23",
+      "address": "0x1dc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar24",
+      "address": "0x1ec",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar25",
+      "address": "0x1fc",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar26",
+      "address": "0x20c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar27",
+      "address": "0x21c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar28",
+      "address": "0x22c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar29",
+      "address": "0x23c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar30",
+      "address": "0x24c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar31",
+      "address": "0x25c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar32",
+      "address": "0x26c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar33",
+      "address": "0x27c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar34",
+      "address": "0x28c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar35",
+      "address": "0x29c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar36",
+      "address": "0x2ac",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "AVAILABLE_LIGHT",
+      "address": "0x00000000",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "CONVEYOR_MOTOR",
+      "address": "0x00000002",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "CONVEYOR_LIGHT",
+      "address": "0x00000004",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "WAX_LIGHT",
+      "address": "0x00000006",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "SOAP_LIGHT",
+      "address": "0x00000008",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "SCRUBBERS",
+      "address": "0x0000000A",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "SCRUB_LIGHT",
+      "address": "0x0000000C",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "SOAP_SPRINKLER",
+      "address": "0x0000000E",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "WATER_SPRINKLER",
+      "address": "0x00000010",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "WAX_LIQUID",
+      "address": "0x00000012",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "DRYERS",
+      "address": "0x00000014",
+      "size": 1,
+      "sort": "bool",
+      "type": "output"
+    },
+    {
+      "name": "CAR_ON_START_SENSOR",
+      "address": "0x00000016",
+      "size": 1,
+      "sort": "bool",
+        "type": "input"
+    },
+    {
+      "name": "SERVICE_SELECTION_BUTTON",
+      "address": "0x00000018",
+      "size": 1,
+      "sort": "sint",
+      "type": "input"
+    }
+  ]
+}

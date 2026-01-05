@@ -1,0 +1,869 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+ERROR    | 2026-01-03 15:25:07,686 | cle.backends.externs.simdata.io_file | missing _IO_FILE offsets for arch: PPC32
+ERROR    | 2026-01-03 15:25:07,687 | cle.backends.externs.simdata.io_file | missing _IO_FILE offsets for arch: PPC32
+WARNING  | 2026-01-03 15:25:07,688 | cle.loader     | Symbol imported without a known size; emulation may fail if it is used non-opaqely: GetRetainSize, __sync_val_compare_and_swap_8. See https://docs.angr.io/extending-angr/environment#simdata
+1… Elap… Ti… Analysis (Stage 1) | 705 funcs, 9592 blocks | 0/90 IJs | 160.59 MB…
+WARNING  | 2026-01-03 15:25:12,301 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+ERROR    | 2026-01-03 15:25:12,385 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+WARNING  | 2026-01-03 15:25:12,386 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpORD32S.
+WARNING  | 2026-01-03 15:25:12,386 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2026-01-03 15:25:12,386 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:12,387 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr32.
+WARNING  | 2026-01-03 15:25:12,387 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GenerateCRC32Sum (0x4225e0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,388 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GenerateCRC32Sum (0x4225e0)>.
+WARNING  | 2026-01-03 15:25:12,401 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:12,407 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpORD32U.
+WARNING  | 2026-01-03 15:25:12,409 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullS32.
+WARNING  | 2026-01-03 15:25:12,410 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LAMP_init__ (0x4164d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,410 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LAMP_init__ (0x4164d0)>.
+WARNING  | 2026-01-03 15:25:12,436 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __normalize_timespec (0x40b688)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,436 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __normalize_timespec (0x40b688)>.
+WARNING  | 2026-01-03 15:25:12,439 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_sub (0x40bf54)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,439 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_sub (0x40bf54)>.
+WARNING  | 2026-01-03 15:25:12,442 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_add (0x40be8c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,442 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_add (0x40be8c)>.
+WARNING  | 2026-01-03 15:25:12,522 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LAMP_body__ (0x41689c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,522 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LAMP_body__ (0x41689c)>.
+WARNING  | 2026-01-03 15:25:12,525 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RES0_run__ (0x418298)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,525 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RES0_run__ (0x418298)>.
+ERROR    | 2026-01-03 15:25:12,532 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Clz32.
+WARNING  | 2026-01-03 15:25:12,534 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CheckFileCRC (0x4226a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,534 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CheckFileCRC (0x4226a8)>.
+WARNING  | 2026-01-03 15:25:12,555 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PLC_GetTime (0x421c0c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,555 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PLC_GetTime (0x421c0c)>.
+WARNING  | 2026-01-03 15:25:12,559 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function AtomicCompareExchange64 (0x421b7c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,559 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function AtomicCompareExchange64 (0x421b7c)>.
+WARNING  | 2026-01-03 15:25:12,563 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+WARNING  | 2026-01-03 15:25:12,565 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function copy_to_log (0x42327c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,566 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function copy_to_log (0x42327c)>.
+WARNING  | 2026-01-03 15:25:12,573 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LogMessage (0x42351c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,573 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LogMessage (0x42351c)>.
+WARNING  | 2026-01-03 15:25:12,599 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __PythonEvalFB (0x436fd8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,599 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __PythonEvalFB (0x436fd8)>.
+WARNING  | 2026-01-03 15:25:12,604 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_EVAL_body__ (0x4158cc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,604 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_EVAL_body__ (0x4158cc)>.
+ERROR    | 2026-01-03 15:25:12,618 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64.
+ERROR    | 2026-01-03 15:25:12,618 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64.
+ERROR    | 2026-01-03 15:25:12,618 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64.
+WARNING  | 2026-01-03 15:25:12,620 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CalcDiffSeconds (0x422cc4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,620 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CalcDiffSeconds (0x422cc4)>.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpF64.
+WARNING  | 2026-01-03 15:25:12,634 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PLC_SetTimer (0x421d18)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,635 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PLC_SetTimer (0x421d18)>.
+WARNING  | 2026-01-03 15:25:12,642 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function config_run__ (0x40b5d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,642 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function config_run__ (0x40b5d0)>.
+WARNING  | 2026-01-03 15:25:12,644 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2026-01-03 15:25:12,645 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:12,651 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivU32.
+WARNING  | 2026-01-03 15:25:12,651 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullU32.
+WARNING  | 2026-01-03 15:25:12,675 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CheckRetainFile (0x422b50)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,675 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CheckRetainFile (0x422b50)>.
+WARNING  | 2026-01-03 15:25:12,680 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __init (0x4219f0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,680 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __init (0x4219f0)>.
+WARNING  | 2026-01-03 15:25:12,701 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_EVAL_init__ (0x415524)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,701 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_EVAL_init__ (0x415524)>.
+ERROR    | 2026-01-03 15:25:12,704 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF64.
+ERROR    | 2026-01-03 15:25:12,704 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_AbsF64.
+ERROR    | 2026-01-03 15:25:12,706 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Qop Iop_MSubF64.
+ERROR    | 2026-01-03 15:25:12,712 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Qop Iop_MAddF64.
+ERROR    | 2026-01-03 15:25:12,719 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_NegF64.
+WARNING  | 2026-01-03 15:25:12,733 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar32.
+WARNING  | 2026-01-03 15:25:12,748 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __umoddi3 (0x437e70)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,748 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __umoddi3 (0x437e70)>.
+WARNING  | 2026-01-03 15:25:12,766 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __udivdi3 (0x437a50)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,766 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __udivdi3 (0x437a50)>.
+WARNING  | 2026-01-03 15:25:12,786 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __divdi3 (0x437610)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,786 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __divdi3 (0x437610)>.
+WARNING  | 2026-01-03 15:25:12,796 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PythonIterator (0x437368)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,796 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PythonIterator (0x437368)>.
+WARNING  | 2026-01-03 15:25:12,801 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_body__ (0x436cd8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,801 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_body__ (0x436cd8)>.
+WARNING  | 2026-01-03 15:25:12,808 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_init__ (0x436b2c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,808 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_init__ (0x436b2c)>.
+WARNING  | 2026-01-03 15:25:12,812 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __normalize_timespec (0x42d824)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,813 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __normalize_timespec (0x42d824)>.
+WARNING  | 2026-01-03 15:25:12,816 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_sub (0x42e0f0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,816 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_sub (0x42e0f0)>.
+WARNING  | 2026-01-03 15:25:12,819 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_add (0x42e028)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,820 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_add (0x42e028)>.
+WARNING  | 2026-01-03 15:25:12,941 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_body__ (0x436890)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,941 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_body__ (0x436890)>.
+WARNING  | 2026-01-03 15:25:12,952 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __date_to_timespec (0x42d910)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,952 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __date_to_timespec (0x42d910)>.
+WARNING  | 2026-01-03 15:25:12,956 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_32HLto64.
+ERROR    | 2026-01-03 15:25:12,956 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI64asF64.
+ERROR    | 2026-01-03 15:25:12,956 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpF64asI64.
+WARNING  | 2026-01-03 15:25:12,956 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toI32S.
+WARNING  | 2026-01-03 15:25:12,962 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x42dc2c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,962 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x42dc2c)>.
+WARNING  | 2026-01-03 15:25:12,973 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_init__ (0x4364f8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,973 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_init__ (0x4364f8)>.
+WARNING  | 2026-01-03 15:25:12,981 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GE_TIME (0x42e350)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,981 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GE_TIME (0x42e350)>.
+WARNING  | 2026-01-03 15:25:12,984 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_to_real (0x42e1b8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,984 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_to_real (0x42e1b8)>.
+WARNING  | 2026-01-03 15:25:12,988 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_RoundF64toF32.
+WARNING  | 2026-01-03 15:25:12,989 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x42e274)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,989 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x42e274)>.
+ERROR    | 2026-01-03 15:25:12,995 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_TruncF64asF32.
+ERROR    | 2026-01-03 15:25:12,998 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64r32.
+ERROR    | 2026-01-03 15:25:13,000 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64r32.
+ERROR    | 2026-01-03 15:25:13,001 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF64r32.
+ERROR    | 2026-01-03 15:25:13,001 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64r32.
+WARNING  | 2026-01-03 15:25:13,003 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_body__ (0x4361a4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,003 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_body__ (0x4361a4)>.
+WARNING  | 2026-01-03 15:25:13,013 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_init__ (0x435e5c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,013 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_init__ (0x435e5c)>.
+WARNING  | 2026-01-03 15:25:13,020 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_body__ (0x435644)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,020 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_body__ (0x435644)>.
+WARNING  | 2026-01-03 15:25:13,031 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_body__ (0x434df0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,031 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_body__ (0x434df0)>.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_body__ (0x435b90)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_body__ (0x435b90)>.
+WARNING  | 2026-01-03 15:25:13,051 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_init__ (0x435398)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,051 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_init__ (0x435398)>.
+WARNING  | 2026-01-03 15:25:13,061 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_init__ (0x434b3c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,061 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_init__ (0x434b3c)>.
+WARNING  | 2026-01-03 15:25:13,076 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_init__ (0x4357e0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,076 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_init__ (0x4357e0)>.
+WARNING  | 2026-01-03 15:25:13,084 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_body__ (0x43525c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,084 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_body__ (0x43525c)>.
+WARNING  | 2026-01-03 15:25:13,091 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_init__ (0x43507c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,091 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_init__ (0x43507c)>.
+WARNING  | 2026-01-03 15:25:13,099 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LE_TIME (0x42e55c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,099 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LE_TIME (0x42e55c)>.
+WARNING  | 2026-01-03 15:25:13,112 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_body__ (0x434734)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,112 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_body__ (0x434734)>.
+WARNING  | 2026-01-03 15:25:13,122 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_init__ (0x434458)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,122 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_init__ (0x434458)>.
+WARNING  | 2026-01-03 15:25:13,135 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_body__ (0x43403c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,135 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_body__ (0x43403c)>.
+WARNING  | 2026-01-03 15:25:13,144 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_init__ (0x433d60)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,144 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_init__ (0x433d60)>.
+WARNING  | 2026-01-03 15:25:13,157 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_body__ (0x433958)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,157 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_body__ (0x433958)>.
+WARNING  | 2026-01-03 15:25:13,167 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_init__ (0x43367c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,167 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_init__ (0x43367c)>.
+WARNING  | 2026-01-03 15:25:13,172 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_body__ (0x42e8dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,172 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_body__ (0x42e8dc)>.
+WARNING  | 2026-01-03 15:25:13,185 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_body__ (0x43331c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,185 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_body__ (0x43331c)>.
+WARNING  | 2026-01-03 15:25:13,190 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_init__ (0x42e770)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,190 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_init__ (0x42e770)>.
+WARNING  | 2026-01-03 15:25:13,199 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_init__ (0x433020)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,199 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_init__ (0x433020)>.
+WARNING  | 2026-01-03 15:25:13,210 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_body__ (0x432d50)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,210 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_body__ (0x432d50)>.
+WARNING  | 2026-01-03 15:25:13,219 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_init__ (0x432a64)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,219 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_init__ (0x432a64)>.
+WARNING  | 2026-01-03 15:25:13,233 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_body__ (0x4326bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,233 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_body__ (0x4326bc)>.
+WARNING  | 2026-01-03 15:25:13,242 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_init__ (0x4323c0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,242 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_init__ (0x4323c0)>.
+WARNING  | 2026-01-03 15:25:13,253 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_body__ (0x4320e8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,253 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_body__ (0x4320e8)>.
+WARNING  | 2026-01-03 15:25:13,262 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_init__ (0x431dfc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,262 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_init__ (0x431dfc)>.
+WARNING  | 2026-01-03 15:25:13,273 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_body__ (0x431b04)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,273 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_body__ (0x431b04)>.
+WARNING  | 2026-01-03 15:25:13,282 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_init__ (0x431818)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,282 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_init__ (0x431818)>.
+WARNING  | 2026-01-03 15:25:13,291 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_body__ (0x431648)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,291 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_body__ (0x431648)>.
+WARNING  | 2026-01-03 15:25:13,297 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_init__ (0x431424)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,297 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_init__ (0x431424)>.
+WARNING  | 2026-01-03 15:25:13,304 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_body__ (0x43128c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,305 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_body__ (0x43128c)>.
+WARNING  | 2026-01-03 15:25:13,311 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_init__ (0x431078)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,311 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_init__ (0x431078)>.
+WARNING  | 2026-01-03 15:25:13,320 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_body__ (0x430e60)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,320 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_body__ (0x430e60)>.
+WARNING  | 2026-01-03 15:25:13,327 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_init__ (0x430c3c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,327 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_init__ (0x430c3c)>.
+WARNING  | 2026-01-03 15:25:13,334 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_body__ (0x430aa0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,334 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_body__ (0x430aa0)>.
+WARNING  | 2026-01-03 15:25:13,346 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_init__ (0x43088c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,346 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_init__ (0x43088c)>.
+WARNING  | 2026-01-03 15:25:13,359 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_body__ (0x4306e4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,360 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_body__ (0x4306e4)>.
+WARNING  | 2026-01-03 15:25:13,374 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_init__ (0x4304d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,374 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_init__ (0x4304d0)>.
+WARNING  | 2026-01-03 15:25:13,386 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_body__ (0x4302d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,386 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_body__ (0x4302d0)>.
+WARNING  | 2026-01-03 15:25:13,400 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_init__ (0x4300ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,400 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_init__ (0x4300ac)>.
+WARNING  | 2026-01-03 15:25:13,414 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_body__ (0x42ff04)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,418 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_body__ (0x42ff04)>.
+WARNING  | 2026-01-03 15:25:13,429 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_init__ (0x42fcf0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,429 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_init__ (0x42fcf0)>.
+WARNING  | 2026-01-03 15:25:13,438 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_body__ (0x42faf0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,438 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_body__ (0x42faf0)>.
+WARNING  | 2026-01-03 15:25:13,445 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_init__ (0x42f8cc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,445 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_init__ (0x42f8cc)>.
+WARNING  | 2026-01-03 15:25:13,452 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_body__ (0x42f720)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,453 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_body__ (0x42f720)>.
+WARNING  | 2026-01-03 15:25:13,459 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_init__ (0x42f50c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,459 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_init__ (0x42f50c)>.
+WARNING  | 2026-01-03 15:25:13,467 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_body__ (0x42f34c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,467 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_body__ (0x42f34c)>.
+WARNING  | 2026-01-03 15:25:13,474 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_init__ (0x42f138)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,474 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_init__ (0x42f138)>.
+WARNING  | 2026-01-03 15:25:13,479 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_body__ (0x42f040)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,479 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_body__ (0x42f040)>.
+WARNING  | 2026-01-03 15:25:13,484 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_init__ (0x42eed4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,484 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_init__ (0x42eed4)>.
+WARNING  | 2026-01-03 15:25:13,490 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_body__ (0x42eddc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,490 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_body__ (0x42eddc)>.
+WARNING  | 2026-01-03 15:25:13,495 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_init__ (0x42ec70)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,495 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_init__ (0x42ec70)>.
+WARNING  | 2026-01-03 15:25:13,500 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_body__ (0x42eb54)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,500 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_body__ (0x42eb54)>.
+WARNING  | 2026-01-03 15:25:13,505 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_init__ (0x42e9e8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,506 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_init__ (0x42e9e8)>.
+WARNING  | 2026-01-03 15:25:13,513 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_body__ (0x42d620)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,513 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_body__ (0x42d620)>.
+WARNING  | 2026-01-03 15:25:13,519 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_init__ (0x42d474)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,519 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_init__ (0x42d474)>.
+WARNING  | 2026-01-03 15:25:13,617 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __normalize_timespec (0x42416c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,617 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __normalize_timespec (0x42416c)>.
+WARNING  | 2026-01-03 15:25:13,621 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_sub (0x424a38)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,621 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_sub (0x424a38)>.
+WARNING  | 2026-01-03 15:25:13,624 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_add (0x424970)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,624 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_add (0x424970)>.
+WARNING  | 2026-01-03 15:25:13,633 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_body__ (0x42d1d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,633 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_body__ (0x42d1d8)>.
+WARNING  | 2026-01-03 15:25:13,643 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __date_to_timespec (0x424258)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,644 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __date_to_timespec (0x424258)>.
+WARNING  | 2026-01-03 15:25:13,653 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x424574)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,653 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x424574)>.
+WARNING  | 2026-01-03 15:25:13,664 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_init__ (0x42ce40)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,665 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_init__ (0x42ce40)>.
+WARNING  | 2026-01-03 15:25:13,672 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GE_TIME (0x424c98)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,672 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GE_TIME (0x424c98)>.
+WARNING  | 2026-01-03 15:25:13,675 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_to_real (0x424b00)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,675 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_to_real (0x424b00)>.
+WARNING  | 2026-01-03 15:25:13,679 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x424bbc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,679 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x424bbc)>.
+WARNING  | 2026-01-03 15:25:13,691 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_body__ (0x42caec)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,691 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_body__ (0x42caec)>.
+WARNING  | 2026-01-03 15:25:13,701 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_init__ (0x42c7a4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,701 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_init__ (0x42c7a4)>.
+WARNING  | 2026-01-03 15:25:13,707 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_body__ (0x42bf8c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,707 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_body__ (0x42bf8c)>.
+WARNING  | 2026-01-03 15:25:13,716 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_body__ (0x42b738)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,716 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_body__ (0x42b738)>.
+WARNING  | 2026-01-03 15:25:13,738 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_body__ (0x42c4d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,738 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_body__ (0x42c4d8)>.
+WARNING  | 2026-01-03 15:25:13,750 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_init__ (0x42bce0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,750 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_init__ (0x42bce0)>.
+WARNING  | 2026-01-03 15:25:13,769 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_init__ (0x42b484)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,769 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_init__ (0x42b484)>.
+WARNING  | 2026-01-03 15:25:13,790 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_init__ (0x42c128)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,790 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_init__ (0x42c128)>.
+WARNING  | 2026-01-03 15:25:13,796 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_body__ (0x42bba4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,796 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_body__ (0x42bba4)>.
+WARNING  | 2026-01-03 15:25:13,802 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_init__ (0x42b9c4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,802 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_init__ (0x42b9c4)>.
+WARNING  | 2026-01-03 15:25:13,810 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LE_TIME (0x424ea4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,810 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LE_TIME (0x424ea4)>.
+WARNING  | 2026-01-03 15:25:13,824 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_body__ (0x42b07c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,824 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_body__ (0x42b07c)>.
+WARNING  | 2026-01-03 15:25:13,832 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_init__ (0x42ada0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,832 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_init__ (0x42ada0)>.
+WARNING  | 2026-01-03 15:25:13,847 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_body__ (0x42a984)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,848 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_body__ (0x42a984)>.
+WARNING  | 2026-01-03 15:25:13,858 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_init__ (0x42a6a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,858 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_init__ (0x42a6a8)>.
+WARNING  | 2026-01-03 15:25:13,876 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_body__ (0x42a2a0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,876 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_body__ (0x42a2a0)>.
+WARNING  | 2026-01-03 15:25:13,885 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_init__ (0x429fc4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,885 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_init__ (0x429fc4)>.
+WARNING  | 2026-01-03 15:25:13,891 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_body__ (0x425224)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,891 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_body__ (0x425224)>.
+WARNING  | 2026-01-03 15:25:13,904 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_body__ (0x429c64)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,904 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_body__ (0x429c64)>.
+WARNING  | 2026-01-03 15:25:13,909 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_init__ (0x4250b8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,909 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_init__ (0x4250b8)>.
+WARNING  | 2026-01-03 15:25:13,919 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_init__ (0x429968)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,919 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_init__ (0x429968)>.
+WARNING  | 2026-01-03 15:25:13,930 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_body__ (0x429698)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,930 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_body__ (0x429698)>.
+WARNING  | 2026-01-03 15:25:13,939 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_init__ (0x4293ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,939 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_init__ (0x4293ac)>.
+WARNING  | 2026-01-03 15:25:13,953 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_body__ (0x429004)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,953 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_body__ (0x429004)>.
+WARNING  | 2026-01-03 15:25:13,962 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_init__ (0x428d08)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,962 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_init__ (0x428d08)>.
+WARNING  | 2026-01-03 15:25:13,973 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_body__ (0x428a30)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,973 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_body__ (0x428a30)>.
+WARNING  | 2026-01-03 15:25:13,981 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_init__ (0x428744)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,981 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_init__ (0x428744)>.
+WARNING  | 2026-01-03 15:25:13,992 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_body__ (0x42844c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,992 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_body__ (0x42844c)>.
+WARNING  | 2026-01-03 15:25:14,001 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_init__ (0x428160)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,001 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_init__ (0x428160)>.
+WARNING  | 2026-01-03 15:25:14,009 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_body__ (0x427f90)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,009 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_body__ (0x427f90)>.
+WARNING  | 2026-01-03 15:25:14,015 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_init__ (0x427d6c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,016 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_init__ (0x427d6c)>.
+WARNING  | 2026-01-03 15:25:14,023 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_body__ (0x427bd4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,023 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_body__ (0x427bd4)>.
+WARNING  | 2026-01-03 15:25:14,029 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_init__ (0x4279c0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,029 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_init__ (0x4279c0)>.
+WARNING  | 2026-01-03 15:25:14,038 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_body__ (0x4277a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,038 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_body__ (0x4277a8)>.
+WARNING  | 2026-01-03 15:25:14,045 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_init__ (0x427584)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,045 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_init__ (0x427584)>.
+WARNING  | 2026-01-03 15:25:14,052 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_body__ (0x4273e8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,052 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_body__ (0x4273e8)>.
+WARNING  | 2026-01-03 15:25:14,059 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_init__ (0x4271d4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,059 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_init__ (0x4271d4)>.
+WARNING  | 2026-01-03 15:25:14,066 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_body__ (0x42702c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,066 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_body__ (0x42702c)>.
+WARNING  | 2026-01-03 15:25:14,072 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_init__ (0x426e18)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,072 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_init__ (0x426e18)>.
+WARNING  | 2026-01-03 15:25:14,081 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_body__ (0x426c18)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,081 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_body__ (0x426c18)>.
+WARNING  | 2026-01-03 15:25:14,088 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_init__ (0x4269f4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,088 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_init__ (0x4269f4)>.
+WARNING  | 2026-01-03 15:25:14,096 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_body__ (0x42684c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,096 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_body__ (0x42684c)>.
+WARNING  | 2026-01-03 15:25:14,102 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_init__ (0x426638)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,102 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_init__ (0x426638)>.
+WARNING  | 2026-01-03 15:25:14,111 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_body__ (0x426438)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,111 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_body__ (0x426438)>.
+WARNING  | 2026-01-03 15:25:14,118 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_init__ (0x426214)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,118 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_init__ (0x426214)>.
+WARNING  | 2026-01-03 15:25:14,126 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_body__ (0x426068)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,126 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_body__ (0x426068)>.
+WARNING  | 2026-01-03 15:25:14,132 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_init__ (0x425e54)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,132 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_init__ (0x425e54)>.
+WARNING  | 2026-01-03 15:25:14,143 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_body__ (0x425c94)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,143 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_body__ (0x425c94)>.
+WARNING  | 2026-01-03 15:25:14,156 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_init__ (0x425a80)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,156 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_init__ (0x425a80)>.
+WARNING  | 2026-01-03 15:25:14,165 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_body__ (0x425988)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,165 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_body__ (0x425988)>.
+WARNING  | 2026-01-03 15:25:14,178 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_init__ (0x42581c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,179 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_init__ (0x42581c)>.
+WARNING  | 2026-01-03 15:25:14,188 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_body__ (0x425724)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,192 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_body__ (0x425724)>.
+WARNING  | 2026-01-03 15:25:14,197 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_init__ (0x4255b8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,197 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_init__ (0x4255b8)>.
+WARNING  | 2026-01-03 15:25:14,209 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_body__ (0x42549c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,209 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_body__ (0x42549c)>.
+WARNING  | 2026-01-03 15:25:14,217 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_init__ (0x425330)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,217 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_init__ (0x425330)>.
+WARNING  | 2026-01-03 15:25:14,239 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function align_tick (0x423a04)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,240 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function align_tick (0x423a04)>.
+WARNING  | 2026-01-03 15:25:14,243 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function copy_from_log (0x423384)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,243 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function copy_from_log (0x423384)>.
+WARNING  | 2026-01-03 15:25:14,249 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GetLogMessage (0x42381c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,250 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GetLogMessage (0x42381c)>.
+WARNING  | 2026-01-03 15:25:14,252 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GetLogCount (0x4237ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,252 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GetLogCount (0x4237ac)>.
+WARNING  | 2026-01-03 15:25:14,257 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function Remind (0x4231dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,257 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function Remind (0x4231dc)>.
+WARNING  | 2026-01-03 15:25:14,260 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function Retain (0x42310c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,260 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function Retain (0x42310c)>.
+WARNING  | 2026-01-03 15:25:14,284 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function suspendDebug (0x42235c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,284 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function suspendDebug (0x42235c)>.
+WARNING  | 2026-01-03 15:25:14,289 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function WaitDebugData (0x422278)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,289 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function WaitDebugData (0x422278)>.
+WARNING  | 2026-01-03 15:25:14,302 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function startPLC (0x421f4c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,303 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function startPLC (0x421f4c)>.
+WARNING  | 2026-01-03 15:25:14,305 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PLC_thread_proc (0x421ef8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,305 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PLC_thread_proc (0x421ef8)>.
+WARNING  | 2026-01-03 15:25:14,307 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function catch_signal (0x421e58)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,307 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function catch_signal (0x421e58)>.
+WARNING  | 2026-01-03 15:25:14,309 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PLC_timer_notify (0x421cac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,309 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PLC_timer_notify (0x421cac)>.
+WARNING  | 2026-01-03 15:25:14,311 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl8.
+WARNING  | 2026-01-03 15:25:14,312 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function AtomicCompareExchange (0x421b24)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,312 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function AtomicCompareExchange (0x421b24)>.
+WARNING  | 2026-01-03 15:25:14,318 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_body__ (0x421824)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,318 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_body__ (0x421824)>.
+WARNING  | 2026-01-03 15:25:14,324 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_init__ (0x421678)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,324 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_init__ (0x421678)>.
+WARNING  | 2026-01-03 15:25:14,329 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __normalize_timespec (0x418370)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,329 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __normalize_timespec (0x418370)>.
+WARNING  | 2026-01-03 15:25:14,332 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_sub (0x418c3c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,332 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_sub (0x418c3c)>.
+WARNING  | 2026-01-03 15:25:14,335 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_add (0x418b74)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,335 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_add (0x418b74)>.
+WARNING  | 2026-01-03 15:25:14,344 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_body__ (0x4213dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,344 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_body__ (0x4213dc)>.
+WARNING  | 2026-01-03 15:25:14,354 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __date_to_timespec (0x41845c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,354 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __date_to_timespec (0x41845c)>.
+WARNING  | 2026-01-03 15:25:14,471 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x418778)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,471 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x418778)>.
+WARNING  | 2026-01-03 15:25:14,481 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_init__ (0x421044)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,481 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_init__ (0x421044)>.
+WARNING  | 2026-01-03 15:25:14,489 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GE_TIME (0x418e9c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,489 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GE_TIME (0x418e9c)>.
+WARNING  | 2026-01-03 15:25:14,491 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_to_real (0x418d04)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,492 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_to_real (0x418d04)>.
+WARNING  | 2026-01-03 15:25:14,496 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x418dc0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,496 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x418dc0)>.
+WARNING  | 2026-01-03 15:25:14,507 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_body__ (0x420cf0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,507 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_body__ (0x420cf0)>.
+WARNING  | 2026-01-03 15:25:14,518 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_init__ (0x4209a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,518 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_init__ (0x4209a8)>.
+WARNING  | 2026-01-03 15:25:14,525 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_body__ (0x420190)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,525 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_body__ (0x420190)>.
+WARNING  | 2026-01-03 15:25:14,535 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_body__ (0x41f93c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,535 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_body__ (0x41f93c)>.
+WARNING  | 2026-01-03 15:25:14,546 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_body__ (0x4206dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,546 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_body__ (0x4206dc)>.
+WARNING  | 2026-01-03 15:25:14,555 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_init__ (0x41fee4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,555 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_init__ (0x41fee4)>.
+WARNING  | 2026-01-03 15:25:14,564 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_init__ (0x41f688)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,564 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_init__ (0x41f688)>.
+WARNING  | 2026-01-03 15:25:14,576 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_init__ (0x42032c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,576 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_init__ (0x42032c)>.
+WARNING  | 2026-01-03 15:25:14,582 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_body__ (0x41fda8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,582 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_body__ (0x41fda8)>.
+WARNING  | 2026-01-03 15:25:14,589 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_init__ (0x41fbc8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,589 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_init__ (0x41fbc8)>.
+WARNING  | 2026-01-03 15:25:14,596 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LE_TIME (0x4190a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,596 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LE_TIME (0x4190a8)>.
+WARNING  | 2026-01-03 15:25:14,610 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_body__ (0x41f280)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,610 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_body__ (0x41f280)>.
+WARNING  | 2026-01-03 15:25:14,619 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_init__ (0x41efa4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,619 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_init__ (0x41efa4)>.
+WARNING  | 2026-01-03 15:25:14,633 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_body__ (0x41eb88)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,633 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_body__ (0x41eb88)>.
+WARNING  | 2026-01-03 15:25:14,643 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_init__ (0x41e8ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,643 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_init__ (0x41e8ac)>.
+WARNING  | 2026-01-03 15:25:14,657 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_body__ (0x41e4a4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,657 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_body__ (0x41e4a4)>.
+WARNING  | 2026-01-03 15:25:14,665 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_init__ (0x41e1c8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,666 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_init__ (0x41e1c8)>.
+WARNING  | 2026-01-03 15:25:14,671 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_body__ (0x419428)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,671 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_body__ (0x419428)>.
+WARNING  | 2026-01-03 15:25:14,683 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_body__ (0x41de68)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,683 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_body__ (0x41de68)>.
+WARNING  | 2026-01-03 15:25:14,689 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_init__ (0x4192bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,689 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_init__ (0x4192bc)>.
+WARNING  | 2026-01-03 15:25:14,697 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_init__ (0x41db6c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,697 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_init__ (0x41db6c)>.
+WARNING  | 2026-01-03 15:25:14,708 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_body__ (0x41d89c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,708 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_body__ (0x41d89c)>.
+WARNING  | 2026-01-03 15:25:14,719 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_init__ (0x41d5b0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,719 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_init__ (0x41d5b0)>.
+WARNING  | 2026-01-03 15:25:14,737 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_body__ (0x41d208)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,737 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_body__ (0x41d208)>.
+WARNING  | 2026-01-03 15:25:14,748 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_init__ (0x41cf0c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,748 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_init__ (0x41cf0c)>.
+WARNING  | 2026-01-03 15:25:14,759 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_body__ (0x41cc34)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,759 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_body__ (0x41cc34)>.
+WARNING  | 2026-01-03 15:25:14,768 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_init__ (0x41c948)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,768 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_init__ (0x41c948)>.
+WARNING  | 2026-01-03 15:25:14,780 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_body__ (0x41c650)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,780 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_body__ (0x41c650)>.
+WARNING  | 2026-01-03 15:25:14,789 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_init__ (0x41c364)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,789 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_init__ (0x41c364)>.
+WARNING  | 2026-01-03 15:25:14,797 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_body__ (0x41c194)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,797 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_body__ (0x41c194)>.
+WARNING  | 2026-01-03 15:25:14,803 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_init__ (0x41bf70)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,804 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_init__ (0x41bf70)>.
+WARNING  | 2026-01-03 15:25:14,811 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_body__ (0x41bdd8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,811 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_body__ (0x41bdd8)>.
+WARNING  | 2026-01-03 15:25:14,817 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_init__ (0x41bbc4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,817 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_init__ (0x41bbc4)>.
+WARNING  | 2026-01-03 15:25:14,827 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_body__ (0x41b9ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,827 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_body__ (0x41b9ac)>.
+WARNING  | 2026-01-03 15:25:14,834 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_init__ (0x41b788)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,834 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_init__ (0x41b788)>.
+WARNING  | 2026-01-03 15:25:14,841 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_body__ (0x41b5ec)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,841 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_body__ (0x41b5ec)>.
+WARNING  | 2026-01-03 15:25:14,847 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_init__ (0x41b3d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,847 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_init__ (0x41b3d8)>.
+WARNING  | 2026-01-03 15:25:14,854 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_body__ (0x41b230)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,854 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_body__ (0x41b230)>.
+WARNING  | 2026-01-03 15:25:14,861 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_init__ (0x41b01c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,861 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_init__ (0x41b01c)>.
+WARNING  | 2026-01-03 15:25:14,870 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_body__ (0x41ae1c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,870 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_body__ (0x41ae1c)>.
+WARNING  | 2026-01-03 15:25:14,878 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_init__ (0x41abf8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,878 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_init__ (0x41abf8)>.
+WARNING  | 2026-01-03 15:25:14,885 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_body__ (0x41aa50)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,885 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_body__ (0x41aa50)>.
+WARNING  | 2026-01-03 15:25:14,891 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_init__ (0x41a83c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,891 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_init__ (0x41a83c)>.
+WARNING  | 2026-01-03 15:25:14,900 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_body__ (0x41a63c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,900 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_body__ (0x41a63c)>.
+WARNING  | 2026-01-03 15:25:14,907 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_init__ (0x41a418)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,907 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_init__ (0x41a418)>.
+WARNING  | 2026-01-03 15:25:14,915 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_body__ (0x41a26c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,915 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_body__ (0x41a26c)>.
+WARNING  | 2026-01-03 15:25:14,922 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_init__ (0x41a058)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,922 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_init__ (0x41a058)>.
+WARNING  | 2026-01-03 15:25:14,929 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_body__ (0x419e98)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,930 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_body__ (0x419e98)>.
+WARNING  | 2026-01-03 15:25:14,936 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_init__ (0x419c84)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,936 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_init__ (0x419c84)>.
+WARNING  | 2026-01-03 15:25:14,941 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_body__ (0x419b8c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,941 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_body__ (0x419b8c)>.
+WARNING  | 2026-01-03 15:25:14,946 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_init__ (0x419a20)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,946 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_init__ (0x419a20)>.
+WARNING  | 2026-01-03 15:25:14,951 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_body__ (0x419928)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,952 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_body__ (0x419928)>.
+WARNING  | 2026-01-03 15:25:14,957 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_init__ (0x4197bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,957 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_init__ (0x4197bc)>.
+WARNING  | 2026-01-03 15:25:14,962 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_body__ (0x4196a0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,962 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_body__ (0x4196a0)>.
+WARNING  | 2026-01-03 15:25:14,968 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_init__ (0x419534)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,968 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_init__ (0x419534)>.
+WARNING  | 2026-01-03 15:25:14,975 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function EQ__BOOL__UINT (0x40c798)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,975 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function EQ__BOOL__UINT (0x40c798)>.
+WARNING  | 2026-01-03 15:25:14,979 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEL__UINT__BOOL__UINT__UINT (0x40c4e0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,979 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEL__UINT__BOOL__UINT__UINT (0x40c4e0)>.
+WARNING  | 2026-01-03 15:25:14,986 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function AND__BOOL__BOOL (0x40c340)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,986 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function AND__BOOL__BOOL (0x40c340)>.
+WARNING  | 2026-01-03 15:25:14,993 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function ADD__UINT__UINT (0x40c1b4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,993 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function ADD__UINT__UINT (0x40c1b4)>.
+WARNING  | 2026-01-03 15:25:15,003 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_GEAR_body__ (0x4161bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,003 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_GEAR_body__ (0x4161bc)>.
+WARNING  | 2026-01-03 15:25:15,015 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_GEAR_init__ (0x415df4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,015 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_GEAR_init__ (0x415df4)>.
+WARNING  | 2026-01-03 15:25:15,019 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_POLL_body__ (0x415d34)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,019 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_POLL_body__ (0x415d34)>.
+WARNING  | 2026-01-03 15:25:15,029 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PYTHON_POLL_init__ (0x41598c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,030 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PYTHON_POLL_init__ (0x41598c)>.
+WARNING  | 2026-01-03 15:25:15,035 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LOGGER_body__ (0x4153ec)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,035 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LOGGER_body__ (0x4153ec)>.
+WARNING  | 2026-01-03 15:25:15,041 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LOGGER_init__ (0x4151d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,042 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LOGGER_init__ (0x4151d8)>.
+WARNING  | 2026-01-03 15:25:15,047 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_body__ (0x4150b8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,047 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_body__ (0x4150b8)>.
+WARNING  | 2026-01-03 15:25:15,053 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_init__ (0x414f0c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,053 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_init__ (0x414f0c)>.
+WARNING  | 2026-01-03 15:25:15,062 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_body__ (0x414c70)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,063 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_body__ (0x414c70)>.
+WARNING  | 2026-01-03 15:25:15,073 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __date_to_timespec (0x40b774)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,073 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __date_to_timespec (0x40b774)>.
+WARNING  | 2026-01-03 15:25:15,082 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x40ba90)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,083 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x40ba90)>.
+WARNING  | 2026-01-03 15:25:15,092 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_init__ (0x4148d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,092 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_init__ (0x4148d8)>.
+WARNING  | 2026-01-03 15:25:15,100 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GE_TIME (0x40c58c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,100 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GE_TIME (0x40c58c)>.
+WARNING  | 2026-01-03 15:25:15,103 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_to_real (0x40c01c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,104 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_to_real (0x40c01c)>.
+WARNING  | 2026-01-03 15:25:15,108 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x40c0d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,108 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x40c0d8)>.
+WARNING  | 2026-01-03 15:25:15,120 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_body__ (0x414584)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,120 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_body__ (0x414584)>.
+WARNING  | 2026-01-03 15:25:15,130 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_init__ (0x41423c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,130 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_init__ (0x41423c)>.
+WARNING  | 2026-01-03 15:25:15,137 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_body__ (0x413a24)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,137 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_body__ (0x413a24)>.
+WARNING  | 2026-01-03 15:25:15,147 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_body__ (0x4131d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,147 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_body__ (0x4131d0)>.
+WARNING  | 2026-01-03 15:25:15,166 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_body__ (0x413f70)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,166 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_body__ (0x413f70)>.
+WARNING  | 2026-01-03 15:25:15,181 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_init__ (0x413778)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,182 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_init__ (0x413778)>.
+WARNING  | 2026-01-03 15:25:15,198 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_init__ (0x412f1c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,198 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_init__ (0x412f1c)>.
+WARNING  | 2026-01-03 15:25:15,219 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_init__ (0x413bc0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,219 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_init__ (0x413bc0)>.
+WARNING  | 2026-01-03 15:25:15,234 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_body__ (0x41363c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,234 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_body__ (0x41363c)>.
+WARNING  | 2026-01-03 15:25:15,244 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_init__ (0x41345c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,244 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_init__ (0x41345c)>.
+WARNING  | 2026-01-03 15:25:15,252 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LE_TIME (0x40c93c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,252 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LE_TIME (0x40c93c)>.
+WARNING  | 2026-01-03 15:25:15,265 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_body__ (0x412b14)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,265 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_body__ (0x412b14)>.
+WARNING  | 2026-01-03 15:25:15,277 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_init__ (0x412838)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,277 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_init__ (0x412838)>.
+WARNING  | 2026-01-03 15:25:15,301 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_body__ (0x41241c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,305 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_body__ (0x41241c)>.
+WARNING  | 2026-01-03 15:25:15,317 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_init__ (0x412140)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,317 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_init__ (0x412140)>.
+WARNING  | 2026-01-03 15:25:15,341 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_body__ (0x411d38)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,341 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_body__ (0x411d38)>.
+WARNING  | 2026-01-03 15:25:15,361 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_init__ (0x411a5c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,361 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_init__ (0x411a5c)>.
+WARNING  | 2026-01-03 15:25:15,366 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_body__ (0x40ccbc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,366 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_body__ (0x40ccbc)>.
+WARNING  | 2026-01-03 15:25:15,503 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_body__ (0x4116fc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,503 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_body__ (0x4116fc)>.
+WARNING  | 2026-01-03 15:25:15,508 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_init__ (0x40cb50)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,508 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_init__ (0x40cb50)>.
+WARNING  | 2026-01-03 15:25:15,517 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_init__ (0x411400)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,517 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_init__ (0x411400)>.
+WARNING  | 2026-01-03 15:25:15,528 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_body__ (0x411130)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,528 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_body__ (0x411130)>.
+WARNING  | 2026-01-03 15:25:15,537 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_init__ (0x410e44)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,537 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_init__ (0x410e44)>.
+WARNING  | 2026-01-03 15:25:15,551 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_body__ (0x410a9c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,551 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_body__ (0x410a9c)>.
+WARNING  | 2026-01-03 15:25:15,559 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_init__ (0x4107a0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,559 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_init__ (0x4107a0)>.
+WARNING  | 2026-01-03 15:25:15,570 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_body__ (0x4104c8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,570 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_body__ (0x4104c8)>.
+WARNING  | 2026-01-03 15:25:15,579 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_init__ (0x4101dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,579 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_init__ (0x4101dc)>.
+WARNING  | 2026-01-03 15:25:15,591 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_body__ (0x40fee4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,591 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_body__ (0x40fee4)>.
+WARNING  | 2026-01-03 15:25:15,600 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_init__ (0x40fbf8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,600 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_init__ (0x40fbf8)>.
+WARNING  | 2026-01-03 15:25:15,607 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_body__ (0x40fa28)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,607 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_body__ (0x40fa28)>.
+WARNING  | 2026-01-03 15:25:15,614 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_init__ (0x40f804)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,614 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_init__ (0x40f804)>.
+WARNING  | 2026-01-03 15:25:15,621 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_body__ (0x40f66c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,622 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_body__ (0x40f66c)>.
+WARNING  | 2026-01-03 15:25:15,628 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_init__ (0x40f458)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,628 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_init__ (0x40f458)>.
+WARNING  | 2026-01-03 15:25:15,637 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_body__ (0x40f240)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,637 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_body__ (0x40f240)>.
+WARNING  | 2026-01-03 15:25:15,644 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_init__ (0x40f01c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,644 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_init__ (0x40f01c)>.
+WARNING  | 2026-01-03 15:25:15,651 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_body__ (0x40ee80)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,651 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_body__ (0x40ee80)>.
+WARNING  | 2026-01-03 15:25:15,658 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_init__ (0x40ec6c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,658 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_init__ (0x40ec6c)>.
+WARNING  | 2026-01-03 15:25:15,666 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_body__ (0x40eac4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,666 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_body__ (0x40eac4)>.
+WARNING  | 2026-01-03 15:25:15,672 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_init__ (0x40e8b0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,672 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_init__ (0x40e8b0)>.
+WARNING  | 2026-01-03 15:25:15,682 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_body__ (0x40e6b0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,682 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_body__ (0x40e6b0)>.
+WARNING  | 2026-01-03 15:25:15,688 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_init__ (0x40e48c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,688 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_init__ (0x40e48c)>.
+WARNING  | 2026-01-03 15:25:15,696 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_body__ (0x40e2e4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,696 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_body__ (0x40e2e4)>.
+WARNING  | 2026-01-03 15:25:15,703 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_init__ (0x40e0d0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,703 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_init__ (0x40e0d0)>.
+WARNING  | 2026-01-03 15:25:15,712 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_body__ (0x40ded0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,713 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_body__ (0x40ded0)>.
+WARNING  | 2026-01-03 15:25:15,719 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_init__ (0x40dcac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,719 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_init__ (0x40dcac)>.
+WARNING  | 2026-01-03 15:25:15,727 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_body__ (0x40db00)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,727 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_body__ (0x40db00)>.
+WARNING  | 2026-01-03 15:25:15,733 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_init__ (0x40d8ec)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,733 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_init__ (0x40d8ec)>.
+WARNING  | 2026-01-03 15:25:15,741 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_body__ (0x40d72c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,741 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_body__ (0x40d72c)>.
+WARNING  | 2026-01-03 15:25:15,748 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_init__ (0x40d518)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,748 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_init__ (0x40d518)>.
+WARNING  | 2026-01-03 15:25:15,753 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_body__ (0x40d420)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,753 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_body__ (0x40d420)>.
+WARNING  | 2026-01-03 15:25:15,759 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_init__ (0x40d2b4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,759 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_init__ (0x40d2b4)>.
+WARNING  | 2026-01-03 15:25:15,764 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_body__ (0x40d1bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,765 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_body__ (0x40d1bc)>.
+WARNING  | 2026-01-03 15:25:15,770 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_init__ (0x40d050)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,770 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_init__ (0x40d050)>.
+WARNING  | 2026-01-03 15:25:15,779 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_body__ (0x40cf34)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,779 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_body__ (0x40cf34)>.
+WARNING  | 2026-01-03 15:25:15,786 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_init__ (0x40cdc8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,786 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_init__ (0x40cdc8)>.
+WARNING  | 2026-01-03 15:25:15,797 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_body__ (0x40b45c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,797 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_body__ (0x40b45c)>.
+WARNING  | 2026-01-03 15:25:15,810 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SEMA_init__ (0x40b2b0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,810 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SEMA_init__ (0x40b2b0)>.
+WARNING  | 2026-01-03 15:25:15,814 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __normalize_timespec (0x401fa8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,814 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __normalize_timespec (0x401fa8)>.
+WARNING  | 2026-01-03 15:25:15,820 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_sub (0x402874)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,820 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_sub (0x402874)>.
+WARNING  | 2026-01-03 15:25:15,827 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_add (0x4027ac)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,827 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_add (0x4027ac)>.
+WARNING  | 2026-01-03 15:25:15,851 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_body__ (0x40b014)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,851 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_body__ (0x40b014)>.
+WARNING  | 2026-01-03 15:25:15,877 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __date_to_timespec (0x402094)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,877 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __date_to_timespec (0x402094)>.
+WARNING  | 2026-01-03 15:25:15,897 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x4023b0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,897 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x4023b0)>.
+WARNING  | 2026-01-03 15:25:15,917 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RTC_init__ (0x40ac7c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,917 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RTC_init__ (0x40ac7c)>.
+WARNING  | 2026-01-03 15:25:15,934 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function GE_TIME (0x402ad4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,934 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function GE_TIME (0x402ad4)>.
+WARNING  | 2026-01-03 15:25:15,941 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __time_to_real (0x40293c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,941 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __time_to_real (0x40293c)>.
+WARNING  | 2026-01-03 15:25:15,956 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x4029f8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:15,956 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x4029f8)>.
+WARNING  | 2026-01-03 15:25:16,003 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_body__ (0x40a928)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,003 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_body__ (0x40a928)>.
+WARNING  | 2026-01-03 15:25:16,032 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RAMP_init__ (0x40a5e0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,032 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RAMP_init__ (0x40a5e0)>.
+WARNING  | 2026-01-03 15:25:16,040 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_body__ (0x409dc8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,040 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_body__ (0x409dc8)>.
+WARNING  | 2026-01-03 15:25:16,051 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_body__ (0x409574)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,051 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_body__ (0x409574)>.
+WARNING  | 2026-01-03 15:25:16,063 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_body__ (0x40a314)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,063 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_body__ (0x40a314)>.
+WARNING  | 2026-01-03 15:25:16,071 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function INTEGRAL_init__ (0x409b1c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,071 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function INTEGRAL_init__ (0x409b1c)>.
+WARNING  | 2026-01-03 15:25:16,080 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function DERIVATIVE_init__ (0x4092c0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,080 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function DERIVATIVE_init__ (0x4092c0)>.
+WARNING  | 2026-01-03 15:25:16,092 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function PID_init__ (0x409f64)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,092 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function PID_init__ (0x409f64)>.
+WARNING  | 2026-01-03 15:25:16,098 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_body__ (0x4099e0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,099 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_body__ (0x4099e0)>.
+WARNING  | 2026-01-03 15:25:16,105 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function HYSTERESIS_init__ (0x409800)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,106 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function HYSTERESIS_init__ (0x409800)>.
+WARNING  | 2026-01-03 15:25:16,113 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function LE_TIME (0x402ce0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,113 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function LE_TIME (0x402ce0)>.
+WARNING  | 2026-01-03 15:25:16,127 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_body__ (0x408eb8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,127 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_body__ (0x408eb8)>.
+WARNING  | 2026-01-03 15:25:16,136 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TOF_init__ (0x408bdc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,136 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TOF_init__ (0x408bdc)>.
+WARNING  | 2026-01-03 15:25:16,150 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_body__ (0x4087c0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,150 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_body__ (0x4087c0)>.
+WARNING  | 2026-01-03 15:25:16,158 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TON_init__ (0x4084e4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,159 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TON_init__ (0x4084e4)>.
+WARNING  | 2026-01-03 15:25:16,172 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_body__ (0x4080dc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,172 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_body__ (0x4080dc)>.
+WARNING  | 2026-01-03 15:25:16,181 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TP_init__ (0x407e00)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,182 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TP_init__ (0x407e00)>.
+WARNING  | 2026-01-03 15:25:16,187 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_body__ (0x403060)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,187 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_body__ (0x403060)>.
+WARNING  | 2026-01-03 15:25:16,200 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_body__ (0x407aa0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,200 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_body__ (0x407aa0)>.
+WARNING  | 2026-01-03 15:25:16,206 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function R_TRIG_init__ (0x402ef4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,206 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function R_TRIG_init__ (0x402ef4)>.
+WARNING  | 2026-01-03 15:25:16,215 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_ULINT_init__ (0x4077a4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,215 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_ULINT_init__ (0x4077a4)>.
+WARNING  | 2026-01-03 15:25:16,239 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_body__ (0x4074d4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,239 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_body__ (0x4074d4)>.
+WARNING  | 2026-01-03 15:25:16,258 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_UDINT_init__ (0x4071e8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,258 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_UDINT_init__ (0x4071e8)>.
+WARNING  | 2026-01-03 15:25:16,283 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_body__ (0x406e40)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,283 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_body__ (0x406e40)>.
+WARNING  | 2026-01-03 15:25:16,299 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_LINT_init__ (0x406b44)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,299 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_LINT_init__ (0x406b44)>.
+WARNING  | 2026-01-03 15:25:16,315 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_body__ (0x40686c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,315 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_body__ (0x40686c)>.
+WARNING  | 2026-01-03 15:25:16,324 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_DINT_init__ (0x406580)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,324 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_DINT_init__ (0x406580)>.
+WARNING  | 2026-01-03 15:25:16,335 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_body__ (0x406288)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,336 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_body__ (0x406288)>.
+WARNING  | 2026-01-03 15:25:16,344 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTUD_init__ (0x405f9c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,344 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTUD_init__ (0x405f9c)>.
+WARNING  | 2026-01-03 15:25:16,352 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_body__ (0x405dcc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,352 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_body__ (0x405dcc)>.
+WARNING  | 2026-01-03 15:25:16,359 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_ULINT_init__ (0x405ba8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,359 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_ULINT_init__ (0x405ba8)>.
+WARNING  | 2026-01-03 15:25:16,367 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_body__ (0x405a10)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,367 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_body__ (0x405a10)>.
+WARNING  | 2026-01-03 15:25:16,374 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_UDINT_init__ (0x4057fc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,374 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_UDINT_init__ (0x4057fc)>.
+WARNING  | 2026-01-03 15:25:16,383 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_body__ (0x4055e4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,384 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_body__ (0x4055e4)>.
+WARNING  | 2026-01-03 15:25:16,390 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_LINT_init__ (0x4053c0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,390 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_LINT_init__ (0x4053c0)>.
+WARNING  | 2026-01-03 15:25:16,396 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_body__ (0x405224)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,397 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_body__ (0x405224)>.
+WARNING  | 2026-01-03 15:25:16,403 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_DINT_init__ (0x405010)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,403 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_DINT_init__ (0x405010)>.
+WARNING  | 2026-01-03 15:25:16,411 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_body__ (0x404e68)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,411 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_body__ (0x404e68)>.
+WARNING  | 2026-01-03 15:25:16,417 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTD_init__ (0x404c54)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,417 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTD_init__ (0x404c54)>.
+WARNING  | 2026-01-03 15:25:16,425 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_body__ (0x404a54)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,425 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_body__ (0x404a54)>.
+WARNING  | 2026-01-03 15:25:16,431 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_ULINT_init__ (0x404830)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,431 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_ULINT_init__ (0x404830)>.
+WARNING  | 2026-01-03 15:25:16,438 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_body__ (0x404688)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,438 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_body__ (0x404688)>.
+WARNING  | 2026-01-03 15:25:16,445 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_UDINT_init__ (0x404474)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,445 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_UDINT_init__ (0x404474)>.
+WARNING  | 2026-01-03 15:25:16,455 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_body__ (0x404274)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,455 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_body__ (0x404274)>.
+WARNING  | 2026-01-03 15:25:16,463 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_LINT_init__ (0x404050)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,463 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_LINT_init__ (0x404050)>.
+WARNING  | 2026-01-03 15:25:16,472 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_body__ (0x403ea4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,472 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_body__ (0x403ea4)>.
+WARNING  | 2026-01-03 15:25:16,480 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_DINT_init__ (0x403c90)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,480 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_DINT_init__ (0x403c90)>.
+WARNING  | 2026-01-03 15:25:16,489 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_body__ (0x403ad0)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,489 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_body__ (0x403ad0)>.
+WARNING  | 2026-01-03 15:25:16,497 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function CTU_init__ (0x4038bc)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,497 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function CTU_init__ (0x4038bc)>.
+WARNING  | 2026-01-03 15:25:16,507 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_body__ (0x4037c4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,507 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_body__ (0x4037c4)>.
+WARNING  | 2026-01-03 15:25:16,519 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function RS_init__ (0x403658)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,519 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function RS_init__ (0x403658)>.
+WARNING  | 2026-01-03 15:25:16,533 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_body__ (0x403560)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,533 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_body__ (0x403560)>.
+WARNING  | 2026-01-03 15:25:16,538 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function SR_init__ (0x4033f4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,538 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function SR_init__ (0x4033f4)>.
+WARNING  | 2026-01-03 15:25:16,550 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_body__ (0x4032d8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,550 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_body__ (0x4032d8)>.
+WARNING  | 2026-01-03 15:25:16,559 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function F_TRIG_init__ (0x40316c)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:16,559 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function F_TRIG_init__ (0x40316c)>.
+[.] Patching callgraph for PPC32 GOT calls...
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elapsed: 0:00:04 Time: 0:00:00 586/586 - _init
+WARNING  | 2026-01-03 15:25:16,642 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:17,557 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:17,789 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:18,221 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:18,305 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:18,393 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:18,525 | angr.analyses.decompiler.structured_codegen.c | Summing two different pointers together. Uh oh!
+WARNING  | 2026-01-03 15:25:18,630 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:18,824 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+[.] Decompiling function startPLC...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.setlocale@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.sem_init@@GLIBC_2.34...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.pthread_create@@GLIBC_2.34...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.memset@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.pthread_mutex_init@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.pthread_mutex_lock@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.timer_create@@GLIBC_2.34...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.__init...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.PLC_SetTimer...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.signal@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function __init...
+[+] Decompiled!
+[.] Decompiling function PLC_SetTimer...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.config_init__...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.__init_debug...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.__init_py_ext...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.lldiv@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.__timer_settime64@@GLIBC_2.34...
+[+] Decompiled!
+[.] Decompiling function __stack_chk_fail_local...
+[+] Decompiled!
+[.] Decompiling function config_init__...
+[+] Decompiled!
+[.] Decompiling function __init_debug...
+[+] Decompiled!
+[.] Decompiling function __init_py_ext...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.__stack_chk_fail@@GLIBC_2.4...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.pthread_mutex_unlock@@GLIBC_2.0...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.RES0_init__...
+[+] Decompiled!
+[.] Decompiling function RES0_init__...
+[+] Decompiled!
+[.] Decompiling function 00008000.got2.plt_pic32.LAMP_init__...
+[+] Decompiled!
+[.] Decompiling function LAMP_init__...
+[+] Decompiled!
+Reachable from EP: Function LAMP_init__ writes to 23 global locations
+Reachable from EP: Function 00008000.got2.plt_pic32.LAMP_init__ writes to 23 global locations

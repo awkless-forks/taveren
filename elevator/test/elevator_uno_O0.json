@@ -1,0 +1,49 @@
+{
+    "software": "arduino",
+    "time_addr": "0xa0000000",
+    "variable_base_addr": "0",
+    "variables": [
+        {
+            "name": "btn1",
+            "address": "5",
+            "size": 4,
+            "sort": "pin",
+            "type": "input"
+        },
+        {
+            "name": "btn2",
+            "address": "6",
+            "size": 4,
+            "sort": "pin",
+            "type": "input"
+        },
+        {
+            "name": "btn3",
+            "address": "7",
+            "size": 4,
+            "sort": "pin",
+            "type": "input"
+        },
+        {
+            "name": "btn4",
+            "address": "8",
+            "size": 4,
+            "sort": "pin",
+            "type": "input"
+        },
+        {
+            "name": "level",
+            "address": "0x800100",
+            "size": 2,
+            "sort": "int",
+            "type": "output"
+        },
+        {
+            "name": "dir",
+            "address": "0x40",
+            "size": 4,
+            "sort": "pin",
+            "type": "output"
+        }
+    ]
+}

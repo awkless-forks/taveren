@@ -1,0 +1,190 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('ovenState', 0), ('ovenStatus', 0))"	[outvars="{'ovenState': 0, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 1), ('ovenState', 1), ('ovenStatus', 0))"	[outvars="{'ovenState': 1, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 0), ('ovenState', 0), ('ovenStatus', 0))" -> "(('NODE_CTR', 1), ('ovenState', 1), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))"	[outvars="{'ovenState': 5, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 0), ('ovenState', 0), ('ovenStatus', 0))" -> "(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(FPV(50.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_\
+601_64, DOUBLE), FPS(FP_temp_delta_603_64, DOUBLE)))>",
+		temp_delta=51.0,
+		temp_delta_constraint="<Bool !fpLEQ(FPV(50.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_601_64, DOUBLE), FPS(FP_temp_delta_603_64, DOUBLE)))>",
+		temp_delta_src="(8995, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))"	[outvars="{'ovenState': 2, 'ovenStatus': 1}"];
+	"(('NODE_CTR', 1), ('ovenState', 1), ('ovenStatus', 0))" -> "(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(FPV(150.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_\
+601_64, DOUBLE), FPS(FP_temp_delta_607_64, DOUBLE)))>",
+		temp_delta=151.0,
+		temp_delta_constraint="<Bool !fpLEQ(FPV(150.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_601_64, DOUBLE), FPS(FP_temp_delta_607_64, DOUBLE)))>",
+		temp_delta_src="(9053, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('ovenState', 1), ('ovenStatus', 1))"	[outvars="{'ovenState': 1, 'ovenStatus': 1}"];
+	"(('NODE_CTR', 1), ('ovenState', 1), ('ovenStatus', 0))" -> "(('NODE_CTR', 4), ('ovenState', 1), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))" -> "(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('ovenState', 0), ('ovenStatus', 0))"	[outvars="{'ovenState': 0, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))" -> "(('NODE_CTR', 5), ('ovenState', 0), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLT(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_622_64, DOUBLE), FPS(\
+FP_temp_delta_660_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta=49.0,
+		temp_delta_constraint="<Bool !fpLT(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_622_64, DOUBLE), FPS(FP_temp_delta_660_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta_src="(9251, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))" -> "(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))"	[outvars="{'ovenState': 2, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))" -> "(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLT(FPV(170.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_\
+766_64, DOUBLE), FPS(FP_temp_delta_768_64, DOUBLE)))>",
+		temp_delta=171.0,
+		temp_delta_constraint="<Bool !fpLT(FPV(170.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_766_64, DOUBLE), FPS(FP_temp_delta_768_64, DOUBLE)))>",
+		temp_delta_src="(9137, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('ovenState', 3), ('ovenStatus', 1))"	[outvars="{'ovenState': 3, 'ovenStatus': 1}"];
+	"(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))" -> "(('NODE_CTR', 7), ('ovenState', 3), ('ovenStatus', 1))"	[label="time_delta_constraint=<Bool tv_sec_669_32 + sec_delta_767_32 <= 0x2328 + tv_sec_609_32>,
+temp_delta_constraint=<Bool !fpLT(FPV(170.0, \
+DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_766_64, DOUBLE), FPS(FP_temp_delta_768_64, DOUBLE)))>",
+		temp_delta=171.0,
+		temp_delta_constraint="<Bool !fpLT(FPV(170.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_766_64, DOUBLE), FPS(FP_temp_delta_768_64, DOUBLE)))>",
+		temp_delta_src="(9137, 13)",
+		time_delta=9000,
+		time_delta_constraint="<Bool tv_sec_669_32 + sec_delta_767_32 <= 0x2328 + tv_sec_609_32>",
+		time_delta_src="(9083, 39)"];
+	"(('NODE_CTR', 4), ('ovenState', 1), ('ovenStatus', 1))" -> "(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(FPV(150.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_\
+649_64, DOUBLE), FPS(FP_temp_delta_727_64, DOUBLE)))>",
+		temp_delta=151.0,
+		temp_delta_constraint="<Bool !fpLEQ(FPV(150.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_649_64, DOUBLE), FPS(FP_temp_delta_727_64, DOUBLE)))>",
+		temp_delta_src="(9053, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('ovenState', 1), ('ovenStatus', 1))" -> "(('NODE_CTR', 4), ('ovenState', 1), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('ovenState', 0), ('ovenStatus', 0))" -> "(('NODE_CTR', 1), ('ovenState', 1), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('ovenState', 0), ('ovenStatus', 0))" -> "(('NODE_CTR', 2), ('ovenState', 5), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(FPV(50.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_\
+650_64, DOUBLE), FPS(FP_temp_delta_652_64, DOUBLE)))>",
+		temp_delta=51.0,
+		temp_delta_constraint="<Bool !fpLEQ(FPV(50.0, DOUBLE), fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_650_64, DOUBLE), FPS(FP_temp_delta_652_64, DOUBLE)))>",
+		temp_delta_src="(8995, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))" -> "(('NODE_CTR', 3), ('ovenState', 2), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLT(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_679_64, DOUBLE), FPS(\
+FP_temp_delta_799_64, DOUBLE)), FPV(150.0, DOUBLE))>",
+		temp_delta=149.0,
+		temp_delta_constraint="<Bool !fpLT(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_679_64, DOUBLE), FPS(FP_temp_delta_799_64, DOUBLE)), FPV(150.0, DOUBLE))>",
+		temp_delta_src="(9173, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))" -> "(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('ovenState', 3), ('ovenStatus', 0))"	[outvars="{'ovenState': 3, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 6), ('ovenState', 2), ('ovenStatus', 0))" -> "(('NODE_CTR', 8), ('ovenState', 3), ('ovenStatus', 0))"	[label="time_delta_constraint=<Bool tv_sec_678_32 + sec_delta_798_32 <= 0x2328 + tv_sec_609_32>,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=9000,
+		time_delta_constraint="<Bool tv_sec_678_32 + sec_delta_798_32 <= 0x2328 + tv_sec_609_32>",
+		time_delta_src="(9083, 39)"];
+	"(('NODE_CTR', 7), ('ovenState', 3), ('ovenStatus', 1))" -> "(('NODE_CTR', 7), ('ovenState', 3), ('ovenStatus', 1))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('ovenState', 4), ('ovenStatus', 0))"	[outvars="{'ovenState': 4, 'ovenStatus': 0}"];
+	"(('NODE_CTR', 7), ('ovenState', 3), ('ovenStatus', 1))" -> "(('NODE_CTR', 9), ('ovenState', 4), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_687_64, DOUBLE), \
+FPS(FP_temp_delta_816_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta=49.0,
+		temp_delta_constraint="<Bool !fpLEQ(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_687_64, DOUBLE), FPS(FP_temp_delta_816_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta_src="(9201, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('ovenState', 3), ('ovenStatus', 0))" -> "(('NODE_CTR', 8), ('ovenState', 3), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('ovenState', 3), ('ovenStatus', 0))" -> "(('NODE_CTR', 9), ('ovenState', 4), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=<Bool !fpLEQ(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_789_64, DOUBLE), \
+FPS(FP_temp_delta_987_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta=49.0,
+		temp_delta_constraint="<Bool !fpLEQ(fpAdd(RM.RM_NearestTiesEven, FPS(FP_temperature_789_64, DOUBLE), FPS(FP_temp_delta_987_64, DOUBLE)), FPV(50.0, DOUBLE))>",
+		temp_delta_src="(9201, 13)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('ovenState', 4), ('ovenStatus', 0))" -> "(('NODE_CTR', 9), ('ovenState', 4), ('ovenStatus', 0))"	[label="time_delta_constraint=None,
+temp_delta_constraint=None",
+		temp_delta=None,
+		temp_delta_constraint=None,
+		temp_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+}

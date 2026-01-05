@@ -1,0 +1,35 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0",
+  "time_addr": "0x10000000",
+  "software": "arduino",
+  "variables": [
+    {
+      "name": "dollar",
+      "address": "0xa",
+      "size": 1,
+      "sort": "pin",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "quarter",
+      "address": "0xb",
+      "size": 1,
+      "sort": "pin",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "vmstate",
+      "address": "0x200000BC",
+      "size": 1,
+      "sort": "int",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    }
+  ]
+}

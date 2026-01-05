@@ -1,0 +1,124 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2025-11-21 23:07:18,505 | angr.storage.memory_mixins.default_filler_mixin | The program is accessing register with an unspecified value. This could indicate unwanted behavior.
+WARNING  | 2025-11-21 23:07:18,506 | angr.storage.memory_mixins.default_filler_mixin | angr will cope with this by generating an unconstrained symbolic variable and continuing. You can resolve this by:
+WARNING  | 2025-11-21 23:07:18,506 | angr.storage.memory_mixins.default_filler_mixin | 1) setting a value to the initial state
+WARNING  | 2025-11-21 23:07:18,506 | angr.storage.memory_mixins.default_filler_mixin | 2) adding the state option ZERO_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to make unknown regions hold null
+WARNING  | 2025-11-21 23:07:18,506 | angr.storage.memory_mixins.default_filler_mixin | 3) adding the state option SYMBOL_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to suppress these messages.
+WARNING  | 2025-11-21 23:07:18,506 | angr.storage.memory_mixins.default_filler_mixin | Filling register rbp with 8 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2025-11-21 23:07:18,509 | angr.storage.memory_mixins.default_filler_mixin | Filling register rsp with 8 unconstrained bytes referenced from 0x403c24 (startPLC+0x130 in water_tank_sfc_two_sesnors.so (0x3c24))
+Analyzing binary for cycle detection: /home/bonnie/SMCheck/fbd_examples/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so
+1… Elap… Ti… Analysis (Stage 1) | 677 funcs, 12313 blocks | 0/9 IJs | 189.48 MB…
+WARNING  | 2025-11-21 23:07:20,439 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+WARNING  | 2025-11-21 23:07:20,439 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl64.
+WARNING  | 2025-11-21 23:07:20,509 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ64.
+WARNING  | 2025-11-21 23:07:20,524 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr64.
+WARNING  | 2025-11-21 23:07:20,524 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or64.
+WARNING  | 2025-11-21 23:07:20,538 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2025-11-21 23:07:20,552 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ8.
+WARNING  | 2025-11-21 23:07:20,553 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+ERROR    | 2025-11-21 23:07:20,581 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_calculate_condition.
+WARNING  | 2025-11-21 23:07:21,693 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpF64.
+WARNING  | 2025-11-21 23:07:21,693 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE64.
+WARNING  | 2025-11-21 23:07:21,993 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+WARNING  | 2025-11-21 23:07:21,993 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2025-11-21 23:07:22,048 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul64.
+WARNING  | 2025-11-21 23:07:22,048 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar64.
+WARNING  | 2025-11-21 23:07:22,048 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32.
+WARNING  | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE8.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Dirty amd64g_dirtyhelper_loadF80le.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI64asF64.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_create_fpucw.
+WARNING  | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or8.
+ERROR    | 2025-11-21 23:07:22,088 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_check_fldcw.
+WARNING  | 2025-11-21 23:07:22,089 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2025-11-21 23:07:22,089 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toI32S.
+ERROR    | 2025-11-21 23:07:22,096 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64.
+ERROR    | 2025-11-21 23:07:22,376 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+WARNING  | 2025-11-21 23:07:22,380 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Div64F0x2.
+WARNING  | 2025-11-21 23:07:22,384 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toF32.
+WARNING  | 2025-11-21 23:07:22,397 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32F0x4.
+WARNING  | 2025-11-21 23:07:22,398 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Div32F0x4.
+WARNING  | 2025-11-21 23:07:22,428 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul64F0x2.
+WARNING  | 2025-11-21 23:07:22,708 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE64U.
+WARNING  | 2025-11-21 23:07:22,709 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT64U.
+WARNING  | 2025-11-21 23:07:22,741 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2025-11-21 23:07:22,794 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE64S.
+WARNING  | 2025-11-21 23:07:22,795 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT64S.
+WARNING  | 2025-11-21 23:07:28,772 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_64HLto128.
+WARNING  | 2025-11-21 23:07:28,772 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivModS128to64.
+WARNING  | 2025-11-21 23:07:28,772 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivModU128to64.
+WARNING  | 2025-11-21 23:07:28,775 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullU64.
+WARNING  | 2025-11-21 23:07:28,777 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullS64.
+WARNING  | 2025-11-21 23:07:29,243 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2025-11-21 23:07:29,702 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elapsed: 0:00:09 Time: 0:00:00 655/655 - _init
+WARNING  | 2025-11-21 23:07:30,770 | angr.analyses.decompiler.structuring.phoenix | Cannot find the source block jumping to the destination block at 0x4039c3. This is likely a bug elsewhere and needs to be addressed.
+WARNING  | 2025-11-21 23:07:30,840 | angr.analyses.decompiler.structuring.phoenix | Cannot find the source block jumping to the destination block at 0x4039c3. This is likely a bug elsewhere and needs to be addressed.
+WARNING  | 2025-11-21 23:07:44,028 | angr.analyses.decompiler.structured_codegen.c | Oddly-sized array access stride. Uh oh!
+WARNING  | 2025-11-21 23:07:45,093 | angr.analyses.decompiler.structured_codegen.c | There's a variable offset with stride shorter than the primitive type. What does this mean?
+ERROR    | 2025-11-21 23:07:52,863 | angr.analyses.decompiler.structured_codegen.c | Store data lifted to a C type with a different size. Decompilation output will be wrong.
+WARNING  | 2025-11-21 23:08:01,411 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|Stack sp-0x100, 8 B>), (0, <0x405a40[is_2]|Stack bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:01,412 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|Stack sp-0x100, 8 B>), (0, <0x405a40[is_2]|Stack bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:01,490 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:01,490 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+WARNING  | 2025-11-21 23:08:02,169 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x405a40[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:02,170 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x405a40[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:02,249 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:02,249 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+WARNING  | 2025-11-21 23:08:05,227 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|Stack sp-0x100, 8 B>), (0, <0x418634[is_2]|Stack bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:05,228 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|Stack sp-0x100, 8 B>), (0, <0x418634[is_2]|Stack bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:05,305 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:05,305 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+WARNING  | 2025-11-21 23:08:05,974 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:05,975 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:06,055 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:06,055 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+WARNING  | 2025-11-21 23:08:06,741 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:06,742 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:06,823 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:06,823 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_179{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+WARNING  | 2025-11-21 23:08:07,511 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+WARNING  | 2025-11-21 23:08:07,512 | angr.analyses.variable_recovery.engine_base | Reading memory with overlapping variables: [(0, <None[is_26]|s_100(stack) sp-0x100, 8 B>), (0, <0x418634[is_2]|s_100(stack) bp-0x100, 8 B>)]. Ignoring all but the first one.
+ERROR    | 2025-11-21 23:08:07,594 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+ERROR    | 2025-11-21 23:08:07,594 | angr.analyses.decompiler.clinic | More than one variable are available for atom Load(addr=(Reference vvar_176{s-256|1b}), size=4, endness=Iend_LE). Consider fixing it using phi nodes.
+[.] has_while_loop: Decompiling function PLC_thread_proc@0x403840...
+[.] likely_state_transition_function: Decompiling function PLC_GetTime@0x4036b2...
+[.] count_ifs: Decompiling function PLC_GetTime@0x4036b2...
+[.] likely_state_transition_function: Decompiling function __run@0x4035a9...
+[.] count_ifs: Decompiling function __run@0x4035a9...
+[.] likely_state_transition_function: Decompiling function config_run__@0x42712f...
+[.] count_ifs: Decompiling function config_run__@0x42712f...
+[.] likely_state_transition_function: Decompiling function __publish_debug@0x415331...
+Potential cycle detection pattern found: Function PLC_thread_proc contains a while(cond) loop, and its descendant function __publish_debug is a likely state-transition function.
+[.] likely_state_transition_function: Decompiling function RES0_run__@0x4375da...
+[.] likely_state_transition_function: Decompiling function WATER_TANK_SFC_body__@0x436870...
+Potential cycle detection pattern found: Function PLC_thread_proc contains a while(cond) loop, and its descendant function WATER_TANK_SFC_body__ is a likely state-transition function.
+[.] likely_state_transition_function: Decompiling function LogMessage@0x404ccb...
+[.] likely_state_transition_function: Decompiling function copy_to_log@0x404b0c...
+[.] likely_state_transition_function: Decompiling function AtomicCompareExchange64@0x40368f...
+[.] likely_state_transition_function: Decompiling function inc_timespec@0x40370e...
+[.] has_while_loop: Decompiling function __init_debug@0x4150a8...
+[.] has_while_loop: Decompiling function InitRetain@0x404439...
+[.] has_while_loop: Decompiling function LogMessage@0x404ccb...
+[.] has_while_loop: Decompiling function __publish_debug@0x415331...
+[.] has_while_loop: Decompiling function WATER_TANK_SFC_init__@0x436683...
+[.] has_while_loop: Decompiling function GetRetainSize@0x415274...
+[.] has_while_loop: Decompiling function GenerateCRC32Sum@0x404222...
+[.] has_while_loop: Decompiling function CheckFileCRC@0x40428d...
+[.] has_while_loop: Decompiling function CheckFilehash@0x404327...
+[.] has_while_loop: Decompiling function WATER_TANK_SFC_body__@0x436870...
+[.] has_while_loop: Decompiling function GetLogMessage@0x404e80...
+[.] has_while_loop: Decompiling function LE_TIME@0x405a40...
+[.] has_while_loop: Decompiling function GE_TIME@0x405877...
+[.] has_while_loop: Decompiling function __for_each_variable_do@0x414527...
+[.] has_while_loop: Decompiling function ResetDebugVariables@0x41786d...
+[.] has_while_loop: Decompiling function LE_TIME@0x418634...
+[.] has_while_loop: Decompiling function GE_TIME@0x41846b...
+[.] has_while_loop: Decompiling function LE_TIME@0x42788b...
+[.] has_while_loop: Decompiling function GE_TIME@0x4276c2...
+Found 2 candidate function pairs.
+- PLC_thread_proc@0x403840 -> __publish_debug@0x415331
+- PLC_thread_proc@0x403840 -> WATER_TANK_SFC_body__@0x436870

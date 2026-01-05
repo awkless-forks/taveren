@@ -1,0 +1,53 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0x43B5A0",
+  "time_addr": "0x42B320",
+  "software": "beremiz",
+  "variables": [
+    {
+      "name": "statevar0",
+      "address": "0x8",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar1",
+      "address": "0x28",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar2",
+      "address": "0x48",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "WATER_LEVEL",
+      "address": "0x00000006",
+      "size": 1,
+      "sort": "sint",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "MOTOR",
+      "address": "0x0000004",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    }
+  ]
+}

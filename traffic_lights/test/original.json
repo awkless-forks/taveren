@@ -1,0 +1,118 @@
+{
+  "binary": "Traffic_Light_Short_orange.so",
+  "variable_base_addr": "0x44c320",
+  "time_addr": "0x438380",
+  "software":"beremiz",
+  "variables": [
+    {
+      "name": "statevar0",
+      "address": "0x1b8",
+      "size": 1,
+      "type": "statevar"
+    },
+    {
+        "name": "statevar1",
+        "address": "0x1d8",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar2",
+        "address": "0x1f8",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar3",
+        "address": "0x218",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar4",
+        "address": "0x238",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar5",
+        "address": "0x258",
+        "size": 1,
+        "type": "statevar"
+    },
+        {
+        "name": "statevar6",
+        "address": "0x108",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar7",
+        "address": "0x10a",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar8",
+        "address": "0x10c",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar9",
+        "address": "0x10e",
+        "size": 1,
+        "type": "statevar"
+    },
+    {
+        "name": "statevar10",
+        "address": "0x110",
+        "size": 1,
+        "type": "statevar"
+      },
+
+
+    {
+      "name": "SWITCH_BUTTON",
+      "address": "0x00000004",
+      "size": 1,
+      "type": "input"
+    },
+    {
+      "name": "SWITCH_BUTTON",
+      "address": "0x00000004",
+      "size": 1,
+      "type": "output"
+    },
+    {
+      "name": "RED_LIGHT",
+      "address": "0x00000008",
+      "size": 1,
+      "type": "output"
+    },
+    {
+      "name": "ORANGE_LIGHT",
+      "address": "0x0000000a",
+      "size": 1,
+      "type": "output"
+    },
+    {
+      "name": "GREEN_LIGHT",
+      "address": "0x0000000c",
+      "size": 1,
+      "type": "output"
+    },
+    {
+      "name": "PEDESTRIAN_RED_LIGHT",
+      "address": "0x0000000e",
+      "size": 1,
+      "type": "output"
+    },
+    {
+      "name": "PEDESTRIAN_GREEN_LIGHT",
+      "address": "0x00000010",
+      "size": 1,
+      "type": "output"
+    }
+  ]
+}

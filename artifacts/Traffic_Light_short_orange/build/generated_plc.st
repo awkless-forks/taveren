@@ -1,0 +1,169 @@
+FUNCTION_BLOCK traffic_light_sequence
+  VAR_INPUT
+    SWITCH_BUTTON : BOOL;
+    PEDESTRIAN_BUTTON : BOOL;
+  END_VAR
+  VAR_OUTPUT
+    RED_LIGHT : BOOL;
+    ORANGE_LIGHT : BOOL;
+    GREEN_LIGHT : BOOL;
+    PEDESTRIAN_RED_LIGHT : BOOL;
+    PEDESTRIAN_GREEN_LIGHT : BOOL;
+  END_VAR
+  VAR
+    TON1 : TON;
+    TON2 : TON;
+    ALLOW_CARS : BOOL;
+    WARN_CARS : BOOL;
+    STOP_CARS : BOOL;
+    ALLOW_PEDESTRIANS : BOOL;
+    STOP_PEDESTRIANS : BOOL;
+    TON3 : TON;
+    R_TRIG0 : R_TRIG;
+    R_TRIG1 : R_TRIG;
+    SR0 : SR;
+    _TMP_NOT42_OUT : BOOL;
+    _TMP_OR35_OUT : BOOL;
+  END_VAR
+
+  INITIAL_STEP Standstill:
+    STANDSTILL_INLINE1(P);
+    BLINK_ORANGE_LIGHT(N);
+    PEDESTRIAN_RED_LIGHT(R);
+    PEDESTRIAN_GREEN_LIGHT(R);
+    RED_LIGHT(R);
+    GREEN_LIGHT(R);
+    COMPUTE_FUNCTION_BLOCKS(S);
+  END_STEP
+
+  ACTION STANDSTILL_INLINE1:
+    ORANGE_LIGHT := 1;
+  END_ACTION
+
+  ACTION BLINK_ORANGE_LIGHT:
+    TON1(IN := NOT(ORANGE_LIGHT), PT := T#500ms);
+    R_TRIG1(CLK := TON1.Q);
+    IF R_TRIG1.Q THEN
+      ORANGE_LIGHT := TRUE; (*set*)
+    END_IF;
+    TON2(IN := ORANGE_LIGHT, PT := T#500ms);
+    R_TRIG0(CLK := TON2.Q);
+    IF R_TRIG0.Q THEN
+      ORANGE_LIGHT := FALSE; (*reset*)
+    END_IF;
+  END_ACTION
+
+  ACTION COMPUTE_FUNCTION_BLOCKS:
+    _TMP_NOT42_OUT := NOT(SWITCH_BUTTON);
+    SR0(S1 := PEDESTRIAN_BUTTON, R := TON3.Q);
+    TON3(IN := SR0.Q1, PT := T#2s);
+    _TMP_OR35_OUT := OR(TON3.Q, WARN_CARS);
+  END_ACTION
+
+  TRANSITION FROM Standstill TO ORANGE
+    := SWITCH_BUTTON;
+  END_TRANSITION
+
+  STEP ORANGE:
+    GREEN_LIGHT(R);
+    ORANGE_LIGHT(S);
+    PEDESTRIAN_RED_LIGHT(S);
+    STOP_CARS(D, T#0s);
+  END_STEP
+
+  TRANSITION FROM ORANGE TO RED
+    := STOP_CARS;
+  END_TRANSITION
+
+  STEP RED:
+    ORANGE_LIGHT(R);
+    RED_LIGHT(S);
+    ALLOW_PEDESTRIANS(D, T#2s);
+  END_STEP
+
+  TRANSITION FROM RED TO PEDESTRIAN_GREEN
+    := ALLOW_PEDESTRIANS;
+  END_TRANSITION
+
+  STEP PEDESTRIAN_GREEN:
+    PEDESTRIAN_GREEN_LIGHT(S);
+    PEDESTRIAN_RED_LIGHT(R);
+    STOP_PEDESTRIANS(D, T#10s);
+  END_STEP
+
+  TRANSITION FROM PEDESTRIAN_GREEN TO PEDESTRIAN_RED
+    := STOP_PEDESTRIANS;
+  END_TRANSITION
+
+  STEP PEDESTRIAN_RED:
+    PEDESTRIAN_RED_LIGHT(S);
+    PEDESTRIAN_GREEN_LIGHT(R);
+    ALLOW_CARS(D, T#2s);
+  END_STEP
+
+  TRANSITION FROM PEDESTRIAN_RED TO GREEN
+    := ALLOW_CARS;
+  END_TRANSITION
+
+  STEP GREEN:
+    GREEN_LIGHT(S);
+    RED_LIGHT(R);
+    WARN_CARS(D, T#20s);
+  END_STEP
+
+  TRANSITION FROM GREEN TO Standstill
+    := NOT SWITCH_BUTTON;
+  END_TRANSITION
+
+  TRANSITION FROM GREEN TO ORANGE
+    := _TMP_OR35_OUT;
+  END_TRANSITION
+
+  TRANSITION FROM PEDESTRIAN_RED TO Standstill
+    := NOT(SWITCH_BUTTON);
+  END_TRANSITION
+
+  TRANSITION FROM PEDESTRIAN_GREEN TO Standstill
+    := NOT SWITCH_BUTTON;
+  END_TRANSITION
+
+  TRANSITION FROM RED TO Standstill
+    := _TMP_NOT42_OUT;
+  END_TRANSITION
+
+  TRANSITION FROM ORANGE TO Standstill
+    := _TMP_NOT42_OUT;
+  END_TRANSITION
+
+END_FUNCTION_BLOCK
+
+PROGRAM main_program
+  VAR
+    trafic_light_sequence0 : traffic_light_sequence;
+    SwitchButton : Button;
+    PedestrianButton : Button;
+    RedLight : Led;
+    OrangeLight : Led;
+    GreenLight : Led;
+    PedestrianRedLight : Led;
+    PedestrianGreenLight : Led;
+  END_VAR
+
+  SwitchButton(back_id := 'SWITCH_OFF', sele_id := 'SWITCH_ON', toggle := 1);
+  PedestrianButton(back_id := 'PEDESTRIAN_OFF', sele_id := 'PEDESTRIAN_ON');
+  trafic_light_sequence0(SWITCH_BUTTON := SwitchButton.state_out, PEDESTRIAN_BUTTON := PedestrianButton.state_out);
+  RedLight(back_id := 'RED_OFF', sele_id := 'RED_ON', state_in := trafic_light_sequence0.RED_LIGHT);
+  OrangeLight(back_id := 'ORANGE_OFF', sele_id := 'ORANGE_ON', state_in := trafic_light_sequence0.ORANGE_LIGHT);
+  GreenLight(back_id := 'GREEN_OFF', sele_id := 'GREEN_ON', state_in := trafic_light_sequence0.GREEN_LIGHT);
+  PedestrianRedLight(back_id := 'PEDESTRIAN_RED_OFF', sele_id := 'PEDESTRIAN_RED_ON', state_in := trafic_light_sequence0.PEDESTRIAN_RED_LIGHT);
+  PedestrianGreenLight(back_id := 'PEDESTRIAN_GREEN_OFF', sele_id := 'PEDESTRIAN_GREEN_ON', state_in := trafic_light_sequence0.PEDESTRIAN_GREEN_LIGHT);
+END_PROGRAM
+
+
+CONFIGURATION config
+
+  RESOURCE resource1 ON PLC
+    TASK test_task(INTERVAL := T#100ms,PRIORITY := 0);
+    PROGRAM main_instance WITH test_task : main_program;
+  END_RESOURCE
+END_CONFIGURATION

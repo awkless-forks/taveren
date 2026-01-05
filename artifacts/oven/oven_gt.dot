@@ -1,0 +1,35 @@
+strict digraph "" {
+	"(('OvenState', 'IDLE'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'PREHEAT'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp=None",
+		temp=None,
+		time_delta=None];
+	"(('OvenState', 'IDLE'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'TOO_HOT'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp>=50.0",
+		temp=51.0,
+		time_delta=None];
+	"(('OvenState', 'PREHEAT'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'PREHEAT'), ('OvenStatus', 'ON'))"	[label="time_delta=None, temp=None",
+		temp=None,
+		time_delta=None];
+	"(('OvenState', 'TOO_HOT'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'IDLE'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp<50.0",
+		temp=49.0,
+		time_delta=None];
+	"(('OvenState', 'PREHEAT'), ('OvenStatus', 'ON'))" -> "(('OvenState', 'COOK'), ('OvenStatus', 'ON'))"	[label="time_delta=None, temp>=150.0",
+		temp=151.0,
+		time_delta=None];
+	"(('OvenState', 'COOK'), ('OvenStatus', 'ON'))" -> "(('OvenState', 'COOK'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp>170.0",
+		temp=171.0,
+		time_delta=None];
+	"(('OvenState', 'COOK'), ('OvenStatus', 'ON'))" -> "(('OvenState', 'COOL'), ('OvenStatus', 'ON'))"	[label="time_delta>9000, temp=None",
+		temp=None,
+		time_delta=9000];
+	"(('OvenState', 'COOK'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'COOK'), ('OvenStatus', 'ON'))"	[label="time_delta=None, temp<150.0",
+		temp=149.0,
+		time_delta=None];
+	"(('OvenState', 'COOK'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'COOL'), ('OvenStatus', 'OFF'))"	[label="time_delta>9000, temp=None",
+		temp=None,
+		time_delta=9000];
+	"(('OvenState', 'COOL'), ('OvenStatus', 'ON'))" -> "(('OvenState', 'COMPLETE'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp<=50.0",
+		temp=49.0,
+		time_delta=None];
+	"(('OvenState', 'COOL'), ('OvenStatus', 'OFF'))" -> "(('OvenState', 'COMPLETE'), ('OvenStatus', 'OFF'))"	[label="time_delta=None, temp<=50.0",
+		temp=49.0,
+		time_delta=None];
+}

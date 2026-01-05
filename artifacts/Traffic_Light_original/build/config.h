@@ -1,0 +1,3 @@
+#include "beremiz.h"
+__DECLARE_GLOBAL_PROTOTYPE(PYTHON_POLL,ON_0_CHANGE)
+

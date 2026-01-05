@@ -1,0 +1,72 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('mode', 0), ('abort', 0), ('dumpFuel', 0), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 0), ('isAbortLogic', \
+0))"	[outvars="{'mode': 0, 'abort': 0, 'dumpFuel': 0, 'releaseBoosters': 0, 'releaseTank': 0, 'isAbort': 0, 'isAbortLogic': 0}"];
+	"(('NODE_CTR', 1), ('mode', 1), ('abort', 1), ('dumpFuel', 0), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 0), ('isAbortLogic', \
+3))"	[outvars="{'mode': 1, 'abort': 1, 'dumpFuel': 0, 'releaseBoosters': 0, 'releaseTank': 0, 'isAbort': 0, 'isAbortLogic': 3}"];
+	"(('NODE_CTR', 0), ('mode', 0), ('abort', 0), ('dumpFuel', 0), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 0), ('isAbortLogic', \
+0))" -> "(('NODE_CTR', 1), ('mode', 1), ('abort', 1), ('dumpFuel', 0), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 0), ('isAbortLogic', \
+3))"	[key=0,
+		altitude_constraint=None,
+		altitude_delta=None,
+		altitude_src=None,
+		anomaly_constraint=None,
+		anomaly_delta=None,
+		anomaly_src=None,
+		label="time_delta=None
+altitude_delta=None
+anomaly_delta=None",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('mode', 1), ('abort', 5), ('dumpFuel', 1), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 2), ('isAbortLogic', \
+2))"	[outvars="{'mode': 1, 'abort': 5, 'dumpFuel': 1, 'releaseBoosters': 0, 'releaseTank': 0, 'isAbort': 2, 'isAbortLogic': 2}"];
+	"(('NODE_CTR', 1), ('mode', 1), ('abort', 1), ('dumpFuel', 0), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 0), ('isAbortLogic', \
+3))" -> "(('NODE_CTR', 2), ('mode', 1), ('abort', 5), ('dumpFuel', 1), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 2), ('isAbortLogic', \
+2))"	[key=0,
+		altitude_constraint="<Bool fpLT(FPS(FP_altitude_delta_28_64, DOUBLE), FPV(10000.0, DOUBLE))>",
+		altitude_delta=10002.0,
+		altitude_src="(4200131, 28)",
+		anomaly_constraint=None,
+		anomaly_delta=None,
+		anomaly_src=None,
+		label="time_delta=None
+altitude_delta=10002.0
+anomaly_delta=None",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('mode', 1), ('abort', 3), ('dumpFuel', 1), ('releaseBoosters', 1), ('releaseTank', 0), ('isAbort', 1), ('isAbortLogic', \
+2))"	[outvars="{'mode': 1, 'abort': 3, 'dumpFuel': 1, 'releaseBoosters': 1, 'releaseTank': 0, 'isAbort': 1, 'isAbortLogic': 2}"];
+	"(('NODE_CTR', 2), ('mode', 1), ('abort', 5), ('dumpFuel', 1), ('releaseBoosters', 0), ('releaseTank', 0), ('isAbort', 2), ('isAbortLogic', \
+2))" -> "(('NODE_CTR', 3), ('mode', 1), ('abort', 3), ('dumpFuel', 1), ('releaseBoosters', 1), ('releaseTank', 0), ('isAbort', 1), ('isAbortLogic', \
+2))"	[key=0,
+		altitude_constraint=None,
+		altitude_delta=None,
+		altitude_src=None,
+		anomaly_constraint=None,
+		anomaly_delta=None,
+		anomaly_src=None,
+		label="time_delta=9
+altitude_delta=None
+anomaly_delta=None",
+		time_delta=9,
+		time_delta_constraint="<Bool 1 + sec_delta_36_8[3:0] <= 9>",
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('mode', 1), ('abort', 4), ('dumpFuel', 1), ('releaseBoosters', 1), ('releaseTank', 1), ('isAbort', 4), ('isAbortLogic', \
+2))"	[outvars="{'mode': 1, 'abort': 4, 'dumpFuel': 1, 'releaseBoosters': 1, 'releaseTank': 1, 'isAbort': 4, 'isAbortLogic': 2}"];
+	"(('NODE_CTR', 3), ('mode', 1), ('abort', 3), ('dumpFuel', 1), ('releaseBoosters', 1), ('releaseTank', 0), ('isAbort', 1), ('isAbortLogic', \
+2))" -> "(('NODE_CTR', 4), ('mode', 1), ('abort', 4), ('dumpFuel', 1), ('releaseBoosters', 1), ('releaseTank', 1), ('isAbort', 4), ('isAbortLogic', \
+2))"	[key=0,
+		altitude_constraint=None,
+		altitude_delta=None,
+		altitude_src=None,
+		anomaly_constraint=None,
+		anomaly_delta=None,
+		anomaly_src=None,
+		label="time_delta=9
+altitude_delta=None
+anomaly_delta=None",
+		time_delta=9,
+		time_delta_constraint="<Bool 1 + sec_delta_43_8[3:0] <= 9>",
+		time_delta_src=None];
+}

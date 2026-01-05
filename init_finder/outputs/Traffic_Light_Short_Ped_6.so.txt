@@ -1,0 +1,122 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2026-01-03 15:25:07,312 | cle.loader     | Symbol imported without a known size; emulation may fail if it is used non-opaqely: pthread_create, pthread_join, pthread_mutex_trylock, sem_destroy, sem_init, sem_post, sem_wait. See https://docs.angr.io/extending-angr/environment#simdata
+WARNING  | 2026-01-03 15:25:09,873 | angr.storage.memory_mixins.default_filler_mixin | The program is accessing register with an unspecified value. This could indicate unwanted behavior.
+WARNING  | 2026-01-03 15:25:09,874 | angr.storage.memory_mixins.default_filler_mixin | angr will cope with this by generating an unconstrained symbolic variable and continuing. You can resolve this by:
+WARNING  | 2026-01-03 15:25:09,874 | angr.storage.memory_mixins.default_filler_mixin | 1) setting a value to the initial state
+WARNING  | 2026-01-03 15:25:09,874 | angr.storage.memory_mixins.default_filler_mixin | 2) adding the state option ZERO_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to make unknown regions hold null
+WARNING  | 2026-01-03 15:25:09,874 | angr.storage.memory_mixins.default_filler_mixin | 3) adding the state option SYMBOL_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to suppress these messages.
+WARNING  | 2026-01-03 15:25:09,874 | angr.storage.memory_mixins.default_filler_mixin | Filling register r4 with 4 unconstrained bytes referenced from 0x402f0c (startPLC+0x5c in Traffic_Light_Short_Ped.so (0x2f0c))
+WARNING  | 2026-01-03 15:25:09,877 | angr.storage.memory_mixins.default_filler_mixin | Filling register sp with 4 unconstrained bytes referenced from 0x500078 (pthread_create+0x0 in extern-address space (0x78))
+ERROR    | 2026-01-03 15:25:10,056 | angr.analyses.cfg.indirect_jump_resolvers.jumptable.JumpTableProcessor | Unsupported Unop Iop_Clz32.
+1… Elap… Ti… Analysis (Stage 1) | 516 funcs, 8797 blocks | 0/41 IJs | 198.82 MB…
+ERROR    | 2026-01-03 15:25:12,027 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+WARNING  | 2026-01-03 15:25:12,027 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:12,030 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2026-01-03 15:25:12,035 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:12,037 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+ERROR    | 2026-01-03 15:25:12,041 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_c.
+WARNING  | 2026-01-03 15:25:12,065 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:12,068 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2026-01-03 15:25:12,069 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+WARNING  | 2026-01-03 15:25:12,086 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+WARNING  | 2026-01-03 15:25:12,089 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar32.
+WARNING  | 2026-01-03 15:25:12,089 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr32.
+WARNING  | 2026-01-03 15:25:12,189 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2026-01-03 15:25:12,239 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullS32.
+WARNING  | 2026-01-03 15:25:12,239 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32.
+ERROR    | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64.
+ERROR    | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64.
+WARNING  | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toI32S.
+ERROR    | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI32asF32.
+ERROR    | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpF32asI32.
+ERROR    | 2026-01-03 15:25:12,247 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64.
+WARNING  | 2026-01-03 15:25:12,249 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x420250)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,249 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x420250)>.
+ERROR    | 2026-01-03 15:25:12,265 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF64.
+WARNING  | 2026-01-03 15:25:12,268 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toF32.
+WARNING  | 2026-01-03 15:25:12,270 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x420a60)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,270 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x420a60)>.
+ERROR    | 2026-01-03 15:25:12,277 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF32.
+ERROR    | 2026-01-03 15:25:12,278 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF32.
+ERROR    | 2026-01-03 15:25:12,279 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF32.
+ERROR    | 2026-01-03 15:25:12,279 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF32.
+WARNING  | 2026-01-03 15:25:12,347 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpF64.
+ERROR    | 2026-01-03 15:25:12,419 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_v.
+ERROR    | 2026-01-03 15:25:12,463 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_condition.
+WARNING  | 2026-01-03 15:25:12,851 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x417e58)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,852 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x417e58)>.
+WARNING  | 2026-01-03 15:25:12,872 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x4180a8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,873 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x4180a8)>.
+WARNING  | 2026-01-03 15:25:13,543 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x40f378)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,543 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x40f378)>.
+WARNING  | 2026-01-03 15:25:13,564 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x40f5c8)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:13,565 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x40f5c8)>.
+ERROR    | 2026-01-03 15:25:14,058 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not1.
+WARNING  | 2026-01-03 15:25:14,304 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function __dt_to_timespec (0x4046c4)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,304 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function __dt_to_timespec (0x4046c4)>.
+WARNING  | 2026-01-03 15:25:14,325 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function TIME_TO_REAL (0x404918)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:14,325 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function TIME_TO_REAL (0x404918)>.
+WARNING  | 2026-01-03 15:25:14,920 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullU32.
+WARNING  | 2026-01-03 15:25:15,510 | angr.analyses.calling_convention.calling_convention | <Function __cxa_finalize (0x402578)> has more than one jumpout sites. It does not look like a PLT stub. Please report to GitHub.
+WARNING  | 2026-01-03 15:25:15,515 | angr.analyses.calling_convention.calling_convention | <Function __gmon_start__ (0x402704)> has more than one jumpout sites. It does not look like a PLT stub. Please report to GitHub.
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elapsed: 0:00:03 Time: 0:00:00 501/501 - _init
+WARNING  | 2026-01-03 15:25:17,032 | angr.analyses.decompiler.structured_codegen.c | Summing two different pointers together. Uh oh!
+WARNING  | 2026-01-03 15:25:18,151 | angr.analyses.decompiler.structured_codegen.c | Multiplying a pointer by a constant??
+WARNING  | 2026-01-03 15:25:18,325 | angr.analyses.decompiler.structured_codegen.c | There's a variable offset with stride shorter than the primitive type. What does this mean?
+[.] Decompiling function startPLC...
+[+] Decompiled!
+[.] Decompiling function __init...
+[+] Decompiled!
+[.] Decompiling function PLC_SetTimer...
+[+] Decompiled!
+[.] Decompiling function config_init__...
+[+] Decompiled!
+[.] Decompiling function __init_debug...
+[+] Decompiled!
+[.] Decompiling function __init_py_ext...
+[+] Decompiled!
+[.] Decompiling function RESOURCE1_init__...
+[+] Decompiled!
+[.] Decompiling function InitRetain...
+[+] Decompiled!
+[.] Decompiling function CheckRetainBuffer...
+[+] Decompiled!
+[.] Decompiling function LogMessage...
+[+] Decompiled!
+[.] Decompiling function __for_each_variable_do...
+[+] Decompiled!
+[.] Decompiling function copy_to_log...
+[+] Decompiled!
+[.] Decompiling function MAIN_PROGRAM_init__...
+[+] Decompiled!
+[.] Decompiling function PLC_GetTime...
+[+] Decompiled!
+[.] Decompiling function AtomicCompareExchange64...
+[+] Decompiled!
+[.] Decompiling function __sync_val_compare_and_swap_8...
+[+] Decompiled!
+[.] Decompiling function TRAFFIC_LIGHT_SEQUENCE_init__...
+[+] Decompiled!
+[.] Decompiling function BUTTON_init__...
+[+] Decompiled!
+[.] Decompiling function LED_init__...
+[+] Decompiled!
+[.] Decompiling function TON_init__...
+[+] Decompiled!
+[.] Decompiling function R_TRIG_init__...
+[+] Decompiled!
+[.] Decompiling function SR_init__...
+[+] Decompiled!
+[.] Decompiling function PYTHON_EVAL_init__...
+[+] Decompiled!
+[.] Decompiling function GETBOOLSTRING_init__...
+[+] Decompiled!
+[.] Decompiling function PYTHON_POLL_init__...
+[+] Decompiled!
+Reachable from EP: Function TRAFFIC_LIGHT_SEQUENCE_init__ writes to 77 global locations
+Reachable from EP: Function BUTTON_init__ writes to 35 global locations
+Reachable from EP: Function PYTHON_EVAL_init__ writes to 25 global locations
+Reachable from EP: Function PYTHON_POLL_init__ writes to 25 global locations
+Reachable from EP: Function TON_init__ writes to 23 global locations
+Reachable from EP: Function LED_init__ writes to 20 global locations

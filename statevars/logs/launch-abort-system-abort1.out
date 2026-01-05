@@ -1,0 +1,402 @@
+1… Elaps… Ti… Analysis (Stage 1) | 130 funcs, 709 blocks | 0/20 IJs | 221.87 MB …
+[timing]   _set_function_graph took 0.530456 milliseconds.
+[timing]   _remove_alignment_blocks took 0.119876 milliseconds.
+[timing]   _recover_calling_conventions took 0.018285 milliseconds.
+[timing]   _convert_all took 24.465339 milliseconds.
+[timing]   _make_ailgraph took 0.801652 milliseconds.
+[timing]     SwitchDefaultCaseDuplicator took 0.030184 milliseconds.
+[timing]     SwitchReusedEntryRewriter took 0.014743 milliseconds.
+[timing]   _run_simplification_passes took 0.114869 milliseconds.
+[timing]   _replace_single_target_indirect_transitions took 0.022409 milliseconds.
+[timing]   _replace_tail_jumps_with_calls took 0.025630 milliseconds.
+[timing]   _fix_special_call_calling_conventions took 0.009429 milliseconds.
+[timing]   _run_simplification_passes took 0.024906 milliseconds.
+[timing]   _make_argument_list took 0.039286 milliseconds.
+[timing]   _create_function_argument_vvars took 0.025029 milliseconds.
+[timing]   _transform_to_ssa_level0 took 13.156108 milliseconds.
+[timing]       _compute_propagation took 15.095894 milliseconds.
+[timing]     _simplify_function_once took 29.966199 milliseconds.
+[timing]   _simplify_function took 29.976355 milliseconds.
+[timing]   _track_stack_pointers took 6.778250 milliseconds.
+[timing]   _simplify_blocks took 212.599764 milliseconds.
+[timing]     RegisterSaveAreaSimplifier took 0.036062 milliseconds.
+[timing]     WinStackCanarySimplifier took 0.014401 milliseconds.
+[timing]     ConstantDereferencesSimplifier took 0.438470 milliseconds.
+[timing]       _find_const_conditions took 0.038593 milliseconds.
+[timing]     ConditionConstantPropagation took 0.048581 milliseconds.
+[timing]   _run_simplification_passes took 0.613137 milliseconds.
+[timing]       _compute_propagation took 4.660026 milliseconds.
+[timing]         _remove_dead_assignments took 4.672169 milliseconds.
+[timing]         _remove_dead_assignments took 2.917591 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 8.224201 milliseconds.
+[timing]         _remove_dead_assignments took 0.248392 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.253101 milliseconds.
+[timing]     _simplify_function_once took 73.017169 milliseconds.
+[timing]       _compute_propagation took 2.009426 milliseconds.
+[timing]         _remove_dead_assignments took 0.579617 milliseconds.
+[timing]         _remove_dead_assignments took 2.446099 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 3.438291 milliseconds.
+[timing]         _remove_dead_assignments took 0.178977 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.182961 milliseconds.
+[timing]     _simplify_function_once took 10.424922 milliseconds.
+[timing]       _compute_propagation took 1.307005 milliseconds.
+[timing]         _remove_dead_assignments took 0.256198 milliseconds.
+[timing]         _remove_dead_assignments took 2.331800 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 2.721070 milliseconds.
+[timing]         _remove_dead_assignments took 0.165543 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.169384 milliseconds.
+[timing]     _simplify_function_once took 7.454833 milliseconds.
+[timing]       _compute_propagation took 1.187712 milliseconds.
+[timing]         _remove_dead_assignments took 0.164960 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.169828 milliseconds.
+[timing]         _remove_dead_assignments took 0.206608 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.210710 milliseconds.
+[timing]     _simplify_function_once took 4.168033 milliseconds.
+[timing]   _simplify_function took 95.082515 milliseconds.
+[timing]   _simplify_blocks took 18.887035 milliseconds.
+[timing]   _run_simplification_passes took 0.026777 milliseconds.
+[timing]   _transform_to_ssa_level1 took 5.079707 milliseconds.
+[timing]     RegisterSaveAreaSimplifierAdvanced took 1.508078 milliseconds.
+[timing]   _run_simplification_passes took 1.566103 milliseconds.
+[timing]   _make_callsites took 2.578343 milliseconds.
+[timing]     CallStatementRewriter took 0.038471 milliseconds.
+[timing]     StringObfType3Rewriter took 0.014606 milliseconds.
+[timing]   _run_simplification_passes took 0.098868 milliseconds.
+[timing]         _remove_dead_assignments took 1.642198 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 1.647479 milliseconds.
+[timing]       _narrow_exprs took 1.103470 milliseconds.
+[timing]       _compute_propagation took 1.621705 milliseconds.
+[timing]         _remove_dead_assignments took 0.208579 milliseconds.
+[timing]         _remove_dead_assignments took 1.631345 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 1.892628 milliseconds.
+[timing]         _remove_dead_assignments took 0.173314 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.177063 milliseconds.
+[timing]         _compute_equivalence took 0.176565 milliseconds.
+[timing]       _unify_local_variables took 2.413679 milliseconds.
+[timing]         _compute_equivalence took 0.148055 milliseconds.
+[timing]       _fold_call_exprs took 0.167574 milliseconds.
+[timing]         _remove_dead_assignments took 1.717226 milliseconds.
+[timing]         _remove_dead_assignments took 1.629909 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 3.398687 milliseconds.
+[timing]     _simplify_function_once took 15.075650 milliseconds.
+[timing]       _compute_propagation took 1.457355 milliseconds.
+[timing]         _remove_dead_assignments took 0.183482 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.188588 milliseconds.
+[timing]         _remove_dead_assignments took 0.175082 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.178502 milliseconds.
+[timing]         _compute_equivalence took 0.097311 milliseconds.
+[timing]       _unify_local_variables took 0.119499 milliseconds.
+[timing]         _compute_equivalence took 0.090830 milliseconds.
+[timing]       _fold_call_exprs took 0.100848 milliseconds.
+[timing]         _remove_dead_assignments took 0.164897 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.167378 milliseconds.
+[timing]     _simplify_function_once took 4.175136 milliseconds.
+[timing]   _simplify_function took 19.258510 milliseconds.
+[timing]   _simplify_blocks took 15.382687 milliseconds.
+[timing]     BasePointerSaveSimplifier took 0.071479 milliseconds.
+[timing]     ITERegionConverter took 0.862602 milliseconds.
+[timing]     ReturnDuplicatorHigh took 5.361641 milliseconds.
+[timing]     InlinedStringTransformationSimplifier took 0.048293 milliseconds.
+[timing]     InlinedStrlenSimplifier took 0.062582 milliseconds.
+[timing]     DetermineLoadSizes took 0.053722 milliseconds.
+[timing]   _run_simplification_passes took 6.884912 milliseconds.
+[timing]         _remove_dead_assignments took 1.841769 milliseconds.
+[timing]         _remove_dead_assignments took 1.466077 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 3.411303 milliseconds.
+[timing]       _narrow_exprs took 1.563168 milliseconds.
+[timing]       _compute_propagation took 1.263224 milliseconds.
+[timing]         _remove_dead_assignments took 0.360082 milliseconds.
+[timing]         _remove_dead_assignments took 1.422651 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 1.894304 milliseconds.
+[timing]         _remove_dead_assignments took 0.090108 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.093673 milliseconds.
+[timing]         _compute_equivalence took 0.109322 milliseconds.
+[timing]       _unify_local_variables took 0.536481 milliseconds.
+[timing]         _compute_equivalence took 0.094353 milliseconds.
+[timing]       _fold_call_exprs took 0.108635 milliseconds.
+[timing]         _remove_dead_assignments took 1.423408 milliseconds.
+[timing]         _remove_dead_assignments took 1.470484 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 2.937574 milliseconds.
+[timing]     _simplify_function_once took 14.291199 milliseconds.
+[timing]       _compute_propagation took 1.148948 milliseconds.
+[timing]         _remove_dead_assignments took 0.088018 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.125285 milliseconds.
+[timing]         _remove_dead_assignments took 0.085910 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.089305 milliseconds.
+[timing]         _compute_equivalence took 0.088716 milliseconds.
+[timing]       _unify_local_variables took 0.104779 milliseconds.
+[timing]         _compute_equivalence took 0.086550 milliseconds.
+[timing]       _fold_call_exprs took 0.094968 milliseconds.
+[timing]         _remove_dead_assignments took 0.078510 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.080732 milliseconds.
+[timing]     _simplify_function_once took 3.503557 milliseconds.
+[timing]   _simplify_function took 17.802677 milliseconds.
+[timing]   _simplify_blocks took 14.768640 milliseconds.
+[timing]         _remove_dead_assignments took 1.475251 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 1.480116 milliseconds.
+[timing]       _narrow_exprs took 1.112841 milliseconds.
+[timing]       _compute_propagation took 1.120358 milliseconds.
+[timing]         _remove_dead_assignments took 0.176609 milliseconds.
+[timing]         _remove_dead_assignments took 1.385453 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 1.640784 milliseconds.
+[timing]         _remove_dead_assignments took 0.080723 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.084849 milliseconds.
+[timing]         _compute_equivalence took 0.090067 milliseconds.
+[timing]       _unify_local_variables took 0.105789 milliseconds.
+[timing]         _compute_equivalence took 0.081862 milliseconds.
+[timing]       _fold_call_exprs took 0.090035 milliseconds.
+[timing]         _remove_dead_assignments took 0.073567 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.075446 milliseconds.
+[timing]     _simplify_function_once took 7.916695 milliseconds.
+[timing]       _compute_propagation took 0.973344 milliseconds.
+[timing]         _remove_dead_assignments took 0.082296 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.086904 milliseconds.
+[timing]         _remove_dead_assignments took 0.078476 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.081767 milliseconds.
+[timing]         _compute_equivalence took 0.092374 milliseconds.
+[timing]       _unify_local_variables took 0.107465 milliseconds.
+[timing]         _compute_equivalence took 0.086565 milliseconds.
+[timing]       _fold_call_exprs took 0.094445 milliseconds.
+[timing]         _remove_dead_assignments took 0.073826 milliseconds.
+[timing]       _iteratively_remove_dead_assignments took 0.075817 milliseconds.
+[timing]     _simplify_function_once took 3.328671 milliseconds.
+[timing]   _simplify_function took 11.252821 milliseconds.
+[timing]     EagerStdStringConcatenationPass took 0.017133 milliseconds.
+[timing]   _run_simplification_passes took 0.058791 milliseconds.
+[timing]   _collect_dephi_vvar_mapping_and_rewrite_blocks took 4.885194 milliseconds.
+[timing]   _recover_and_link_variables took 128.704693 milliseconds.
+[timing]   _run_simplification_passes took 0.032739 milliseconds.
+[timing]   _make_function_prototype took 0.020346 milliseconds.
+[timing]   remove_empty_nodes took 0.007734 milliseconds.
+[timing]     DeadblockRemover took 17.887457 milliseconds.
+[timing]   _run_graph_simplification_passes took 17.938886 milliseconds.
+[timing]     ITEExprConverter took 0.010087 milliseconds.
+[timing]     ReturnDuplicatorLow took 31.374939 milliseconds.
+[timing]     ReturnDeduplicator took 0.712205 milliseconds.
+[timing]   _run_region_simplification_passes took 36.306264 milliseconds.
+[timing]     ExprOpSwapper took 0.005432 milliseconds.
+[timing]     FlipBooleanCmp took 0.069592 milliseconds.
+[timing]     PostStructuringPeepholeOptimizationPass took 12.574385 milliseconds.
+[timing]   _run_post_structuring_simplification_passes took 12.696825 milliseconds.
+[timing] _decompile took 753.288505 milliseconds.
+typedef struct struct_0 {
+    unsigned int field_0;
+    unsigned int field_4;
+    unsigned int field_8;
+    unsigned int field_c;
+    unsigned int field_10;
+    char field_14;
+    char field_15;
+    char field_16;
+    char field_17;
+} struct_0;
+
+typedef struct struct_1 {
+    unsigned int field_0;
+    unsigned int field_4;
+    char field_8;
+    char field_9;
+    char field_a;
+} struct_1;
+
+void LaunchAbortController(unsigned long a0, unsigned long a1, struct_1 *a2, struct_0 *a3)
+{
+    unsigned int v1;  // eax
+    unsigned long v3;  // xmm1lq
+    int v4;  // ymm0
+    unsigned int v7;  // eax
+    unsigned int v8;  // eax
+
+    if (a3->field_17 <= 14)
+        a3->field_17 = a3->field_17 + 1;
+    if (!a3->field_14)
+    {
+        a3->field_14 = 1;
+        a2->field_0 = 1;
+        a3->field_15 = 3;
+        a2->field_4 = 1;
+    }
+    else
+    {
+        v1 = a2->field_0;
+        if (v1 != 3)
+        {
+            if (v1 != 4)
+            {
+                if (v1 == 2)
+                {
+                    if (((CmpF((unsigned long long)v4, 0x40f86a0000000000) & 69 | (char)((CmpF((unsigned long long)v4, 0x40f86a0000000000) & 69) >> 6)) & 1) != 1 && !((char)((CmpF(0, v3) & 69) >> 2) & 1) && ((char)((CmpF(0, v3) & 69) >> 6) & 1) == 1)
+                        a2->field_0 = 3;
+                }
+                else
+                {
+                    if (((CmpF((unsigned long long)v4, 0x40c3880000000000) & 69 | (char)((CmpF((unsigned long long)v4, 0x40c3880000000000) & 69) >> 6)) & 1) != 1 && !((char)((CmpF(0, v3) & 69) >> 2) & 1) && ((char)((CmpF(0, v3) & 69) >> 6) & 1) == 1)
+                        a2->field_0 = 2;
+                }
+            }
+        }
+        else
+        {
+            if (((CmpF((unsigned long long)v4, 0x41186a0000000000) & 69 | (char)((CmpF((unsigned long long)v4, 0x41186a0000000000) & 69) >> 6)) & 1) != 1 && !((char)((CmpF(0, v3) & 69) >> 2) & 1) && ((char)((CmpF(0, v3) & 69) >> 6) & 1) == 1)
+                a2->field_0 = 4;
+        }
+        v7 = a3->field_15;
+        if (v7 != 1)
+        {
+            if (v7 == 2)
+            {
+                v8 = a3->field_16;
+                if (v8 != 2)
+                {
+                    if (v8 != 3)
+                    {
+                        if (v8 == 1)
+                        {
+                            if (a3->field_17 > 9)
+                            {
+                                a3->field_16 = 4;
+                                a2->field_4 = 4;
+                                a3->field_10 = a3->field_10 + 1;
+                            }
+                        }
+                        else
+                        {
+                            a2->field_4 = 0;
+                            a3->field_16 = 0;
+                            a3->field_0 = 2;
+                        }
+                    }
+                    else
+                    {
+                        a2->field_4 = 0;
+                        a3->field_16 = 0;
+                        a3->field_0 = 2;
+                    }
+                }
+                else
+                {
+                    if (a3->field_17 > 9)
+                    {
+                        a3->field_17 = 0;
+                        a3->field_16 = 1;
+                        a2->field_4 = 3;
+                        a3->field_c = a3->field_c + 1;
+                    }
+                }
+                if (a3->field_0 == 2)
+                {
+                    a3->field_0 = 0;
+                    a3->field_15 = 1;
+                    a2->field_4 = 2;
+                }
+            }
+            else if (((char)((CmpF(0, v3) & 69) >> 2) & 1) || ((char)((CmpF(0, v3) & 69) >> 6) & 1) != 1)
+            {
+                a3->field_15 = 2;
+                a3->field_4 = 0;
+                if (a2->field_0 == 1)
+                {
+                    a3->field_17 = 0;
+                    a3->field_16 = 2;
+                    a2->field_4 = 5;
+                    a3->field_8 = a3->field_8 + 1;
+                }
+                else if (a2->field_0 == 2)
+                {
+                    a3->field_17 = 0;
+                    a3->field_16 = 1;
+                    a2->field_4 = 3;
+                    a3->field_c = a3->field_c + 1;
+                }
+                else if (a2->field_0 == 3)
+                {
+                    a3->field_16 = 4;
+                    a2->field_4 = 4;
+                    a3->field_10 = a3->field_10 + 1;
+                }
+                else
+                {
+                    a3->field_16 = 3;
+                    a2->field_4 = 6;
+                }
+            }
+        }
+    }
+    if (a3->field_8)
+    {
+        a2->field_8 = !a2->field_8;
+        a3->field_8 = a3->field_8 - 1;
+    }
+    if (a3->field_c)
+    {
+        a2->field_9 = !a2->field_9;
+        a3->field_c = a3->field_c - 1;
+    }
+    if (a3->field_10)
+    {
+        a2->field_a = !a2->field_a;
+        a3->field_10 = a3->field_10 - 1;
+    }
+    return;
+}
+
+[CmpLE(Load(addr=(vvar_3 + 0x17<64>), size=1, endness=Iend_LE), 0xe<8>), CmpEQ(Load(addr=(vvar_3 + 0x14<64>), size=1, endness=Iend_LE), 0x0<8>), CmpEQ(vvar_105{r16|4b}, 0x3<32>), CmpEQ(vvar_105{r16|4b}, 0x4<32>), CmpEQ(vvar_105{r16|4b}, 0x2<32>), CmpEQ(((Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x40f86a0000000000<64>) & 0x45<32>)) | (Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x40f86a0000000000<64>) & 0x45<32>)) >> 0x6<8>)) & 0x1<64>), 0x1<64>), CmpNE(((((Conv(256I->64I, Conv(64I->256I, Conv(256I->64I, ((((vvar_81{r224|32b} & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>) & 0xffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000<256>) | (vvar_81{r224|32b} & 0xffffffffffffffff<256>)) & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>)))) CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x2<32>) & 0x1<32>), 0x0<32>), CmpEQ(((((0x0<64> CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x6<32>) & 0x1<32>), 0x1<32>), CmpEQ(((Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x40c3880000000000<64>) & 0x45<32>)) | (Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x40c3880000000000<64>) & 0x45<32>)) >> 0x6<8>)) & 0x1<64>), 0x1<64>), CmpNE(((((Conv(256I->64I, Conv(64I->256I, Conv(256I->64I, ((((vvar_81{r224|32b} & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>) & 0xffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000<256>) | (vvar_81{r224|32b} & 0xffffffffffffffff<256>)) & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>)))) CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x2<32>) & 0x1<32>), 0x0<32>), CmpEQ(((((0x0<64> CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x6<32>) & 0x1<32>), 0x1<32>), CmpEQ(((Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x41186a0000000000<64>) & 0x45<32>)) | (Conv(32I->64I, ((Conv(256I->64I, vvar_81{r224|32b}) CmpF 0x41186a0000000000<64>) & 0x45<32>)) >> 0x6<8>)) & 0x1<64>), 0x1<64>), CmpNE(((((Conv(256I->64I, Conv(64I->256I, Conv(256I->64I, ((((vvar_81{r224|32b} & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>) & 0xffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000<256>) | (vvar_81{r224|32b} & 0xffffffffffffffff<256>)) & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000<256>)))) CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x2<32>) & 0x1<32>), 0x0<32>), CmpEQ(((((0x0<64> CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x6<32>) & 0x1<32>), 0x1<32>), CmpEQ(vvar_171{r16|4b}, 0x1<32>), CmpEQ(vvar_171{r16|4b}, 0x2<32>), CmpEQ(vvar_180{r16|4b}, 0x2<32>), CmpEQ(vvar_180{r16|4b}, 0x3<32>), CmpEQ(vvar_180{r16|4b}, 0x1<32>), CmpLE(Load(addr=(vvar_3 + 0x17<64>), size=1, endness=Iend_LE), 0x9<8>), CmpLE(Load(addr=(vvar_3 + 0x17<64>), size=1, endness=Iend_LE), 0x9<8>), CmpEQ(Load(addr=vvar_3, size=4, endness=Iend_LE), 0x2<32>), CmpNE(((((0x0<64> CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x2<32>) & 0x1<32>), 0x0<32>), CmpEQ(((((0x0<64> CmpF vvar_82{r256|8b}) & 0x45<32>) >> 0x6<32>) & 0x1<32>), 0x1<32>), CmpEQ(Load(addr=vvar_2, size=4, endness=Iend_LE), 0x1<32>), CmpEQ(Load(addr=vvar_2, size=4, endness=Iend_LE), 0x2<32>), CmpEQ(Load(addr=vvar_2, size=4, endness=Iend_LE), 0x3<32>), CmpEQ(Load(addr=(vvar_3 + 0x8<64>), size=4, endness=Iend_LE), 0x0<32>), CmpEQ(Load(addr=(vvar_3 + 0xc<64>), size=4, endness=Iend_LE), 0x0<32>), CmpEQ(Load(addr=(vvar_3 + 0x10<64>), size=4, endness=Iend_LE), 0x0<32>)]
+defaultdict(<class 'list'>,
+            {<VVAR vvar_2 offset 0xa: 1 bytes>: [('write', 4200847)],
+             <VVAR vvar_3 offset 0x0: 4 bytes>: [('write', 4200419),
+                                                 ('write', 4200388),
+                                                 ('read', 4200440),
+                                                 ('write', 4200450)],
+             <VVAR vvar_3 offset 0x16: 1 bytes>: [('write', 4200273),
+                                                  ('write', 4200411),
+                                                  ('write', 4200380),
+                                                  ('write', 4200331),
+                                                  ('write', 4200549),
+                                                  ('write', 4200609),
+                                                  ('write', 4200658),
+                                                  ('write', 4200696)],
+             <VVAR vvar_2 offset 0x9: 1 bytes>: [('write', 4200797)],
+             <VVAR vvar_3 offset 0x10: 4 bytes>: [('write', 4200302),
+                                                  ('write', 4200687),
+                                                  ('read', 4200826),
+                                                  ('write', 4200864)],
+             <VVAR vvar_2 offset 0x8: 1 bytes>: [('write', 4200747)],
+             <VVAR vvar_3 offset 0x17: 1 bytes>: [('read', 4199917),
+                                                  ('write', 4199934),
+                                                  ('read', 4200263),
+                                                  ('read', 4200317),
+                                                  ('write', 4200323),
+                                                  ('write', 4200541),
+                                                  ('write', 4200601)],
+             <VVAR vvar_3 offset 0x14: 1 bytes>: [('read', 4199947),
+                                                  ('write', 4199953)],
+             <VVAR vvar_3 offset 0x4: 4 bytes>: [('write', 4200519)],
+             <VVAR vvar_3 offset 0xc: 4 bytes>: [('write', 4200360),
+                                                 ('write', 4200638),
+                                                 ('read', 4200776),
+                                                 ('write', 4200814)],
+             <VVAR vvar_3 offset 0x8: 4 bytes>: [('write', 4200578),
+                                                 ('read', 4200726),
+                                                 ('write', 4200764)],
+             <VVAR vvar_2 offset 0x4: 4 bytes>: [('write', 4199979),
+                                                 ('write', 4200281),
+                                                 ('write', 4200400),
+                                                 ('write', 4200369),
+                                                 ('write', 4200339),
+                                                 ('write', 4200468),
+                                                 ('write', 4200557),
+                                                 ('write', 4200617),
+                                                 ('write', 4200666),
+                                                 ('write', 4200704)],
+             <VVAR vvar_2 offset 0x0: 4 bytes>: [('write', 4199961),
+                                                 ('write', 4200123),
+                                                 ('write', 4200176),
+                                                 ('write', 4200070),
+                                                 ('read', 4200535),
+                                                 ('read', 4200595),
+                                                 ('read', 4200652)],
+             <VVAR vvar_3 offset 0x15: 1 bytes>: [('write', 4199971),
+                                                  ('write', 4200460),
+                                                  ('write', 4200511)]})
+----------------------------------------
+State variable candidate <VVAR vvar_3 offset 0x17: 1 bytes>,  offset = 0x17

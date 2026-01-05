@@ -1,0 +1,272 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2026-01-03 15:25:12,571 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x01c200 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x01ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0200ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x02ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0300ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x03ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x040002 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x050003 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x060400 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x070401 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x080000 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x090401 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0a0500 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0b0501 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0fffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x10ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1c001c that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1d001d that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,572 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0000 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0001 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0100 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0101 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0301 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xffffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1000012 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1010013 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x20000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x30100ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x40000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x4010003 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x40100ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x50000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:12,573 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x50100ff that does not belong to any section or segment.
+1… Elap… Ti… Analysis (Stage 1) | 389 funcs, 4288 blocks | 0/30 IJs | 175.89 MB…
+ERROR    | 2026-01-03 15:25:12,622 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_v.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr32.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2026-01-03 15:25:12,623 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar32.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_InterleaveLO32x2.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_InterleaveHI32x2.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CatEvenLanes16x4.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CatOddLanes16x4.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl64.
+WARNING  | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CatOddLanes8x8.
+ERROR    | 2026-01-03 15:25:12,630 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SetElem8x8.
+WARNING  | 2026-01-03 15:25:12,638 | angr.analyses.calling_convention.calling_convention | _analyze_function(): Cannot find a calling convention for <Function sub_11301 (0x11301)> that fits the given arguments.
+WARNING  | 2026-01-03 15:25:12,638 | angr.analyses.calling_convention.calling_convention | Cannot determine calling convention for <Function sub_11301 (0x11301)>.
+ERROR    | 2026-01-03 15:25:12,639 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_c.
+ERROR    | 2026-01-03 15:25:12,639 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_condition.
+WARNING  | 2026-01-03 15:25:12,640 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2026-01-03 15:25:12,657 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:12,693 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2026-01-03 15:25:12,772 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:12,779 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+ERROR    | 2026-01-03 15:25:13,241 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+100% ━━━━━━━━━━━━ Elapsed: 0:00:01 Time: 0:00:00 375/375 - __do_global_dtors_aux
+WARNING  | 2026-01-03 15:25:14,497 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:15,775 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:16,859 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:17,319 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:17,737 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:17,984 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:20,099 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:20,414 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:21,153 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:21,593 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:22,009 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:22,579 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,250 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,525 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,637 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,691 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,802 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:23,957 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,011 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,063 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,113 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,164 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,244 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,413 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,492 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,554 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,595 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,646 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,696 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,747 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:24,802 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,006 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,219 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,393 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,582 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,745 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:25,864 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:26,282 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:26,432 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:26,578 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:26,897 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:27,231 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:27,426 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:27,572 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:27,755 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,056 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,301 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,433 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,498 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,562 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,625 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:28,690 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:29,306 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+ERROR    | 2026-01-03 15:25:33,453 | angr.analyses.decompiler.structured_codegen.c | Store data lifted to a C type with a different size. Decompilation output will be wrong.
+WARNING  | 2026-01-03 15:25:33,627 | angr.analyses.decompiler.structured_codegen.c | Summing two different pointers together. Uh oh!
+WARNING  | 2026-01-03 15:25:34,334 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:34,642 | angr.analyses.decompiler.structured_codegen.c | Multiplying a pointer by a constant??
+WARNING  | 2026-01-03 15:25:34,686 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:35,211 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:35,314 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:35,411 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:35,683 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:35,969 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+WARNING  | 2026-01-03 15:25:36,866 | angr.analyses.decompiler.structured_codegen.c | There's a variable offset with stride shorter than the primitive type. What does this mean?
+WARNING  | 2026-01-03 15:25:36,895 | angr.analyses.decompiler.clinic | Inconsistency found during stack pointer tracking. Decompilation results might be incorrect.
+[.] Decompiling function SystemInit...
+[+] Decompiled!
+[.] Decompiling function init...
+[+] Decompiled!
+[.] Decompiling function __libc_init_array...
+[+] Decompiled!
+[.] Decompiling function initVariant...
+[+] Decompiled!
+[.] Decompiling function _ZN14USBDeviceClass4initEv...
+[+] Decompiled!
+[.] Decompiling function _ZN14USBDeviceClass6attachEv...
+[+] Decompiled!
+[.] Decompiling function setup...
+[+] Decompiled!
+[.] Decompiling function __aeabi_uidiv...
+[+] Decompiled!
+[.] Decompiling function SysTick_Config...
+[+] Decompiled!
+[.] Decompiling function pinMode...
+[+] Decompiled!
+[.] Decompiling function analogReference...
+[+] Decompiled!
+[.] Decompiling function _init...
+[+] Decompiled!
+[.] Decompiling function digitalWrite...
+[+] Decompiled!
+[.] Decompiling function delay...
+[+] Decompiled!
+[.] Decompiling function analogRead...
+[+] Decompiled!
+[.] Decompiling function _ZL19disable_battery_fetb...
+[+] Decompiled!
+[.] Decompiling function _ZL23enable_battery_chargingv...
+[+] Decompiled!
+[.] Decompiling function USB_SetHandler...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x5resetEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x9calibrateEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x19setDataSensitiveQoSEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x21setConfigSensitiveQoSEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x16setUSBDeviceModeEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x12runInStandbyEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x12setFullSpeedEv...
+[+] Decompiled!
+[.] Decompiling function NVIC_SetPriority...
+[+] Decompiled!
+[.] Decompiling function NVIC_EnableIRQ...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x6enableEv...
+[+] Decompiled!
+[.] Decompiling function _ZN7Serial_5beginEm...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x6attachEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x25enableEndOfResetInterruptEv...
+[+] Decompiled!
+[.] Decompiling function _ZN20USBDevice_SAMD21G18x27enableStartOfFrameInterruptEv...
+[+] Decompiled!
+[.] Decompiling function config_init__...
+[+] Decompiled!
+[.] Decompiling function glueVars...
+[+] Decompiled!
+[.] Decompiling function hardwareInit...
+[+] Decompiled!
+[.] Decompiling function setupCycleDelay...
+[+] Decompiled!
+[.] Decompiling function __aeabi_idiv0...
+[+] Decompiled!
+[.] Decompiling function NVIC_SetPriority...
+[+] Decompiled!
+[.] Decompiling function micros...
+[+] Decompiled!
+[.] Decompiling function yield...
+[+] Decompiled!
+[.] Decompiling function pinPeripheral...
+[+] Decompiled!
+[.] Decompiling function mapResolution...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM14initMasterWIREEm...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM10enableWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM21startTransmissionWIREEh23SercomWireReadWriteFlag...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM18sendDataMasterWIREEh...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM22prepareCommandBitsWireEh...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM11disableWIREEv...
+[+] Decompiled!
+[.] Decompiling function memset...
+[+] Decompiled!
+[.] Decompiling function RES0_init__...
+[+] Decompiled!
+[.] Decompiling function __aeabi_uldivmod...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM13initClockNVICEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM9resetWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM14isBusOwnerWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM13isBusBusyWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM13isArbLostWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM13isBusIdleWIREEv...
+[+] Decompiled!
+[.] Decompiling function _ZN6SERCOM12isMasterWIREEv...
+[+] Decompiled!
+[.] Decompiling function CAR_WASH_init__...
+[+] Decompiled!
+[.] Decompiling function __udivmoddi4...
+[+] Decompiled!
+[.] Decompiling function updateInputBuffers...
+[+] Decompiled!
+[.] Decompiling function updateOutputBuffers...
+[+] Decompiled!
+[.] Decompiling function updateTime...
+[+] Decompiled!
+[.] Decompiling function NVIC_EnableIRQ...
+[+] Decompiled!
+[.] Decompiling function NVIC_SetPriority...
+[+] Decompiled!
+[.] Decompiling function __clzdi2...
+[+] Decompiled!
+[.] Decompiling function digitalRead...
+[+] Decompiled!
+[.] Decompiling function analogWrite...
+[+] Decompiled!
+[.] Decompiling function _ZN7arduino12digitalWriteEhi...
+[+] Decompiled!
+[.] Decompiling function __clzsi2...
+[+] Decompiled!
+Reachable from EP: Function RES0_init__ writes to 220 global locations
+Reachable from EP: Function CAR_WASH_init__ writes to 219 global locations
+Reachable from EP: Function SystemInit writes to 26 global locations
+Reachable from EP: Function init writes to 23 global locations
+Reachable from EP: Function _ZN14USBDeviceClass4initEv writes to 13 global locations
+Reachable from EP: Function analogReference writes to 10 global locations

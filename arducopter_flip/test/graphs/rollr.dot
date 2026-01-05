@@ -1,0 +1,171 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('state', 0), ('throttle', 0.0), ('roll_sensor', 0))"	[outvars="{'state': 0, 'throttle': 0.0, 'roll_sensor': 0}"];
+	"(('NODE_CTR', 1), ('state', 0), ('throttle', 0.20000000298023224), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', \
+None))"	[outvars="{'state': 0, 'throttle': 0.20000000298023224, 'roll_sensor': 0, 'time_delta': None, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 0), ('state', 0), ('throttle', 0.0), ('roll_sensor', 0))" -> "(('NODE_CTR', 1), ('state', 0), ('throttle', 0.20000000298023224), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', \
+None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('state', 1), ('throttle', 0.20000000298023224), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', \
+4501))"	[outvars="{'state': 1, 'throttle': 0.20000000298023224, 'roll_sensor': 4501, 'time_delta': None, 'rollsensor_delta': 4501}"];
+	"(('NODE_CTR', 1), ('state', 0), ('throttle', 0.20000000298023224), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', \
+None))" -> "(('NODE_CTR', 2), ('state', 1), ('throttle', 0.20000000298023224), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', \
+4501))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=<Bool !(rollsensor_delta_69_32 <=s 0x1193)>",
+		rollsensor_delta=4501,
+		rollsensor_delta_constraint="<Bool !(rollsensor_delta_69_32 <=s 0x1193)>",
+		rollsensor_delta_src="[(4711314, 39)]",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', 4501))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4501, 'time_delta': 2500, 'rollsensor_delta': 4501}"];
+	"(('NODE_CTR', 1), ('state', 0), ('throttle', 0.20000000298023224), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', \
+None))" -> "(('NODE_CTR', 3), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', 4501))"	[label="time_delta_constraint=<Bool tv_sec_64_32 + sec_delta_68_32 <= 0x9c4>,
+rollsensor_delta_constraint=<Bool !(rollsensor_delta_69_32 <=\
+s 0x1193)>",
+		rollsensor_delta=4501,
+		rollsensor_delta_constraint="<Bool !(rollsensor_delta_69_32 <=s 0x1193)>",
+		rollsensor_delta_src="[(4711314, 39)]",
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_64_32 + sec_delta_68_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', 2500), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 0, 'time_delta': 2500, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 1), ('state', 0), ('throttle', 0.20000000298023224), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', \
+None))" -> "(('NODE_CTR', 4), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', 2500), ('rollsensor_delta', None))"	[label="time_delta_constraint=<Bool tv_sec_64_32 + sec_delta_68_32 <= 0x9c4>,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_64_32 + sec_delta_68_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))"	[outvars="{'state': 1, 'throttle': 0.0, 'roll_sensor': 4294949298, 'time_delta': None, 'rollsensor_delta': -17998}"];
+	"(('NODE_CTR', 2), ('state', 1), ('throttle', 0.20000000298023224), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', \
+4501))" -> "(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=<Bool rollsensor_delta_81_32 <=s 0x1193>",
+		rollsensor_delta=-17998,
+		rollsensor_delta_constraint="<Bool rollsensor_delta_81_32 <=s 0x1193>",
+		rollsensor_delta_src="[(4711518, 28)]",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', -17998))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4294949298, 'time_delta': 2500, 'rollsensor_delta': -17998}"];
+	"(('NODE_CTR', 2), ('state', 1), ('throttle', 0.20000000298023224), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', \
+4501))" -> "(('NODE_CTR', 6), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', -17998))"	[label="time_delta_constraint=<Bool tv_sec_71_32 + sec_delta_80_32 <= 0x9c4>,
+rollsensor_delta_constraint=<Bool rollsensor_delta_81_32 <=\
+s 0x1193>",
+		rollsensor_delta=-17998,
+		rollsensor_delta_constraint="<Bool rollsensor_delta_81_32 <=s 0x1193>",
+		rollsensor_delta_src="[(4711518, 28)]",
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_71_32 + sec_delta_80_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4501, 'time_delta': 2500, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 2), ('state', 1), ('throttle', 0.20000000298023224), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', \
+4501))" -> "(('NODE_CTR', 7), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', None))"	[label="time_delta_constraint=<Bool tv_sec_71_32 + sec_delta_80_32 <= 0x9c4>,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_71_32 + sec_delta_80_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4501, 'time_delta': None, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 3), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', 4501))" -> "(('NODE_CTR', 8), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 0, 'time_delta': None, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 4), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', 2500), ('rollsensor_delta', None))" -> "(('NODE_CTR', 9), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))" -> "(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=<Bool rollsensor_delta_140_32 <=s 0x1193>",
+		rollsensor_delta=-17998,
+		rollsensor_delta_constraint="<Bool rollsensor_delta_140_32 <=s 0x1193>",
+		rollsensor_delta_src="[(4711518, 28)]",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))" -> "(('NODE_CTR', 6), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', -17998))"	[label="time_delta_constraint=<Bool tv_sec_109_32 + sec_delta_139_32 <= 0x9c4>,
+rollsensor_delta_constraint=<Bool rollsensor_delta_140_32 <=\
+s 0x1193>",
+		rollsensor_delta=-17998,
+		rollsensor_delta_constraint="<Bool rollsensor_delta_140_32 <=s 0x1193>",
+		rollsensor_delta_src="[(4711518, 28)]",
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_109_32 + sec_delta_139_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4294949298, 'time_delta': 2500, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 5), ('state', 1), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', -17998))" -> "(('NODE_CTR', 10), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', None))"	[label="time_delta_constraint=<Bool tv_sec_109_32 + sec_delta_139_32 <= 0x9c4>,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=2500,
+		time_delta_constraint="<Bool tv_sec_109_32 + sec_delta_139_32 <= 0x9c4>",
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', None))"	[outvars="{'state': 5, 'throttle': 0.0, 'roll_sensor': 4294949298, 'time_delta': None, 'rollsensor_delta': None}"];
+	"(('NODE_CTR', 6), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', -17998))" -> "(('NODE_CTR', 11), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', 2500), ('rollsensor_delta', None))" -> "(('NODE_CTR', 8), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 8), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', None))" -> "(('NODE_CTR', 8), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4501), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 9), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', None))" -> "(('NODE_CTR', 9), ('state', 5), ('throttle', 0.0), ('roll_sensor', 0), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 10), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', 2500), ('rollsensor_delta', None))" -> "(('NODE_CTR', 11), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 11), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', None))" -> "(('NODE_CTR', 11), ('state', 5), ('throttle', 0.0), ('roll_sensor', 4294949298), ('time_delta', None), ('rollsensor_delta', None))"	[label="time_delta_constraint=None,
+rollsensor_delta_constraint=None",
+		rollsensor_delta=None,
+		rollsensor_delta_constraint=None,
+		rollsensor_delta_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+}

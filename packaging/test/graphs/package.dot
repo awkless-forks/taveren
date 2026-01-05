@@ -1,0 +1,158 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 0, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 1, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0, 'time_delta': None}"];
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0))" -> "(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=0, product_empty=0",
+		product_constraint=None,
+		product_delta=0,
+		product_empty_constraint=None,
+		product_empty_delta=0,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', 1))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 1, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0, 'time_delta': 1}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', 1))"	[label="time=1, product=0, product_empty=0",
+		product_constraint=None,
+		product_delta=0,
+		product_empty_constraint=None,
+		product_empty_delta=0,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=1,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[outvars="{'statevar0': 0, 'statevar1': 1, 'statevar2': 0, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 0, 'CONVEYOR_MOTOR': \
+1, 'GREEN_LIGHT': 1, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0, 'time_delta': None}"];
+	"(('NODE_CTR', 2), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', 1))" -> "(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=0, product_empty=0",
+		product_constraint=None,
+		product_delta=0,
+		product_empty_constraint=None,
+		product_empty_delta=0,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=0, product_empty=None",
+		product_constraint="<Bool product_delta_285_8 == 0>",
+		product_delta=0,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src="(4342634, 28)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 1, 'statevar3': 0, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 1, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0, 'time_delta': None}"];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=1, product_empty=None",
+		product_constraint="<Bool product_delta_285_8 != 0>",
+		product_delta=1,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src="(4342634, 28)",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=None, product_empty=0",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint="<Bool product_empty_delta_173_8 == 0>",
+		product_empty_delta=0,
+		product_empty_src="(4342699, 28)",
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', None))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 1, 'statevar4': 0, 'statevar5': 0, 'RED_LIGHT': 0, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 1, 'PRODUCT_VALVE': 1, 'time_delta': None}"];
+	"(('NODE_CTR', 4), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 1), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', None))"	[label="time=None, product=None, product_empty=1",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint="<Bool product_empty_delta_173_8 != 0>",
+		product_empty_delta=1,
+		product_empty_src="(4342699, 28)",
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', None))" -> "(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', None))"	[label="time=None, product=None, product_empty=None",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 1), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', 25))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 1, 'statevar4': 0, 'statevar5': 1, 'RED_LIGHT': 0, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 1, 'PRODUCT_VALVE': 1, 'time_delta': 25}"];
+	"(('NODE_CTR', 5), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', None))" -> "(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 1), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', 25))"	[label="time=25, product=None, product_empty=None",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=25,
+		time_delta_constraint="<Bool sec_delta_187_64 != 0x19>",
+		time_delta_src="(4343716, 33)"];
+	"(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 0, 'statevar3': 0, 'statevar4': 1, 'statevar5': 0, 'RED_LIGHT': 0, 'CONVEYOR_MOTOR': \
+0, 'GREEN_LIGHT': 0, 'YELLOW_LIGHT': 0, 'PRODUCT_VALVE': 0, 'time_delta': None}"];
+	"(('NODE_CTR', 6), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 1), ('statevar4', 0), ('statevar5', 1), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 1), ('PRODUCT_VALVE', 1), ('time_delta', 25))" -> "(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=None, product_empty=None",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+	"(('NODE_CTR', 7), ('statevar0', 0), ('statevar1', 0), ('statevar2', 0), ('statevar3', 0), ('statevar4', 1), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 0), ('GREEN_LIGHT', 0), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))" -> "(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('statevar3', 0), ('statevar4', 0), ('statevar5', 0), ('\
+RED_LIGHT', 0), ('CONVEYOR_MOTOR', 1), ('GREEN_LIGHT', 1), ('YELLOW_LIGHT', 0), ('PRODUCT_VALVE', 0), ('time_delta', None))"	[label="time=None, product=None, product_empty=None",
+		product_constraint=None,
+		product_delta=None,
+		product_empty_constraint=None,
+		product_empty_delta=None,
+		product_empty_src=None,
+		product_src=None,
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None];
+}

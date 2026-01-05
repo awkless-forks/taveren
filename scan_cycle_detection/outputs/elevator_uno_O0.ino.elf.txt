@@ -1,0 +1,22 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Analyzing binary for cycle detection: /home/bonnie/SMCheck/elevator/test/project/elevator_uno_O0.ino.elf
+Traceback (most recent call last):
+  File "/home/bonnie/SMCheck/scan_cycle_detection/detect.py", line 258, in <module>
+    main()
+  File "/home/bonnie/SMCheck/scan_cycle_detection/detect.py", line 252, in main
+    analyze(binary_path)
+  File "/home/bonnie/SMCheck/scan_cycle_detection/detect.py", line 165, in analyze
+    proj = angr.Project(binary_path, auto_load_libs=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bonnie/angr-dev/angr/angr/project.py", line 150, in __init__
+    self.loader = cle.Loader(self.filename, concrete_target=concrete_target, **load_options)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bonnie/angr-dev/cle/cle/loader.py", line 185, in __init__
+    self.initial_load_objects = self._internal_load(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/bonnie/angr-dev/cle/cle/loader.py", line 935, in _internal_load
+    self._map_object(obj)
+  File "/home/bonnie/angr-dev/cle/cle/loader.py", line 1048, in _map_object
+    raise CLEError(f"Position-DEPENDENT object {obj.binary} cannot be loaded at {base_addr:#x}")
+cle.errors.CLEError: Position-DEPENDENT object /home/bonnie/SMCheck/elevator/test/project/elevator_uno_O0.ino.elf cannot be loaded at 0x0

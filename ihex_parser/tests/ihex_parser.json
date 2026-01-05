@@ -1,0 +1,36 @@
+{
+  "binary_name": "ihex_parser_debug",
+  "variable_base_addr": "0x400000",
+  "time_addr": "",
+  "software": "",
+  "variables": [
+    {
+      "name": "c",
+      "address": "0x7ffffffffbeffee",
+      "size": 1,
+      "type": "char",
+      "mode": "input"
+    },
+    {
+      "name": "state",
+      "address": "0x5040",
+      "size": 1,
+      "type": "int",
+      "mode": "statevar"
+    },
+    {
+      "name": "ex_segment_addr_mode",
+      "address": "0x5046",
+      "size": 1,
+      "type": "bool",
+      "mode": "output"
+    },
+    {
+      "name": "record_type",
+      "address": "0x5047",
+      "size": 1,
+      "type": "int",
+      "mode": "output"
+    }
+  ]
+}

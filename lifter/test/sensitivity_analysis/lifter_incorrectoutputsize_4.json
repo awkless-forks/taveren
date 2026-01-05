@@ -1,0 +1,91 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0x43C640",
+  "time_addr": "0x42c320",
+  "software": "beremiz",
+  "variables": [
+    {
+      "name": "LIFT_UP_MOTOR",
+      "address": "0x0000002",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+        "name": "LIFT_DOWN_MOTOR",
+        "address": "0x0000004",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "output"
+        },
+        {
+        "name": "CONVEYOR_MOTOR",
+        "address": "0x0000006",
+        "size": 4,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "output"
+        },
+        {
+        "name": "CURRENT_RACK",
+        "address": "0x0000008",
+        "size": 1,
+        "sort": "sint",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "input"
+        },
+    {
+      "name": "step_list_0_x",
+        "address": "0x0000108 ",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "statevar"
+    },
+    {
+      "name": "step_list_1_x",
+        "address": "0x0000128 ",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "statevar"
+    },
+    {
+      "name": "step_list_2_x",
+        "address": "0x0000148",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "statevar"
+    },
+    {
+      "name": "step_list_3_x",
+        "address": "0x0000168",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "statevar"
+    },
+    {
+      "name": "step_list_4_x",
+        "address": "0x0000188",
+        "size": 1,
+        "sort": "bool",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "statevar"
+    }
+  ]
+}
+
+

@@ -1,0 +1,62 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0x453920",
+  "time_addr": "0x440300",
+  "software": "beremiz",
+  "variables": [
+        {
+      "name": "statevar0",
+      "address": "0x8",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar1",
+      "address": "0x18",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "statevar2",
+      "address": "0x28",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "statevar"
+    },
+    {
+      "name": "LOW_LEVEL_SENSOR",
+      "address": "0x00000000",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "HIGH_LEVEL_SENSOR",
+      "address": "0x00000002",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "PUMP",
+      "address": "0x0000004",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    }
+  ]
+}

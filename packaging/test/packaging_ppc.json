@@ -1,0 +1,115 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0x45017C",
+  "time_addr": "0x450150",
+  "software": "beremiz",
+  "variables": [
+        {
+      "name": "statevar0",
+      "address": "0x14",
+      "size": 1,
+      "sort": "bool",
+      "type": "statevar"
+    },
+    {
+      "name": "statevar1",
+      "address": "0x24",
+      "size": 1,
+      "sort": "bool",
+      "type": "statevar"
+    },
+    {
+      "name": "statevar2",
+      "address": "0x34",
+      "size": 1,
+      "sort": "bool",
+      "type": "statevar"
+    },
+    {
+      "name": "statevar3",
+      "address": "0x44",
+      "size": 1,
+      "sort": "bool",
+      "type": "statevar"
+    },
+    {
+      "name": "statevar4",
+      "address": "0x54",
+      "size": 1,
+      "sort": "bool",
+      "type": "statevar"
+    },
+    {
+      "name": "START_BUTTON",
+      "address": "0x00000000",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "RED_LIGHT",
+      "address": "0x00000002",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+      "name": "CONVEYOR_MOTOR",
+      "address": "0x00000004",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+      "name": "PRODUCT_SENSOR",
+      "address": "0x00000006",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "PRODUCT_EMPTY_SENSOR",
+      "address": "0x0000008",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "GREEN_LIGHT",
+      "address": "0x000000a",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+      "name": "YELLOW_LIGHT",
+      "address": "0x000000c",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+      "name": "PRODUCT_VALVE",
+      "address": "0x00e",
+      "size": 1,
+      "sort": "bool",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    }
+  ]
+}

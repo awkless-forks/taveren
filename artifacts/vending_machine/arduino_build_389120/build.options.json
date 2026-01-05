@@ -1,0 +1,12 @@
+{
+  "additionalFiles": "",
+  "builtInLibrariesFolders": "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.57.0_x86__mdqgnx93n4wtt\\libraries",
+  "builtInToolsFolders": "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.57.0_x86__mdqgnx93n4wtt\\tools-builder,C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.57.0_x86__mdqgnx93n4wtt\\hardware\\tools\\avr,D:\\Documents\\ArduinoData\\packages",
+  "compiler.optimization_flags": "-O0",
+  "customBuildProperties": "build.warn_data_percentage=75,runtime.tools.openocd.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\openocd\\0.10.0-arduino7,runtime.tools.openocd-0.10.0-arduino7.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\openocd\\0.10.0-arduino7,runtime.tools.arduinoOTA.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\arduinoOTA\\1.2.1,runtime.tools.arduinoOTA-1.2.1.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\arduinoOTA\\1.2.1,runtime.tools.CMSIS.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\CMSIS\\4.5.0,runtime.tools.CMSIS-4.5.0.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\CMSIS\\4.5.0,runtime.tools.arm-none-eabi-gcc.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4,runtime.tools.arm-none-eabi-gcc-7-2017q4.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4,runtime.tools.bossac.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\bossac\\1.7.0-arduino3,runtime.tools.bossac-1.7.0-arduino3.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\bossac\\1.7.0-arduino3,runtime.tools.CMSIS-Atmel.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\CMSIS-Atmel\\1.2.0,runtime.tools.CMSIS-Atmel-1.2.0.path=D:\\Documents\\ArduinoData\\packages\\arduino\\tools\\CMSIS-Atmel\\1.2.0",
+  "fqbn": "arduino:samd:mkr1000",
+  "hardwareFolders": "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.57.0_x86__mdqgnx93n4wtt\\hardware,D:\\Documents\\ArduinoData\\packages",
+  "otherLibrariesFolders": "D:\\Documents\\Arduino\\libraries",
+  "runtime.ide.version": "10819",
+  "sketchLocation": "C:\\Users\\User\\Desktop\\vending machine\\vending_machine\\vending_machine.ino"
+}

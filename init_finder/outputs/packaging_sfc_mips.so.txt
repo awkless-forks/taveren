@@ -1,0 +1,70 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2026-01-03 15:25:07,283 | cle.loader     | Symbol imported without a known size; emulation may fail if it is used non-opaqely: __stack_chk_guard. See https://docs.angr.io/extending-angr/environment#simdata
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | The program is accessing register with an unspecified value. This could indicate unwanted behavior.
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | angr will cope with this by generating an unconstrained symbolic variable and continuing. You can resolve this by:
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | 1) setting a value to the initial state
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | 2) adding the state option ZERO_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to make unknown regions hold null
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | 3) adding the state option SYMBOL_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to suppress these messages.
+WARNING  | 2026-01-03 15:25:09,365 | angr.storage.memory_mixins.default_filler_mixin | Filling register gp with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,366 | angr.storage.memory_mixins.default_filler_mixin | Filling register ra with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,371 | angr.storage.memory_mixins.default_filler_mixin | Filling register a0 with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,372 | angr.storage.memory_mixins.default_filler_mixin | Filling register a1 with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,372 | angr.storage.memory_mixins.default_filler_mixin | Filling register a2 with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,372 | angr.storage.memory_mixins.default_filler_mixin | Filling register a3 with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+WARNING  | 2026-01-03 15:25:09,372 | angr.storage.memory_mixins.default_filler_mixin | Filling register sp with 4 unconstrained bytes referenced from 0x0 (not part of a loaded object)
+1… Elaps… Ti… Analysis (Stage 1) | 505 funcs, 9309 blocks | 4/4 IJs | 170.27 MB…
+WARNING  | 2026-01-03 15:25:12,999 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:13,000 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+WARNING  | 2026-01-03 15:25:13,000 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:13,003 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2026-01-03 15:25:13,013 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:13,019 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+WARNING  | 2026-01-03 15:25:13,019 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullS32.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_32HLto64.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar32.
+WARNING  | 2026-01-03 15:25:13,042 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32.
+WARNING  | 2026-01-03 15:25:13,048 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr32.
+ERROR    | 2026-01-03 15:25:13,054 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpF64asI64.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI32asF32.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpF32asI32.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI64asF64.
+WARNING  | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Dirty mips_dirtyhelper_calculate_FCSR_fp32.
+ERROR    | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64.
+WARNING  | 2026-01-03 15:25:13,055 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toI32S.
+ERROR    | 2026-01-03 15:25:13,057 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64.
+ERROR    | 2026-01-03 15:25:13,074 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+ERROR    | 2026-01-03 15:25:13,078 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF64.
+WARNING  | 2026-01-03 15:25:13,082 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toF32.
+ERROR    | 2026-01-03 15:25:13,090 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF32.
+ERROR    | 2026-01-03 15:25:13,093 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF32.
+ERROR    | 2026-01-03 15:25:13,093 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_DivF32.
+ERROR    | 2026-01-03 15:25:13,094 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF32.
+WARNING  | 2026-01-03 15:25:13,159 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpF64.
+ERROR    | 2026-01-03 15:25:13,291 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not1.
+ERROR    | 2026-01-03 15:25:14,257 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Clz32.
+WARNING  | 2026-01-03 15:25:14,259 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivModU64to32.
+WARNING  | 2026-01-03 15:25:14,263 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullU32.
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elapsed: 0:00:04 Time: 0:00:00 480/480 - _init
+WARNING  | 2026-01-03 15:25:18,106 | angr.analyses.decompiler.structured_codegen.c | Multiplying a pointer by a constant??
+[.] Decompiling function startPLC...
+[+] Decompiled!
+[.] Decompiling function __init...
+[+] Decompiled!
+[.] Decompiling function PLC_SetTimer...
+[+] Decompiled!
+[.] Decompiling function config_init__...
+[+] Decompiled!
+[.] Decompiling function __init_debug...
+[+] Decompiled!
+[.] Decompiling function __init_py_ext...
+[+] Decompiled!
+[.] Decompiling function RES0_init__...
+[+] Decompiled!
+[.] Decompiling function LAMP_init__...
+[+] Decompiled!
+Reachable from EP: Function RES0_init__ writes to 24 global locations
+Reachable from EP: Function LAMP_init__ writes to 23 global locations

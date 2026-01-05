@@ -1,0 +1,102 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | The program is accessing register with an unspecified value. This could indicate unwanted behavior.
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | angr will cope with this by generating an unconstrained symbolic variable and continuing. You can resolve this by:
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | 1) setting a value to the initial state
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | 2) adding the state option ZERO_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to make unknown regions hold null
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | 3) adding the state option SYMBOL_FILL_UNCONSTRAINED_{MEMORY,REGISTERS}, to suppress these messages.
+WARNING  | 2026-01-03 15:25:09,350 | angr.storage.memory_mixins.default_filler_mixin | Filling register rsp with 8 unconstrained bytes referenced from 0x403a09 (startPLC+0x76 in water_tank.so (0x3a09))
+1… Elap… Ti… Analysis (Stage 1) | 591 funcs, 7483 blocks | 0/10 IJs | 157.77 MB…
+WARNING  | 2026-01-03 15:25:10,305 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ64.
+WARNING  | 2026-01-03 15:25:10,306 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ8.
+WARNING  | 2026-01-03 15:25:10,307 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE64.
+WARNING  | 2026-01-03 15:25:10,309 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+WARNING  | 2026-01-03 15:25:10,309 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+WARNING  | 2026-01-03 15:25:10,311 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ16.
+WARNING  | 2026-01-03 15:25:10,322 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:10,341 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl64.
+WARNING  | 2026-01-03 15:25:10,346 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:10,436 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr64.
+WARNING  | 2026-01-03 15:25:10,437 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or64.
+WARNING  | 2026-01-03 15:25:10,471 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT64S.
+ERROR    | 2026-01-03 15:25:10,479 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_calculate_condition.
+WARNING  | 2026-01-03 15:25:10,479 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE64S.
+WARNING  | 2026-01-03 15:25:10,528 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2026-01-03 15:25:10,538 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul64.
+WARNING  | 2026-01-03 15:25:10,538 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar64.
+WARNING  | 2026-01-03 15:25:10,538 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32.
+WARNING  | 2026-01-03 15:25:10,561 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE8.
+ERROR    | 2026-01-03 15:25:10,561 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Dirty amd64g_dirtyhelper_loadF80le.
+ERROR    | 2026-01-03 15:25:10,561 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_ReinterpI64asF64.
+ERROR    | 2026-01-03 15:25:10,561 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_MulF64.
+ERROR    | 2026-01-03 15:25:10,561 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_AddF64.
+ERROR    | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_create_fpucw.
+WARNING  | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or8.
+ERROR    | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall amd64g_check_fldcw.
+WARNING  | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toI64S.
+WARNING  | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_I64StoF64.
+ERROR    | 2026-01-03 15:25:10,562 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Triop Iop_SubF64.
+ERROR    | 2026-01-03 15:25:10,687 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not64.
+WARNING  | 2026-01-03 15:25:10,691 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Div64F0x2.
+WARNING  | 2026-01-03 15:25:10,694 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_F64toF32.
+WARNING  | 2026-01-03 15:25:10,704 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32F0x4.
+WARNING  | 2026-01-03 15:25:10,704 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Div32F0x4.
+WARNING  | 2026-01-03 15:25:10,728 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul64F0x2.
+WARNING  | 2026-01-03 15:25:10,820 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpF64.
+WARNING  | 2026-01-03 15:25:10,937 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE64U.
+WARNING  | 2026-01-03 15:25:10,938 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT64U.
+WARNING  | 2026-01-03 15:25:10,966 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+ERROR    | 2026-01-03 15:25:12,764 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Unop Iop_Not32.
+WARNING  | 2026-01-03 15:25:12,765 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2026-01-03 15:25:13,340 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_64HLto128.
+WARNING  | 2026-01-03 15:25:13,340 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivModS128to64.
+WARNING  | 2026-01-03 15:25:13,340 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_DivModU128to64.
+WARNING  | 2026-01-03 15:25:13,344 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullU64.
+WARNING  | 2026-01-03 15:25:13,345 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_MullS64.
+WARNING  | 2026-01-03 15:25:13,803 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Elapsed: 0:00:03 Time: 0:00:00 469/469 - _init
+WARNING  | 2026-01-03 15:25:16,201 | angr.analyses.decompiler.structured_codegen.c | There's a variable offset with stride shorter than the primitive type. What does this mean?
+[.] Decompiling function startPLC...
+[+] Decompiled!
+[.] Decompiling function __init...
+[+] Decompiled!
+[.] Decompiling function PLC_SetTimer...
+[+] Decompiled!
+[.] Decompiling function config_init__...
+[+] Decompiled!
+[.] Decompiling function __init_debug...
+[+] Decompiled!
+[.] Decompiling function __init_py_ext...
+[+] Decompiled!
+[.] Decompiling function RES0_init__...
+[+] Decompiled!
+[.] Decompiling function InitRetain...
+[+] Decompiled!
+[.] Decompiling function CheckRetainBuffer...
+[+] Decompiled!
+[.] Decompiling function LogMessage...
+[+] Decompiled!
+[.] Decompiling function copy_to_log...
+[+] Decompiled!
+[.] Decompiling function WATER_TANK_init__...
+[+] Decompiled!
+[.] Decompiling function GetRetainSize...
+[+] Decompiled!
+[.] Decompiling function GenerateCRC32Sum...
+[+] Decompiled!
+[.] Decompiling function CheckRetainFile...
+[+] Decompiled!
+[.] Decompiling function PLC_GetTime...
+[+] Decompiled!
+[.] Decompiling function AtomicCompareExchange64...
+[+] Decompiled!
+[.] Decompiling function SR_init__...
+[+] Decompiled!
+[.] Decompiling function __for_each_variable_do...
+[+] Decompiled!
+[.] Decompiling function CheckFileCRC...
+[+] Decompiled!
+[.] Decompiling function CheckFilehash...
+[+] Decompiled!
+Reachable from EP: Function WATER_TANK_init__ writes to 14 global locations

@@ -1,0 +1,122 @@
+/home/bonnie/.virtualenvs/angr-fire-test/lib/python3.12/site-packages/unicorn/unicorn.py:8: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+WARNING  | 2026-01-03 15:25:09,558 | angr.simos.userland | No syscall calling convention available for ARMCortexM/Linux
+WARNING  | 2026-01-03 15:25:09,559 | angr.simos.userland | No syscall calling convention available for ARMCortexM/Linux
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x010005 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x01ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0200ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x02ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0300ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x03ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x040002 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x050003 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x060400 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x070401 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,840 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x09ffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0a0500 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x0b0501 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x100000 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0000 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0001 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0100 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0101 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xff0301 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0xffffff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1000012 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x1010013 that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x20000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x30100ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x40000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x40100ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x50000ff that does not belong to any section or segment.
+WARNING  | 2026-01-03 15:25:09,841 | angr.knowledge_plugins.cfg.cfg_model | tidy_data_references() sees an address 0x50100ff that does not belong to any section or segment.
+1… Elap… Ti… Analysis (Stage 1) | 246 funcs, 1203 blocks | 0/25 IJs | 159.64 MB…
+WARNING  | 2026-01-03 15:25:09,865 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpNE32.
+WARNING  | 2026-01-03 15:25:09,867 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shr32.
+WARNING  | 2026-01-03 15:25:09,869 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpEQ32.
+WARNING  | 2026-01-03 15:25:09,870 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32U.
+WARNING  | 2026-01-03 15:25:09,875 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32U.
+WARNING  | 2026-01-03 15:25:09,876 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLT32S.
+ERROR    | 2026-01-03 15:25:09,876 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_v.
+ERROR    | 2026-01-03 15:25:09,876 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flag_c.
+ERROR    | 2026-01-03 15:25:09,878 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_condition.
+WARNING  | 2026-01-03 15:25:09,890 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_CmpLE32S.
+WARNING  | 2026-01-03 15:25:09,904 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Sar32.
+WARNING  | 2026-01-03 15:25:09,904 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Shl32.
+WARNING  | 2026-01-03 15:25:09,911 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Or32.
+WARNING  | 2026-01-03 15:25:09,915 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Xor32.
+WARNING  | 2026-01-03 15:25:09,970 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported Binop Iop_Mul32.
+WARNING  | 2026-01-03 15:25:10,366 | angr.project   | Address 0x203002f8 is not hooked
+ERROR    | 2026-01-03 15:25:10,375 | angr.analyses.calling_convention.fact_collector.SimEngineFactCollectorVEX | Unsupported CCall armg_calculate_flags_nzcv.
+100% ━━━━━━━━━━━━ Elapsed: 0:00:00 Time: 0:00:00 236/236 - __do_global_dtors_aux
+WARNING  | 2026-01-03 15:25:15,181 | angr.analyses.decompiler.structured_codegen.c | There's a variable offset with stride shorter than the primitive type. What does this mean?
+[.] Decompiling function sub_24e9...
+[+] Decompiled!
+[.] Decompiling function main...
+[+] Decompiled!
+[.] Decompiling function init...
+[+] Decompiled!
+[.] Decompiling function MW_usbattach...
+[+] Decompiled!
+[.] Decompiling function MW_Arduino_Init...
+[+] Decompiled!
+[.] Decompiling function MyBlinky_initialize...
+[+] Decompiled!
+[.] Decompiling function configureArduinoARM_M0plusTimer...
+[+] Decompiled!
+[.] Decompiling function MW_Arduino_Terminate...
+[+] Decompiled!
+[.] Decompiling function MW_Arduino_Loop...
+[+] Decompiled!
+[.] Decompiling function __aeabi_uidiv...
+[+] Decompiled!
+[.] Decompiling function pinMode...
+[+] Decompiled!
+[.] Decompiling function analogReference...
+[+] Decompiled!
+[.] Decompiling function __libc_init_array...
+[+] Decompiled!
+[.] Decompiling function _ZN14USBDeviceClass4initEv...
+[+] Decompiled!
+[.] Decompiling function _ZN14USBDeviceClass6attachEv...
+[+] Decompiled!
+[.] Decompiling function Serial_begin...
+[+] Decompiled!
+[.] Decompiling function digitalIOSetup...
+[+] Decompiled!
+[.] Decompiling function Setup_SchedulerRTC...
+[+] Decompiled!
+[.] Decompiling function disable_rt_OneStep...
+[+] Decompiled!
+[.] Decompiling function sub_47b5...
+[+] Decompiled!
+[.] Decompiling function __gnu_thumb1_case_uqi...
+[+] Decompiled!
+[.] Decompiling function _init...
+[+] Decompiled!
+[.] Decompiling function USB_SetHandler...
+[+] Decompiled!
+[.] Decompiling function memset...
+[+] Decompiled!
+[.] Decompiling function _ZN7Serial_5beginEm...
+[+] Decompiled!
+[.] Decompiling function _ZN4Uart5beginEm...
+[+] Decompiled!
+[.] Decompiling function sub_2575...
+[+] Decompiled!
+[.] Decompiling function Reset_Handler...
+[+] Decompiled!
+[.] Decompiling function SystemInit...
+[+] Decompiled!
+[.] Decompiling function sub_242d...
+[+] Decompiled!
+Reachable from EP: Function main writes to 40 global locations
+Reachable from EP: Function SystemInit writes to 22 global locations
+Reachable from EP: Function init writes to 20 global locations
+Reachable from EP: Function MyBlinky_initialize writes to 20 global locations
+Reachable from EP: Function sub_242d writes to 17 global locations
+Reachable from EP: Function _ZN14USBDeviceClass4initEv writes to 11 global locations
+Reachable from EP: Function MW_usbattach writes to 11 global locations
+Reachable from EP: Function Setup_SchedulerRTC writes to 11 global locations
+Reachable from EP: Function configureArduinoARM_M0plusTimer writes to 11 global locations
+Reachable from EP: Function Reset_Handler writes to 10 global locations

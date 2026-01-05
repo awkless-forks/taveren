@@ -1,0 +1,68 @@
+digraph "" {
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'MOTOR': 0}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))"	[outvars="{'statevar0': 1, 'statevar1': 0, 'statevar2': 0, 'MOTOR': 0}"];
+	"(('NODE_CTR', 0), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))" -> "(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))"	[key=0,
+		label="water_level_delta=None",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint=None,
+		water_level_delta=None,
+		water_level_src=None];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))" -> "(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))"	[key=0,
+		label="water_level_delta=15",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool (242 + water_level_delta_72_8[7:7] ^ ~(~water_level_delta_72_8[7:7] | ~(water_level_delta_72_8[7:7] ^ 242 + water_level_delta_\
+72_8[7:7])) | (if water_level_delta_72_8 == 14 then 1 else 0)) == 0>",
+		water_level_delta=15,
+		water_level_src="(4341821, 31)"];
+	"(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))"	[outvars="{'statevar0': 0, 'statevar1': 1, 'statevar2': 0, 'MOTOR': 1}"];
+	"(('NODE_CTR', 1), ('statevar0', 1), ('statevar1', 0), ('statevar2', 0), ('MOTOR', 0))" -> "(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))"	[key=0,
+		label="water_level_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool (242 + water_level_delta_72_8[7:7] ^ ~(~water_level_delta_72_8[7:7] | ~(water_level_delta_72_8[7:7] ^ 242 + water_level_delta_\
+72_8[7:7])) | (if water_level_delta_72_8 == 14 then 1 else 0)) != 0>",
+		water_level_delta=0,
+		water_level_src="(4341821, 31)"];
+	"(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))" -> "(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))"	[key=0,
+		label="water_level_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool ~(171 + water_level_delta_112_8[7:7] ^ ~(~water_level_delta_112_8[7:7] | ~(water_level_delta_112_8[7:7] ^ 171 + water_level_\
+delta_112_8[7:7])) | (if water_level_delta_112_8 == 85 then 1 else 0)) == 0>",
+		water_level_delta=0,
+		water_level_src="(4341886, 31)"];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('MOTOR', 0))"	[outvars="{'statevar0': 0, 'statevar1': 0, 'statevar2': 1, 'MOTOR': 0}"];
+	"(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))" -> "(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('MOTOR', 0))"	[key=0,
+		label="water_level_delta=86",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool ~(171 + water_level_delta_112_8[7:7] ^ ~(~water_level_delta_112_8[7:7] | ~(water_level_delta_112_8[7:7] ^ 171 + water_level_\
+delta_112_8[7:7])) | (if water_level_delta_112_8 == 85 then 1 else 0)) != 0>",
+		water_level_delta=86,
+		water_level_src="(4341886, 31)"];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('MOTOR', 0))" -> "(('NODE_CTR', 2), ('statevar0', 0), ('statevar1', 1), ('statevar2', 0), ('MOTOR', 1))"	[key=0,
+		label="water_level_delta=0",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool (242 + water_level_delta_164_8[7:7] ^ ~(~water_level_delta_164_8[7:7] | ~(water_level_delta_164_8[7:7] ^ 242 + water_level_\
+delta_164_8[7:7])) | (if water_level_delta_164_8 == 14 then 1 else 0)) != 0>",
+		water_level_delta=0,
+		water_level_src="(4341951, 31)"];
+	"(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('MOTOR', 0))" -> "(('NODE_CTR', 3), ('statevar0', 0), ('statevar1', 0), ('statevar2', 1), ('MOTOR', 0))"	[key=0,
+		label="water_level_delta=15",
+		time_delta=None,
+		time_delta_constraint=None,
+		time_delta_src=None,
+		water_level_constraint="<Bool (242 + water_level_delta_164_8[7:7] ^ ~(~water_level_delta_164_8[7:7] | ~(water_level_delta_164_8[7:7] ^ 242 + water_level_\
+delta_164_8[7:7])) | (if water_level_delta_164_8 == 14 then 1 else 0)) == 0>",
+		water_level_delta=15,
+		water_level_src="(4341951, 31)"];
+}

@@ -1,0 +1,362 @@
+digraph "" {
+	"(('level', 1), ('dir', 0))" -> "(('level', 1), ('dir', 0))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 1), ('dir', 0))" -> "(('level', 2), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 1), ('dir', 0))" -> "(('level', 3), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 1), ('dir', 0))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 2), ('dir', 1))" -> "(('level', 3), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 2), ('dir', 1))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 2), ('dir', 1))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 2), ('dir', 1))" -> "(('level', 2), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 1))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 3), ('dir', 1))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 1))" -> "(('level', 2), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 1))" -> "(('level', 3), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 4), ('dir', 1))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 4), ('dir', 1))" -> "(('level', 2), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 4), ('dir', 1))" -> "(('level', 3), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 4), ('dir', 1))" -> "(('level', 4), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 1), ('dir', -1))" -> "(('level', 1), ('dir', 0))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 1), ('dir', -1))" -> "(('level', 2), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 1), ('dir', -1))" -> "(('level', 3), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 1), ('dir', -1))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 2), ('dir', 0))" -> "(('level', 3), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 2), ('dir', 0))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 2), ('dir', 0))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 2), ('dir', 0))" -> "(('level', 2), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 2), ('dir', -1))" -> "(('level', 3), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 2), ('dir', -1))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 2), ('dir', -1))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 2), ('dir', -1))" -> "(('level', 2), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 0))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 3), ('dir', 0))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 0))" -> "(('level', 2), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', 0))" -> "(('level', 3), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 3), ('dir', -1))" -> "(('level', 4), ('dir', 1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+	"(('level', 3), ('dir', -1))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', -1))" -> "(('level', 2), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 3), ('dir', -1))" -> "(('level', 3), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 4), ('dir', 0))" -> "(('level', 1), ('dir', -1))"	[key=0,
+		btn1_delta=1,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=1
+btn2=0
+btn3=0
+btn4=0"];
+	"(('level', 4), ('dir', 0))" -> "(('level', 2), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=1,
+		btn3_delta=0,
+		btn4_delta=0,
+		label="btn1=0
+btn2=1
+btn3=0
+btn4=0"];
+	"(('level', 4), ('dir', 0))" -> "(('level', 3), ('dir', -1))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=1,
+		btn4_delta=0,
+		label="btn1=0
+btn2=0
+btn3=1
+btn4=0"];
+	"(('level', 4), ('dir', 0))" -> "(('level', 4), ('dir', 0))"	[key=0,
+		btn1_delta=0,
+		btn2_delta=0,
+		btn3_delta=0,
+		btn4_delta=1,
+		label="btn1=0
+btn2=0
+btn3=0
+btn4=1"];
+}

@@ -1,0 +1,8 @@
+… Elap… Ti… Analysis (Stage 1) | 993 funcs, 20074 blocks | 0/307 IJs | 387.04 MB…
+Traceback (most recent call last):
+  File "/home/bonnie/SMCheck/statevars/analysis.py", line 800, in run_one
+    analyse_statevars(binary_path, funcs)
+  File "/home/bonnie/SMCheck/statevars/analysis.py", line 594, in analyse_statevars
+    raise NotImplementedError(f"Architecture {proj.arch.name} not supported yet.")
+NotImplementedError: Architecture ARMHF not supported yet.
+

@@ -1,0 +1,89 @@
+{
+  "wordsize": 16,
+  "variable_base_addr": "0",
+  "time_addr": "0x408baf",
+  "software": "simulink",
+  "variables": [
+    {
+      "name": "altitude",
+      "address": "0x408B40",
+      "size": 8,
+      "sort": "double",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "anomaly",
+      "address": "0x408B48",
+      "size": 8,
+      "sort": "double",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "input"
+    },
+    {
+      "name": "mode",
+      "address": "0x408B50",
+      "size": 4,
+      "sort": "int",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+      },
+      {
+      "name": "abort",
+      "address": "0x408B54",
+      "size": 4,
+      "sort": "int",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+      },
+      {
+      "name": "dumpFuel",
+      "address": "0x408B58",
+      "size": 1,
+      "sort": "boolean",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+      },
+      {
+      "name": "releaseBoosters",
+      "address": "0x408B59",
+      "size": 1,
+      "sort": "boolean",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+      },
+      {
+      "name": "releaseTank",
+      "address": "0x408B5A",
+      "size": 1,
+      "sort": "boolean",
+      "bit_pos_start": 0,
+      "bit_pos_end": 0,
+      "type": "output"
+    },
+    {
+      "name": "isAbort",
+        "address": "0x408bae",
+        "size": 1,
+        "sort": "int",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "output"
+    },
+    {
+      "name": "isAbortLogic",
+        "address": "0x408bad",
+        "size": 1,
+        "sort": "int",
+        "bit_pos_start": 0,
+        "bit_pos_end": 0,
+        "type": "output"
+    }
+  ]
+}
