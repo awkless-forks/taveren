@@ -15,10 +15,3 @@ from local variables that must be assigned values before they
 are used.
 
 
-
----
-
-Notes for future Bonnie: 
-* add support to analyse _for_ loop
-* ~~add support for alias analysis, eg. `<VVAR vvar_2{reg 16} offset 0x2: 1 bytes>` and `<VVAR vvar_0 offset 0x2: 1 bytes>` are the same because `Assignment (vvar_2{reg 16}, vvar_0)`~~ (finished)
-* check if vvar `depend_on_external` recursively
