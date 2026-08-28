@@ -1,0 +1,20 @@
+[submodule "external/archinfo"]
+	path = external/archinfo
+	url = https://github.com/angr/archinfo.git
+[submodule "external/pyvex"]
+	path = external/pyvex
+	url = https://github.com/angr/pyvex.git
+[submodule "external/cle"]
+	path = external/cle
+	url = https://github.com/angr/cle.git
+[submodule "external/angr-management"]
+	path = external/angr-management
+	url = https://github.com/angr/angr-management.git
+[submodule "external/claripy"]
+	path = external/claripy
+	url = https://github.com/Bonnie1256/claripy.git
+	branch = taveren
+[submodule "external/angr"]
+	path = external/angr
+	url = https://github.com/Bonnie1256/angr.git
+	branch = taveren
