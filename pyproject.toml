@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-License-Identifier: MIT
+
+[project]
+name = "taveren"
+version = "0.1.0"
+description = "Find blind-trust vulnerabilities in PLC binaries via state machine recovery"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "wheel",
+    # INVARIANT: setuptools 82.0.0 (Feb 2026) removed pkg_resources. So we
+    # use an older version instead.
+    "setuptools<81",
+    "setuptools-rust",
+    "cffi",
+    "unicorn==2.0.1.post1",
+    "nanobind",
+    "scikit-build-core",
+    "pycparser==2.21",
+    "pygraphviz",
+
+    # NOTE: The angr suite, sourced as local editable checkouts.
+    # See [tool.uv.sources].
+    "archinfo",
+    "pyvex",
+    "cle",
+    "claripy",
+    "angr",
+    "angr-management",
+]
+
+[tool.uv]
+# TODO: Update project structure to follow python src-layout, or use workspaces.
+package = false
+no-build-isolation-package = ["angr", "pyvex"]
+override-dependencies = [
+    "archinfo @ file://${PROJECT_ROOT}/external/archinfo",
+    "pyvex @ file://${PROJECT_ROOT}/external/pyvex",
+    "cle @ file://${PROJECT_ROOT}/external/cle",
+    "claripy @ file://${PROJECT_ROOT}/external/claripy",
+    "angr @ file://${PROJECT_ROOT}/external/angr",
+    "angr-management @ file://${PROJECT_ROOT}/external/angr-management",
+]
+
+[tool.uv.sources]
+archinfo        = { path = "external/archinfo", editable = true }
+# INVARIANT: Ensure pyvex installs its headers into virtual environment.
+pyvex           = { path = "external/pyvex", editable = false }
+cle             = { path = "external/cle", editable = true }
+claripy         = { path = "external/claripy", editable = true }
+angr            = { path = "external/angr", editable = true }
+angr-management = { path = "external/angr-management", editable = true }
