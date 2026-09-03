@@ -29,9 +29,10 @@ dependencies = [
     "angr-management",
 ]
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [tool.uv]
-# TODO: Update project structure to follow python src-layout, or use workspaces.
-package = false
 no-build-isolation-package = ["angr", "pyvex"]
 override-dependencies = [
     "archinfo @ file://${PROJECT_ROOT}/external/archinfo",
@@ -50,3 +51,19 @@ cle             = { path = "external/cle", editable = true }
 claripy         = { path = "external/claripy", editable = true }
 angr            = { path = "external/angr", editable = true }
 angr-management = { path = "external/angr-management", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/taveren"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
