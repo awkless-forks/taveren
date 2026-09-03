@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2025 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2025 Huidae Cho <hcho@nmsu.edu>
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Python stuff.
+**/.lgd-nfy0/
+*.egg-info
+.lgd-nfy0
+__pycache__/
+.venv
+uv.lock
+
+# Vim editor stuff.
+[._]*.s[a-v][a-z]
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+*~
+tags
+[._]*.un~
