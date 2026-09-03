@@ -24,8 +24,10 @@ from taveren import (
 if TYPE_CHECKING:
     import networkx
 
+
 # Get path relative to this test file (important for pytest)
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 class SensorExclusionRule(BaseRule):
     def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool, Any, Any]:
@@ -106,7 +108,7 @@ def test_water_tank():
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['__run']
-    sgr = proj.analyses.StateGraphRecovery(
+    sgr = proj.analyses.StateGraphRecoveryOneSensor(
         func, fields_output, software, time_addr,
         init_state=initial_state,
         inputs=inputs,

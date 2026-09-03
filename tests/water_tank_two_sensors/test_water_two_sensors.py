@@ -1,5 +1,6 @@
 import os
 import struct
+import time
 from typing import TYPE_CHECKING, Generator, Any, Iterable, Tuple, List
 
 import networkx
@@ -7,25 +8,31 @@ import sys
 import json
 import claripy
 import angr
+import pytest
 
-sys.path.append("../")
-import state_graph_recovery
-from state_graph_recovery import MinDelayBaseRule, RuleVerifier, IllegalNodeBaseRule, IllegalTransitionBaseRule, MaxDelayBaseRule, BaseRule
-# from angr.analyses.analysis import Analysis, AnalysesHub
-# AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
-# from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
+from . import state_graph_recovery
+from taveren import (
+    AbstractStateFields,
+    MinDelayBaseRule,
+    RuleVerifier,
+    IllegalNodeBaseRule,
+    MaxDelayBaseRule,
+    IllegalTransitionBaseRule,
+    BaseRule,
+)
 
 if TYPE_CHECKING:
     import networkx
 
-import time
+# Get path relative to this test file (important for pytest)
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
+GRAPHS_DIR = os.path.join(TEST_DIR, '../../graphs')
 
-binaries_base = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'binaries')
-
+# Ensure graphs directory exists
+os.makedirs(GRAPHS_DIR, exist_ok=True)
 
 # state graph acquired. define a rule
 class SensorExclusionRule(BaseRule):
-
     def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool, Any, Any]:
         for (src, dst) in graph.edges():
             for edge_data in graph.get_edge_data(src, dst).values():
@@ -93,36 +100,27 @@ def generate_field_desc(var_info):
 
     return fields_output, fields_input
 
-def test_water_tank(mode:str):
+@pytest.mark.parametrize("mode", ["WT1", "WT3"])
+def test_water_tank(mode: str):
     if mode == 'WT1':
-        binary_path = '../../artifacts/water_tank/build/water_tank.so'    # WT.1
-        variable_path = 'water_tank.json'
+        binary_path = os.path.join(TEST_DIR, '../../artifacts/water_tank/build/water_tank.so')
+        variable_path = os.path.join(TEST_DIR, 'water_tank.json')
+        graph_output = os.path.join(GRAPHS_DIR, 'water_tank_fbd_two_sensors-1.dot')
     elif mode == 'WT3':
-        binary_path = "../../artifacts/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so"  # WT.3
-        variable_path = "water_tank_sfc_twosensors.json"
+        binary_path = os.path.join(TEST_DIR,
+                                   '../../artifacts/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so')
+        variable_path = os.path.join(TEST_DIR, 'water_tank_sfc_twosensors.json')
+        graph_output = os.path.join(GRAPHS_DIR, 'water_tank_sfc_two_sesnors-3.dot')
     else:
-        print("ERROR: unknown mode")
-        return
+        pytest.fail(f"Unknown mode: {mode}")
 
     start_time = time.time()
 
     proj = angr.Project(binary_path, auto_load_libs=False)
-    global data
     with open(variable_path) as f:
         data = json.load(f)
-    # print(data)
 
-    # We do not support Python eval (obviously)
     cfg = proj.analyses.CFG()
-
-    # nnode = len(list(cfg.kb.functions[0x42c034].blocks))
-    # print(f"number of blocks: {nnode}")
-    # import ipdb; ipdb.set_trace()
-
-    # for node in body_cfg.nodes():
-    #     body_cfg.nodes[node]["label"] = next(id_ctr)
-    #     body_cfg.nodes[node]["fontcolor"] = "white"
-    # _hook_py_extensions(proj, cfg)
 
     # run the state initializer
     init = cfg.kb.functions['config_init__']
@@ -138,53 +136,21 @@ def test_water_tank(mode:str):
     time_addr = int(data['time_addr'], 16)
     software = data['software']
 
-    # def switch_on(state):
-    #     # switch on
-    # switch = next(x for x in data['variables'] if x['name'] == "SWITCH_BUTTON")
-    # switch_value_addr = base_addr + int(switch['address'], 16)
-    #     switch_flag_addr = switch_value_addr + 1
-    #     initial_state.memory.store(switch_value_addr, claripy.BVV(0x1, 8), endness=proj.arch.memory_endness)  # value
-    #     initial_state.memory.store(switch_flag_addr, claripy.BVV(0x2, 8), endness=proj.arch.memory_endness)  # flag
-
-    # define abstract fields
-    # fields_desc, config_fields = _generate_field_desc(data, base_addr)
     outputs, inputs = generate_field_desc(data)
-    # pre-constrain configuration variables so that we can track them
-    # config_vars = {}
-    # symbolic_config_var_to_fields = {}
-    # for var_name, (var_addr, var_type, var_size) in config_fields.items():
-    #     print("[.] Preconstraining %s..." % var_name)
-    #     # if var_type == "float":
-    #     #     symbolic_v = claripy.FPS(var_name, claripy.fp.FSORT_FLOAT)
-    #     # elif var_type == "double":
-    #     #     symbolic_v = claripy.FPS(var_name, claripy.fp.FSORT_DOUBLE)
-    #     # else:
-    #     symbolic_v = claripy.BVS(var_name, var_size * 8)
-    #     concrete_v = initial_state.memory.load(var_addr, size=var_size, endness=proj.arch.memory_endness)
-    #     initial_state.memory.store(var_addr, symbolic_v, endness=proj.arch.memory_endness)
-    #     initial_state.preconstrainer.preconstrain(concrete_v, symbolic_v)
-    #     config_vars[var_name] = symbolic_v
-    #     symbolic_config_var_to_fields[symbolic_v] = var_name, var_addr, var_type, var_size
-
-    fields_output = state_graph_recovery.AbstractStateFields(outputs)
-    fields_input = state_graph_recovery.AbstractStateFields(inputs)
+    fields_output = AbstractStateFields(outputs)
+    fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['RES0_run__']
-    sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryTwoSensor(func, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input
                                            )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
-    # import ipdb; ipdb.set_trace()
-    # import pickle
-    # pickle.dumps(sgr, -1)
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    if mode == 'WT1':
-        write_dot(sgr.state_graph, "./graphs/water_tank_fbd_two_sensors-1.dot")
-    elif mode == 'WT3':
-        write_dot(sgr.state_graph, "./graphs/water_tank_sfc_two_sesnors-3.dot")
+    write_dot(sgr.state_graph, graph_output)
+    print(f"Graph written to: {graph_output}")
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())
 
@@ -193,20 +159,11 @@ def test_water_tank(mode:str):
 
     rule = SensorExclusionRule()
     r, src, dst = finder.verify(rule)
-    # assert r is True
 
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
 
-    # import ipdb; ipdb.set_trace()
     rule2 = WaterHighPumpOff()
     r, src, dst = finder.verify(rule2)
-    # assert r is False
     rule2_time = time.time()
     print("------------rule2 time: %s ----------" % (rule2_time - rule1_time))
-
-
-
-if __name__ == "__main__":
-    mode = sys.argv[1]
-    test_water_tank(mode)

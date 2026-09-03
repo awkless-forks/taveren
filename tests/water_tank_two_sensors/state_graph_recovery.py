@@ -12,7 +12,7 @@ from angr.analyses.analysis import Analysis, AnalysesHub
 if TYPE_CHECKING:
     from angr import SimState
     from angr.knowledge_plugins.functions import Function
-    from .abstract_state import AbstractStateFields
+    from taveren import AbstractStateFields
 
 
 class ConstraintLogger:
@@ -1329,5 +1329,4 @@ class StateGraphRecoveryAnalysis(Analysis):
 
         return s
 
-
-AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
+AnalysesHub.register_default('StateGraphRecoveryTwoSensor', StateGraphRecoveryAnalysis)
