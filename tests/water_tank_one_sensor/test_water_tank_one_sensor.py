@@ -34,7 +34,7 @@ class SensorExclusionRule(BaseRule):
         for (src, dst) in graph.edges():
             for edge_data in graph.get_edge_data(src, dst).values():
                 water_level = edge_data["water_level_delta"] if edge_data["water_level_delta"] is not None else 50
-                if water_level < 15 and water_level > 85:
+                if water_level < 15 or water_level > 85:
                     return False, src, dst
         return True, None, None
 
@@ -138,8 +138,30 @@ def test_water_tank():
     rule1_time = time.time()
     print(f"rule1 time: {rule1_time - rule_start_time:.2f}s")
 
+    # This binary is a known-vulnerable fixture: the low sensor can be spoofed
+    # (e.g. physically pinned/manipulated to read an implausible low value),
+    # which the PLC blindly trusts and uses to keep the pump running toward
+    # overflow. We're verifying the detector catches it, so we expect a
+    # violation (r is False), not a clean pass.
+    assert not r, (
+        "Expected BTV [SensorExclusionRule] was NOT detected: no edge found "
+        "with water_level_delta outside [15, 85]. This target is known to "
+        "contain a spoofable low-sensor reading -- detection should have "
+        "fired here."
+    )
+    print(
+        f"[BTV CONFIRMED] SensorExclusionRule: out-of-range water_level_delta "
+        f"on edge {src} -> {dst} (spoofed/implausible low-sensor reading "
+        f"drives pump activation)"
+    )
+
     rule2 = WaterHighPumpOff()
     r, src, dst = finder.verify(rule2)
 
     rule2_time = time.time()
     print(f"rule2 time: {rule2_time - rule1_time:.2f}s")
+
+    assert r, (
+        f"BTV [WaterHighPumpOff]: motor turned on with a missing or "
+        f">85 water_level_delta into node {dst}"
+    )
