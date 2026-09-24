@@ -1120,5 +1120,4 @@ class StateGraphRecoveryAnalysis(Analysis):
 
         return s
 
-
 AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)

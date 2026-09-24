@@ -6,20 +6,25 @@ import sys
 import json
 import claripy
 import angr
-sys.path.append("../")
-import state_graph_recovery
-from state_graph_recovery import MinDelayBaseRule, RuleVerifier, IllegalNodeBaseRule, MaxDelayBaseRule, BaseRule
-# from angr.analyses.analysis import Analysis, AnalysesHub
-# AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
-# from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
+
+from . import state_graph_recovery
+from taveren import (
+    AbstractStateFields,
+    MinDelayBaseRule,
+    RuleVerifier,
+    IllegalNodeBaseRule,
+    MaxDelayBaseRule,
+    IllegalTransitionBaseRule,
+    BaseRule,
+)
 
 if TYPE_CHECKING:
     import networkx
 
 import time
 
-binaries_base = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'binaries')
-
+# Get path relative to this test file (important for pytest)
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # when insert more amount of money, give change
 class GiveChange(BaseRule):
@@ -118,9 +123,8 @@ def generate_field_desc(var_info):
     return fields_output, fields_input
 
 def test_vending_machine():
-    binary_path = '../../artifacts/vending_machine/arduino_build_389120/vending_machine.ino.elf'
-    variable_path = 'vending_machine.json'
-
+    binary_path = os.path.join(TEST_DIR, '../../artifacts/vending_machine/arduino_build_389120/vending_machine.ino.elf')
+    variable_path = os.path.join(TEST_DIR, 'vending_machine.json')
 
     start_time = time.time()
 
@@ -179,8 +183,8 @@ def test_vending_machine():
     #     config_vars[var_name] = symbolic_v
     #     symbolic_config_var_to_fields[symbolic_v] = var_name, var_addr, var_type, var_size
 
-    fields_output = state_graph_recovery.AbstractStateFields(outputs)
-    fields_input = state_graph_recovery.AbstractStateFields(inputs)
+    fields_output = AbstractStateFields(outputs)
+    fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['loop']
     initial_state = proj.factory.blank_state(addr = func.addr)
     sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
@@ -210,7 +214,3 @@ def test_vending_machine():
 
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
-
-
-if __name__ == "__main__":
-    test_vending_machine()
