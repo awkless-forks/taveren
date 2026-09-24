@@ -7,9 +7,17 @@ import sys
 import json
 import claripy
 import angr
-sys.path.append("../")
-import state_graph_recovery
-from state_graph_recovery import MinDelayBaseRule, RuleVerifier, IllegalNodeBaseRule, MaxDelayBaseRule
+import pytest
+
+from . import state_graph_recovery
+from taveren import (
+    AbstractStateFields,
+    MinDelayBaseRule,
+    RuleVerifier,
+    IllegalNodeBaseRule,
+    MaxDelayBaseRule
+)
+
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
 # from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
@@ -21,7 +29,7 @@ if TYPE_CHECKING:
 
 import time
 
-binaries_base = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'binaries')
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class normalize_timespec(angr.SimProcedure):
     def run(self):
@@ -115,17 +123,18 @@ def generate_field_desc(var_info):
     return fields_output, fields_input
 
 
+@pytest.mark.parametrize("mode", ["x86", "mips", "ppc"])
 def test_packaging(mode:str):
     match mode:
         case "x86":
-            binary_path = '/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc.so'
-            variable_path = '/home/bonnie/SMCheck/packaging/test/packaging.json'
+            binary_path = os.path.join(TEST_DIR, '../../artifacts/packaging_sfc/build/packaging_sfc.so')
+            variable_path = os.path.join(TEST_DIR, 'packaging.json')
         case "mips":
-            binary_path = "/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_mips.so"
-            variable_path = "/home/bonnie/SMCheck/packaging/test/packaging_mips.json"
+            binary_path = os.path.join(TEST_DIR, "../../artifacts/packaging_sfc/build/packaging_sfc_mips.so")
+            variable_path = os.path.join(TEST_DIR, "packaging_mips.json")
         case "ppc":
-            binary_path = "/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_powerpc.so"
-            variable_path = "/home/bonnie/SMCheck/packaging/test/packaging_ppc.json"
+            binary_path = os.path.join(TEST_DIR, "../../artifacts/packaging_sfc/build/packaging_sfc_powerpc.so")
+            variable_path = os.path.join(TEST_DIR, "packaging_ppc.json")
 
 
     start_time = time.time()
@@ -188,8 +197,8 @@ def test_packaging(mode:str):
     #     config_vars[var_name] = symbolic_v
     #     symbolic_config_var_to_fields[symbolic_v] = var_name, var_addr, var_type, var_size
 
-    fields_output = state_graph_recovery.AbstractStateFields(outputs)
-    fields_input = state_graph_recovery.AbstractStateFields(inputs)
+    fields_output = AbstractStateFields(outputs)
+    fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['RES0_run__']
     # on start if start_button is on, it will skip START state
     sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
@@ -205,6 +214,7 @@ def test_packaging(mode:str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
+    os.makedirs("graphs", exist_ok=True)
     match mode:
         case "x86":
             write_dot(sgr.state_graph, "graphs/package.dot")
@@ -232,8 +242,3 @@ def test_packaging(mode:str):
     # assert r is False
     rule2_time = time.time()
     print("------------rule2 time: %s ----------" % (rule2_time - rule1_time))
-
-
-if __name__ == "__main__":
-    mode = sys.argv[1]
-    test_packaging(mode)
