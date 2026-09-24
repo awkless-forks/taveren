@@ -1,5 +1,6 @@
 import os
 import struct
+import pytest
 from typing import TYPE_CHECKING
 
 import networkx
@@ -7,9 +8,14 @@ import sys
 import json
 import claripy
 import angr
-sys.path.append("../")
-import state_graph_recovery
-from state_graph_recovery import MinDelayBaseRule, RuleVerifier, IllegalNodeBaseRule, MaxDelayBaseRule
+from . import state_graph_recovery
+from taveren import (
+        AbstractStateFields,
+        MinDelayBaseRule,
+        RuleVerifier,
+        IllegalNodeBaseRule,
+        MaxDelayBaseRule
+)
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
 
@@ -19,6 +25,7 @@ if TYPE_CHECKING:
 import time
 import pickle
 
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # state graph acquired. define a rule
 # water and soap sprinkler should not be on at the same time
@@ -105,15 +112,14 @@ def generate_field_desc(var_info):
     return fields_output, fields_input
 
 
+@pytest.mark.parametrize("mode", ["arm", "x86"])
 def test_carwash(mode:str):
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-
     if mode == "x86":
-        binary_path = os.path.join(base_dir, "../../artifacts/car_wash/build/car_wash.so") #x86_64
-        variable_path = os.path.join(base_dir, "carwash.json")
+        binary_path = os.path.join(TEST_DIR, "../../artifacts/car_wash/build/car_wash.so") #x86_64
+        variable_path = os.path.join(TEST_DIR, "carwash.json")
     elif mode == "arm":
-        binary_path = os.path.join(base_dir, "../../artifacts/car_wash/build/carwash-mkr1010.elf")   # arm
-        variable_path = os.path.join(base_dir, "carwash_arm.json")
+        binary_path = os.path.join(TEST_DIR, "../../artifacts/car_wash/build/carwash-mkr1010.elf")   # arm
+        variable_path = os.path.join(TEST_DIR, "carwash_arm.json")
     else:
         print("unknown mode")
         return
@@ -182,8 +188,8 @@ def test_carwash(mode:str):
     #     config_vars[var_name] = symbolic_v
     #     symbolic_config_var_to_fields[symbolic_v] = var_name, var_addr, var_type, var_size
 
-    fields_output = state_graph_recovery.AbstractStateFields(outputs)
-    fields_input = state_graph_recovery.AbstractStateFields(inputs)
+    fields_output = AbstractStateFields(outputs)
+    fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['RES0_run__']
     sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input
@@ -210,8 +216,6 @@ def test_carwash(mode:str):
     with open(pkl_file, "wb") as f:
         pickle.dump(sgr.state_graph, f)
 
-
-
 def test_policy():
     with open("./car_wash_x86.pkl", "rb") as f:
     # with open("./car_wash_arm.pkl", "rb") as f:
@@ -233,11 +237,3 @@ def test_policy():
     r, src, dst = finder.verify(rule)
     rule2_time = time.time()
     print("------------rule2 time: %s ----------" % (rule2_time - rule1_time))
-
-
-if __name__ == "__main__":
-    mode = sys.argv[1]
-    # run python test_carwash.py arm
-    # run python test_carwash.py x86
-    test_carwash(mode)    # comment out this line for testing policy only
-    test_policy()
