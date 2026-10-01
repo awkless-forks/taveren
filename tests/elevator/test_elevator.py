@@ -102,11 +102,11 @@ def generate_field_desc(var_info):
 def test_elevator(variant: str):
     print("Testing elevator variant:", variant)
 
-    binary_path = os.path.join(TEST_DIR, "../../artifacts/elevator/elevator.ino.elf")
+    binary_path = os.path.join(TEST_DIR, "../fixtures/elevator/elevator.ino.elf")
     variable_path = os.path.join(TEST_DIR, "elevator.json")
 
     if variant == "AVR":
-        binary_path = os.path.join(TEST_DIR, "../../artifacts/elevator/elevator_uno_O0.ino.elf")
+        binary_path = os.path.join(TEST_DIR, "../fixtures/elevator/elevator_uno_O0.ino.elf")
         variable_path = os.path.join(TEST_DIR, "elevator_uno_O0.json")
 
         # import AVR platform support

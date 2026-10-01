@@ -116,7 +116,7 @@ def generate_field_desc(var_info):
     return fields_output, fields_input
 
 def test_vending_machine():
-    binary_path = os.path.join(TEST_DIR, '../../artifacts/vending_machine/arduino_build_389120/vending_machine.ino.elf')
+    binary_path = os.path.join(TEST_DIR, '../fixtures/vending_machine/arduino_build_389120/vending_machine.ino.elf')
     variable_path = os.path.join(TEST_DIR, 'vending_machine.json')
 
     start_time = time.time()

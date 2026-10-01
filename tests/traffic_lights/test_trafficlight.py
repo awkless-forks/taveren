@@ -22,13 +22,13 @@ import time
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 _MODE_TO_ARTIFACT = {
-    "4": ('../../artifacts/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so', 'traffic_light_addsensor_x86-64.json'),    #T4   0x42C83D
-    "5": ('../../artifacts/Traffic_Light_Short_Ped_5/build/Traffic_Light_Short_Ped.so', 'Traffic_Light_Short_Ped_5.json'),    # T5  0x42BF53
-    "6": ('../../artifacts/Traffic_Light_Short_Ped_6/build/Traffic_Light_Short_Ped.so', 'Traffic_Light_variables_arm.json'),   #T6   0x42C698
-    "7": ('../../artifacts/Traffic_Light_both_green_7/build/Traffic_Light_both_green.so', 'Traffic_Light_variables.json'),   #t7   0x42BF53
-    "8": ('../../artifacts/Traffic_Light_short_orange/build/Traffic_Light_short_orange.so', 'shortorange.json'),   #T8   0x42BF53
-    "9": ('../../artifacts/Traffic_Light_original/build/Traffic_Light_original.so', 'original.json'),   #T9   0x42C034
-    "10": ('../../artifacts/Traffic_Light_10/build/Traffic_Light.so', 'Traffic_Light_variables_arm.json'),    #t10  0x42C698
+    "4": ('../fixtures/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so', 'traffic_light_addsensor_x86-64.json'),    #T4   0x42C83D
+    "5": ('../fixtures/Traffic_Light_Short_Ped_5/build/Traffic_Light_Short_Ped.so', 'Traffic_Light_Short_Ped_5.json'),    # T5  0x42BF53
+    "6": ('../fixtures/Traffic_Light_Short_Ped_6/build/Traffic_Light_Short_Ped.so', 'Traffic_Light_variables_arm.json'),   #T6   0x42C698
+    "7": ('../fixtures/Traffic_Light_both_green_7/build/Traffic_Light_both_green.so', 'Traffic_Light_variables.json'),   #t7   0x42BF53
+    "8": ('../fixtures/Traffic_Light_short_orange/build/Traffic_Light_short_orange.so', 'shortorange.json'),   #T8   0x42BF53
+    "9": ('../fixtures/Traffic_Light_original/build/Traffic_Light_original.so', 'original.json'),   #T9   0x42C034
+    "10": ('../fixtures/Traffic_Light_10/build/Traffic_Light.so', 'Traffic_Light_variables_arm.json'),    #t10  0x42C698
 }
 
 

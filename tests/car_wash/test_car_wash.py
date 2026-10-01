@@ -109,10 +109,10 @@ def generate_field_desc(var_info):
 @pytest.mark.parametrize("mode", ["arm", "x86"])
 def test_carwash(mode:str):
     if mode == "x86":
-        binary_path = os.path.join(TEST_DIR, "../../artifacts/car_wash/build/car_wash.so") #x86_64
+        binary_path = os.path.join(TEST_DIR, "../fixtures/car_wash/build/car_wash.so") #x86_64
         variable_path = os.path.join(TEST_DIR, "carwash.json")
     elif mode == "arm":
-        binary_path = os.path.join(TEST_DIR, "../../artifacts/car_wash/build/carwash-mkr1010.elf")   # arm
+        binary_path = os.path.join(TEST_DIR, "../fixtures/car_wash/build/carwash-mkr1010.elf")   # arm
         variable_path = os.path.join(TEST_DIR, "carwash_arm.json")
     else:
         print("unknown mode")

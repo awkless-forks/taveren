@@ -109,7 +109,7 @@ def switch_on(state):
     state.globals[4] = 1
 
 def test_blinky():
-    binary_path = os.path.join(TEST_DIR, "../../artifacts/traffic_light_simulink/MyBlinky.elf")
+    binary_path = os.path.join(TEST_DIR, "../fixtures/traffic_light_simulink/MyBlinky.elf")
     start_time = time.time()
     proj = angr.Project(binary_path, auto_load_libs=False)
     cfg = proj.analyses.CFG()

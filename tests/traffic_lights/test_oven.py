@@ -262,7 +262,7 @@ def switch_on(state):
 
 @pytest.mark.skip(reason="no variable-description JSON ships for the oven artifact; variable_path is a placeholder")
 def test_oven():
-    binary_path = os.path.join(TEST_DIR, '../../artifacts/oven/oven.ino.elf')
+    binary_path = os.path.join(TEST_DIR, '../fixtures/oven/oven.ino.elf')
     variable_path = ''
 
     start_time = time.time()

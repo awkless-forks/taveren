@@ -150,7 +150,7 @@ def call_one_func(state: 'SimState') -> 'SimState':
 
 # analyse state machine in ModeFlip
 def test_flip():
-    binary_path = os.path.join(TEST_DIR, "../../artifacts/binaries/arducopter")
+    binary_path = os.path.join(TEST_DIR, "../fixtures/binaries/arducopter")
 
     start_time = time.time()
 

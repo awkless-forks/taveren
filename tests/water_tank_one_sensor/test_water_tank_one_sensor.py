@@ -73,7 +73,7 @@ def generate_field_desc(var_info):
 
 def test_water_tank():
     # Paths relative to this test file
-    binary_path = os.path.join(TEST_DIR, '../../artifacts/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so')
+    binary_path = os.path.join(TEST_DIR, '../fixtures/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so')
     variable_path = os.path.join(TEST_DIR, 'water_tank.json')
 
     start_time = time.time()

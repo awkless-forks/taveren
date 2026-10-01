@@ -109,7 +109,7 @@ def generate_field_desc(var_info):
 
 @pytest.mark.parametrize("mode", ["modelogic", "abortlogic", "full"])
 def test_abort(mode: str):
-    binary_path = os.path.join(TEST_DIR, '../../artifacts/binaries/sf_launchabort.exe')
+    binary_path = os.path.join(TEST_DIR, '../fixtures/binaries/sf_launchabort.exe')
     variable_path = os.path.join(TEST_DIR, 'abort.json')
 
     start_time = time.time()

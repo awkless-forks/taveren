@@ -98,12 +98,12 @@ def generate_field_desc(var_info):
 @pytest.mark.parametrize("mode", ["WT1", "WT3"])
 def test_water_tank(mode: str):
     if mode == 'WT1':
-        binary_path = os.path.join(TEST_DIR, '../../artifacts/water_tank/build/water_tank.so')
+        binary_path = os.path.join(TEST_DIR, '../fixtures/water_tank/build/water_tank.so')
         variable_path = os.path.join(TEST_DIR, 'water_tank.json')
         graph_output = os.path.join(GRAPHS_DIR, 'water_tank_fbd_two_sensors-1.dot')
     elif mode == 'WT3':
         binary_path = os.path.join(TEST_DIR,
-                                   '../../artifacts/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so')
+                                   '../fixtures/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so')
         variable_path = os.path.join(TEST_DIR, 'water_tank_sfc_twosensors.json')
         graph_output = os.path.join(GRAPHS_DIR, 'water_tank_sfc_two_sesnors-3.dot')
     else:

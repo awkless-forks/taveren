@@ -122,13 +122,13 @@ def generate_field_desc(var_info):
 def test_packaging(mode:str):
     match mode:
         case "x86":
-            binary_path = os.path.join(TEST_DIR, '../../artifacts/packaging_sfc/build/packaging_sfc.so')
+            binary_path = os.path.join(TEST_DIR, '../fixtures/packaging_sfc/build/packaging_sfc.so')
             variable_path = os.path.join(TEST_DIR, 'packaging.json')
         case "mips":
-            binary_path = os.path.join(TEST_DIR, "../../artifacts/packaging_sfc/build/packaging_sfc_mips.so")
+            binary_path = os.path.join(TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_mips.so")
             variable_path = os.path.join(TEST_DIR, "packaging_mips.json")
         case "ppc":
-            binary_path = os.path.join(TEST_DIR, "../../artifacts/packaging_sfc/build/packaging_sfc_powerpc.so")
+            binary_path = os.path.join(TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_powerpc.so")
             variable_path = os.path.join(TEST_DIR, "packaging_ppc.json")
 
 

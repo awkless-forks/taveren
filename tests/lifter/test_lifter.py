@@ -93,7 +93,7 @@ def generate_field_desc(var_info):
     return fields_output, fields_input
 
 def test_lifter():
-    binary_path = os.path.join(TEST_DIR, '../../artifacts/warehouse_lift/build/warehouse_lift.so')
+    binary_path = os.path.join(TEST_DIR, '../fixtures/warehouse_lift/build/warehouse_lift.so')
     variable_path = os.path.join(TEST_DIR, 'lifter.json')
     start_time = time.time()
 
