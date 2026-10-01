@@ -2,12 +2,14 @@ from __future__ import annotations
 from functools import wraps
 from collections import defaultdict
 
+import argparse
 import sys
-import re
 
 import networkx
 import angr
 from angr.analyses.decompiler.structured_codegen.c import CStructuredCodeWalker
+
+from .callgraph import call_tree_from_call_graph, patch_ppc32_got_calls
 
 
 FAIL_FAST = False
@@ -29,26 +31,6 @@ def cache_this(cache_dict: dict):
         return wrapper
     return decorator
 
-
-def call_tree_from_call_graph(call_graph: networkx.DiGraph) -> dict[int, networkx.DiGraph]:
-    call_trees = {}
-    entry_nodes = [n for n, d in call_graph.in_degree() if d == 0]
-
-    def dfs(node, call_tree):
-        call_tree.add_node(node)
-        for succ in call_graph.successors(node):
-            if succ in call_tree:
-                continue
-            call_tree.add_edge(node, succ)
-            dfs(succ, call_tree)
-
-    for entry in entry_nodes:
-        call_tree = networkx.DiGraph()
-        call_trees[entry] = call_tree
-        dfs(entry, call_tree)
-        assert networkx.is_tree(call_tree)
-
-    return call_trees
 
 #
 # Decompiled function traversal
@@ -177,18 +159,7 @@ def analyze(binary_path: str) -> None:
     cfg = proj.analyses.CFGFast(force_smart_scan=False, normalize=True, show_progressbar=True)
     proj.analyses.CompleteCallingConventions(show_progressbar=True)
 
-    # HACK: Freaking PPC uses r30 weirdly for binary- and glibc GOT; we gotta patch the callgraph properly
-    if proj.arch.name == "PPC32":
-        print("[.] Patching callgraph for PPC32 GOT calls...")
-        for func in proj.kb.functions.values():
-            m = re.search(r"\.got2\.plt_pic32\.([^@]+)$", func.name)
-            if m is not None:
-                target_func_name = m.group(1)
-                try:
-                    target_func = proj.kb.functions[target_func_name]
-                except KeyError:
-                    continue
-                cfg.functions.callgraph.add_edge(func.addr, target_func.addr)
+    patch_ppc32_got_calls(proj, cfg.functions.callgraph)
 
     # build a call tree
     call_trees = call_tree_from_call_graph(cfg.functions.callgraph)
@@ -256,12 +227,17 @@ def analyze(binary_path: str) -> None:
             )
 
 
-def main():
-    binary_path = sys.argv[1]
-    analyze(binary_path)
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(
+        prog="taveren-scan-cycle",
+        description="Detect the scan cycle function of a PLC binary.",
+    )
+    parser.add_argument("binary", help="path to the PLC binary to analyze")
+    args = parser.parse_args(argv)
+
+    sys.setrecursionlimit(5000)
+    analyze(args.binary)
 
 
 if __name__ == "__main__":
-    import sys
-    sys.setrecursionlimit(5000)
     main()

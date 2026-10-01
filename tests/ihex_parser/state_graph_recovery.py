@@ -1011,4 +1011,4 @@ class StateGraphRecoveryAnalysis(Analysis):
         return s
 
 
-AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
+AnalysesHub.register_default('StateGraphRecoveryIhex', StateGraphRecoveryAnalysis)

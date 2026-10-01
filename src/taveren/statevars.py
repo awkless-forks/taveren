@@ -1,5 +1,6 @@
 from __future__ import annotations
 from enum import Enum
+import argparse
 import os
 import pathlib
 import sys
@@ -835,9 +836,7 @@ def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optiona
         print(traceback.format_exc())
         success = False
 
-    if not out_file:
-        import ipdb; ipdb.set_trace()
-    else:
+    if out_file:
         sys.stdout = saved_stdout
         saved_stdout = None
         sys.stderr = saved_stderr
@@ -847,214 +846,25 @@ def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optiona
     return success
 
 
-# def run_all():
-#     logs_dir = pathlib.Path(os.getcwd()) / "logs4"
-#     logs_dir.mkdir(exist_ok=True, parents=True)
-#
-#     # # Rover
-#     # print("Running Rover...", end="", flush=True)
-#     # if run_one("/home/bonnie/SMCheck/statevars/arduino-b_flash_R7FA4M1AB.hex", [0x46f1, 0x4ec9], binary_opts={"arch": "ARMCortexM", "endness": "Iend_LE", "entry_point": 0x1f35},
-#     #             out_file=logs_dir / "rover.out"):
-#     #     print("done.")
-#     # else:
-#     #     print("error.")
-#     #
-#     # # Copter x86
-#     # print("Running Copter...", end="", flush=True)
-#     # if run_one("/home/bonnie/PLCRCA/arducopter/arducopter_nobuildin", [0x47e1cc], out_file=logs_dir / "copter.out"):
-#     #     print("done.")
-#     # else:
-#     #     print("error.")
-#
-#     # Traffic light beremiz
-#     print("Running Traffic light (beremiz)...", end="", flush=True)
-#     if run_one("/home/bonnie/PLCRCA/Traffic_Light_original/build/Traffic_Light_original.so", [0x42C034],
-#                out_file=logs_dir / "traffic-light-beremiz.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # water tank
-#     print("Running water tank...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so',
-#                [0x4235C9], out_file=logs_dir / "water-tank.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # water tank fbd
-#     # # State variable candidate <VVAR vvar_0 offset 0x8: 1 bytes>
-#     print("Running water tank fbd...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/CPS Binary Analysis/water_tank/build/water_tank.so', [0x41C24A],
-#                out_file=logs_dir / "water-tank-fbd.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # warehouse lifter
-#     print("Running lifter...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/warehouse_lift/build/warehouse_lift.so', [0x423A54],
-#                out_file=logs_dir / "warehouse-lifter.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Water Tank WT.3
-#     print("Running water tank(WT.3)...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so', [0x436870],
-#                out_file=logs_dir / "water-tank-wt3.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Packaging
-#     print("Running Packaging...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc.so', [0x4236C0],
-#                out_file=logs_dir / "packaging.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # packaging mips
-#     print("Running Packaging MIPS...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_mips.so', [0x416634],
-#                out_file=logs_dir / "packaging-mips.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # packaging ppc32
-#     print("Running Packaging PPC32...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_powerpc.so', [0x41689c],
-#                out_file=logs_dir / "packaging-ppc32.out"):
-#         print("done.")
-#
-#     # Traffic Light TL.4
-#     print("Running traffic light (TL.4)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so', [0x42C83D],
-#                out_file=logs_dir / "traffic-light-tl4.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.5
-#     print("Running traffic light (TL.5)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/test/Traffic_Light_Short_Ped.so', [0x40d640],
-#                out_file=logs_dir / "traffic-light-tl5.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.6
-#     print("Running traffic light (TL.6)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/arm32/Traffic_Light_Short_Ped/build/Traffic_Light_Short_Ped.so', [0x42C698],
-#                out_file=logs_dir / "traffic-light-tl6.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.7
-#     print("Running traffic light (TL.7)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/Traffic_Light_both_green/build/Traffic_Light_both_green.so', [0x42BF53],
-#                out_file=logs_dir / "traffic-light-tl7.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.8
-#     print("Running traffic light (TL.8)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/Traffic_Light_short_orange/build/Traffic_Light_short_orange.so', [0x42BF53],
-#                out_file=logs_dir / "traffic-light-tl8.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.10
-#     print("Running traffic light (TL.10)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/arm32/Traffic_Light/build/Traffic_Light.so', [0x42C698],
-#                out_file=logs_dir / "traffic-light-tl10.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Traffic Light TL.11
-#     print("Running traffic light (TL.11)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/arm32/blinky_sf/MyBlinky.elf', ['MyBlinky_step'],
-#                out_file=logs_dir / "traffic-light-tl11.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Launch Abort System Abort.1
-#     print("Running abort system(Abort.1)...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/binaries/sf_launchabort.exe', [0x4015CD],
-#                out_file=logs_dir / "launch-abort-system-abort1.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Oven Oven.1
-#     print("Running Oven (Oven.1)...", end="", flush=True)
-#     if run_one('/home/bonnie/PLCRCA/normal_oven/arduino_build_normaloven/normal_oven.ino.elf', ["loop"],
-#                out_file=logs_dir / "oven-oven1.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Vending Vend.1
-#     print("Running Vending Machine (Vend.1)...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/vending machine/arduino_build_389120/vending_machine.ino.elf', ["_Z14vendingMachinev"],
-#                out_file=logs_dir / "vending-vend1.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # Elevator Elev.1
-#     print("Running Elevator (Elev.1)...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/elevator/test/project/elevator.ino.elf', ["loop"],
-#                out_file=logs_dir / "elevator-elev1.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # # elevator avr
-#     # print("Running Elevator (Elev.2) AVR...", end="", flush=True)
-#     # if run_one('/home/bonnie/SMCheck/elevator/test/project/elevator_uno_O0.ino.elf', ["loop"],
-#     #             out_file=logs_dir / "elevator-elev2-avr.out"):
-#     #       print("done.")
-#     # else:
-#     #         print("error.")
-#
-#
-#     # # simple traffic light
-#     # print("Running simple traffic light...", end="", flush=True)
-#     # if run_one("/home/bonnie/PLCRCA/simple_traffic_light/arduino_build_61535/simple_traffic_light.ino.elf", [0x2139, 0x24fd, 0x2455, 0x236d],
-#     #            out_file=logs_dir / "simple-traffic-light.out"):
-#     #     print("done.")
-#     # else:
-#     #     print("error.")
-#
-#     # carwash
-#     print("Running Car Wash (CarW.1)...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/fbd_examples/car_wash_sfc/car_wash_3/build/car_wash.so', [0x438395],
-#                 out_file=logs_dir / "car-wash.out"):
-#         print("done.")
-#     else:
-#         print("error.")
-#
-#     # car wash arm
-#     print("Running Car Wash (CarW.2) ARM...", end="", flush=True)
-#     if run_one('/home/bonnie/SMCheck/binaries/carwash-mkr1010-g.elf', [0x2da5],
-#                 out_file=logs_dir / "car-wash-arm.out"):
-#         print("done.")
-#     else:
-#         print("error.")
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(
+        prog="taveren-statevars",
+        description="Identify state variable candidates in the scan cycle of a PLC binary.",
+    )
+    parser.add_argument("binary", help="path to the PLC binary to analyze")
+    parser.add_argument(
+        "funcs",
+        nargs="+",
+        help="scan cycle function(s), as hex addresses (0x...) or symbol names",
+    )
+    parser.add_argument("-o", "--out", help="write the analysis log to this file instead of stdout")
+    args = parser.parse_args(argv)
+
+    funcs = [int(f, 16) if f.startswith("0x") else f for f in args.funcs]
+    if not run_one(args.binary, funcs, out_file=args.out):
+        sys.exit(1)
+
 
 if __name__ == "__main__":
-
-    # # binary_path = '/home/bonnie/PLCRCA/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so'
-    # # funcs = [0x42C83D]
-    # # analyse_statevars(binary_path, funcs)
-    analyse_statevars()
-    # run_all()
-
+    main()

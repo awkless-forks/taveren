@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from collections import defaultdict
 import argparse
-import sys
-import re
 
 import networkx
 
@@ -11,28 +9,9 @@ import angr
 from angr.ailment.statement import Store
 from angr.ailment.expression import Const, BinaryOp, VirtualVariable
 
+from .callgraph import call_tree_from_call_graph, patch_ppc32_got_calls
+
 THRESHOLD = 10
-
-
-def call_tree_from_call_graph(call_graph: networkx.DiGraph) -> dict[int, networkx.DiGraph]:
-    call_trees = {}
-    entry_nodes = [n for n, d in call_graph.in_degree() if d == 0]
-
-    def dfs(node, call_tree):
-        call_tree.add_node(node)
-        for succ in call_graph.successors(node):
-            if succ in call_tree:
-                continue
-            call_tree.add_edge(node, succ)
-            dfs(succ, call_tree)
-
-    for entry in entry_nodes:
-        call_tree = networkx.DiGraph()
-        call_trees[entry] = call_tree
-        dfs(entry, call_tree)
-        assert networkx.is_tree(call_tree)
-
-    return call_trees
 
 
 def get_global_writes(proj: angr.Project, func: angr.knowledge_plugins.Function) -> list:
@@ -139,18 +118,7 @@ def find_init(bin_path: str, scan_cycle_func_addr: int | str, entry_point: str |
     proj = angr.Project(bin_path, auto_load_libs=False)
     cfg = proj.analyses.CFG(normalize=True, show_progressbar=True)
 
-    # HACK: Freaking PPC uses r30 weirdly for binary- and glibc GOT; we gotta patch the callgraph properly
-    if proj.arch.name == "PPC32":
-        print("[.] Patching callgraph for PPC32 GOT calls...")
-        for func in proj.kb.functions.values():
-            m = re.search(r"\.got2\.plt_pic32\.([^@]+)$", func.name)
-            if m is not None:
-                target_func_name = m.group(1)
-                try:
-                    target_func = proj.kb.functions[target_func_name]
-                except KeyError:
-                    continue
-                cfg.functions.callgraph.add_edge(func.addr, target_func.addr)
+    patch_ppc32_got_calls(proj, cfg.functions.callgraph)
 
     proj.analyses.CompleteCallingConventions(show_progressbar=True)
 
@@ -160,7 +128,7 @@ def find_init(bin_path: str, scan_cycle_func_addr: int | str, entry_point: str |
         try:
             entry_func = proj.kb.functions["main"]
         except KeyError:
-            raise("Entry function is not 'startPLC' or 'main' in the binary!")
+            raise ValueError("Entry function is not 'startPLC' or 'main' in the binary!")
 
     # special case: angr is too smart and creates a fake CFG edge between SimProcedure pthread_create and the actual
     # thread routine. we gotta redo it
@@ -181,58 +149,29 @@ def find_init(bin_path: str, scan_cycle_func_addr: int | str, entry_point: str |
         print(f"{reachable}: Function {func.name} writes to {write_count} global locations")
 
 
-def main():
-    config = {
-        "tl_original": {
-            "path": "../artifacts/Traffic_Light_original/build/Traffic_Light_original.so",
-            "scan_cycle_func_addr": 0x405719,
-            "entry_point": "startPLC",
-            "only_reachable_from_ep": True,
-        },
-        "tl.5": {
-            "path": "../artifacts/Traffic_Light_Short_Ped_5/build/Traffic_Light_Short_Ped.so",
-            "scan_cycle_func_addr": 0x40D640,
-            "entry_point": "startPLC",
-            "only_reachable_from_ep": True,
-        },
-        "tl.addsensor": {
-            "path": "../artifacts/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so",
-            "scan_cycle_func_addr": 0x42C83D,
-            "entry_point": "startPLC",
-            "only_reachable_from_ep": True,
-        },
-        "pack.3": {
-            "path": "../artifacts/packaging_sfc/build/packaging_sfc_powerpc.so",
-            "scan_cycle_func_addr": 0x41689c,
-            "entry_point": "startPLC",
-            "only_reachable_from_ep": True,
-        }
-    }
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("target", help="Name of the target PLC program to analyze")
-
-    args = parser.parse_args()
-
-    target = config[args.target.lower()]
-    find_init(
-        target["path"],
-        target["scan_cycle_func_addr"],
-        target["entry_point"],
-        only_reachable_from_ep=target["only_reachable_from_ep"],
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(
+        prog="taveren-init-finder",
+        description="Rank candidate initialization functions of a PLC binary.",
     )
+    parser.add_argument("binary", help="path to the PLC binary to analyze")
+    parser.add_argument(
+        "scan_cycle_func",
+        help="scan cycle function, as a hex address (0x...) or a symbol name",
+    )
+    parser.add_argument(
+        "--include-unreachable",
+        action="store_true",
+        help="also report candidates not reachable from the entry point",
+    )
+    args = parser.parse_args(argv)
+
+    scan_cycle_func = args.scan_cycle_func
+    if scan_cycle_func.startswith("0x"):
+        scan_cycle_func = int(scan_cycle_func, 16)
+
+    find_init(args.binary, scan_cycle_func, "test", only_reachable_from_ep=not args.include_unreachable)
 
 
 if __name__ == "__main__":
-
-    # main()
-
-    binary_path = sys.argv[1]
-    scan_cycle_func_input = sys.argv[2]
-    if scan_cycle_func_input.startswith("0x"):
-        scan_cycle_addr = int(sys.argv[2], 16)
-    else:
-        scan_cycle_addr = sys.argv[2]
-    # entry_function_name = sys.argv[3]
-    find_init(binary_path, scan_cycle_addr, "test", True)
-
+    main()

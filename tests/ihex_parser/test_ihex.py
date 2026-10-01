@@ -1,18 +1,12 @@
 import os
-import struct
-from mimetypes import inited
-from typing import TYPE_CHECKING
 
-import networkx
-import sys
 import json
-import claripy
 import angr
 
-sys.path.append("../")
-import state_graph_recovery
-from state_graph_recovery import MinDelayBaseRule, RuleVerifier, IllegalNodeBaseRule, MaxDelayBaseRule
-# from angr.analyses.state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
+from . import state_graph_recovery
+from taveren import AbstractStateFields
+
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def generate_field_desc(var_info):
     # define abstract fields
@@ -37,8 +31,8 @@ def generate_field_desc(var_info):
 
 
 def test_ihex_parser():
-    binary_path = "../../artifacts/binaries/ihex_parser"
-    variable_path = "ihex_parser.json"
+    binary_path = os.path.join(TEST_DIR, "../fixtures/binaries/ihex_parser")
+    variable_path = os.path.join(TEST_DIR, "ihex_parser.json")
 
     proj = angr.Project(binary_path, auto_load_libs=False)
     cfg = proj.analyses.CFGFast()
@@ -59,10 +53,10 @@ def test_ihex_parser():
     step_state = blank.step().successors[0]
     init_state = step_state.step().successors[0]
 
-    fields = state_graph_recovery.AbstractStateFields(fields_desc)
+    fields = AbstractStateFields(fields_desc)
 
     loop_start = 0x4014a8
-    sgr = proj.analyses.StateGraphRecovery(
+    sgr = proj.analyses.StateGraphRecoveryIhex(
         loop_start,
         fields,
         "",
@@ -73,7 +67,9 @@ def test_ihex_parser():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    write_dot(sgr.state_graph, "graphs/ihex.dot")
+    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    os.makedirs(graphs_dir, exist_ok=True)
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, "ihex.dot"))
     print("nodes:", sgr.state_graph.number_of_nodes())
     print("edges:", sgr.state_graph.number_of_edges())
     # import ipdb; ipdb.set_trace()

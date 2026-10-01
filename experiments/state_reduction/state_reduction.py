@@ -2,12 +2,14 @@
 This script is to evaluate the reduction of state space during FSM recovery (Appendix F).
 """
 
+import os
+
 import angr
 import claripy
 import logging
 
-binary_path = '../artifacts/Traffic_Light_original/build/Traffic_Light_original.so'   #T9   0x42C034
-variable_path = '../traffic_lights/test/original.so'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+binary_path = os.path.join(SCRIPT_DIR, '../../tests/fixtures/Traffic_Light_original/build/Traffic_Light_original.so')   #T9   0x42C034
 
 def _hook_py_extensions(proj, cfg):
     proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())

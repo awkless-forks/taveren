@@ -1,6 +1,6 @@
 # State variable identification
 
-run `python -m statevars`
+run `taveren-statevars <binary> <scan-cycle-func>...`, or `./run.sh <target>` to reproduce the logs in `logs/` for the paper's targets
 
 Heuristics:
 1. A state variable stays alive across scan cycles, so it must

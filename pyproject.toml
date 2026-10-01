@@ -29,6 +29,11 @@ dependencies = [
     "angr-management",
 ]
 
+[project.scripts]
+taveren-scan-cycle = "taveren.scan_cycle:main"
+taveren-init-finder = "taveren.init_finder:main"
+taveren-statevars = "taveren.statevars:main"
+
 [project.optional-dependencies]
 test = ["pytest"]
 
