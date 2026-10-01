@@ -18,6 +18,8 @@ from taveren import (
 # from taveren.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
 
 import time
+from taveren.env_model import generate_output_config_desc
+from taveren.hooks import hook_py_extensions
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -150,32 +152,6 @@ def switch_on(state):
     state.memory.store(switch_value_addr, claripy.BVV(0x1, 8), endness=state.memory.endness)  # value
     state.memory.store(switch_flag_addr, claripy.BVV(0x2, 8), endness=state.memory.endness)  # flag
 
-def _hook_py_extensions(proj, cfg):
-    proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['PYTHON_POLL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_debug'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_py_ext'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-
-
-def _generate_field_desc(data, base_addr: int):
-    # define abstract fields
-    fields_desc = {}
-    config_fields = {}
-    for variable in data['variables']:
-        if variable['type'] == 'output' or variable['type'] == 'statevar':
-            fields_desc[variable['name']] = (base_addr + int(variable['address'], 16),
-                                             variable.get('sort', "int"),
-                                             variable['size'],
-                                             )
-        elif variable['type'] == 'config':
-            config_fields[variable['name']] = (base_addr + int(variable['address'], 16),
-                                               variable.get('sort', "int"),
-                                               variable['size'],
-                                               )
-
-    return fields_desc, config_fields
-
-
 @pytest.mark.parametrize("mode", ["4", "5", "6", "7", "8", "9", "10"])
 def test_find_violations(mode: str):
     binary_rel, variable_file = _MODE_TO_ARTIFACT[mode]
@@ -197,8 +173,7 @@ def test_find_violations(mode: str):
     # print(f"number of blocks: {nnode}")
     # nedge = len(list(cfg.kb.functions[0x42BF53].transition_graph.edges()))
     # print(f"number of edges: {nedge}")
-    # import ipdb; ipdb.set_trace()
-    _hook_py_extensions(proj, cfg)
+    hook_py_extensions(proj, cfg)
 
     # run the state initializer
     init = cfg.kb.functions['config_init__']
@@ -223,7 +198,7 @@ def test_find_violations(mode: str):
     #     initial_state.memory.store(switch_flag_addr, claripy.BVV(0x2, 8), endness=proj.arch.memory_endness)  # flag
 
     # define abstract fields
-    fields_desc, config_fields = _generate_field_desc(data, base_addr)
+    fields_desc, config_fields = generate_output_config_desc(data, base_addr)
 
     # pre-constrain configuration variables so that we can track them
     config_vars = {}
@@ -261,7 +236,6 @@ def test_find_violations(mode: str):
     write_dot(sgr.state_graph, os.path.join(graphs_dir, f"tl{mode}.dot"))
     print("node number: ", state_graph.number_of_nodes())
     print("edge number: ", state_graph.number_of_edges())
-    # import ipdb; ipdb.set_trace()
     finder = RuleVerifier(state_graph)
     rule_start_time = time.time()
 
@@ -273,7 +247,6 @@ def test_find_violations(mode: str):
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
 
 
-    # import ipdb; ipdb.set_trace()
     rule = MinDelayRule_PedGreen(40.0)
     r, src, dst = finder.verify(rule)
     # assert r is False

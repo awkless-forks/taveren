@@ -11,16 +11,12 @@ from collections import defaultdict
 
 from angr.ailment import Block
 from angr.ailment.block_walker import AILBlockWalkerBase
-from angr.ailment.statement import ConditionalJump, Statement, Store, Assignment, Call, Assignment
+from angr.ailment.statement import ConditionalJump, Statement, Store, Call, Assignment
 from angr.ailment.expression import Expression, Load, Const, VirtualVariable, Convert, BinaryOp, Register
 import angr
 from angr.utils.graph import GraphUtils
 from angr.analyses.s_reaching_definitions import SRDAModel
 from angr.code_location import ExternalCodeLocation
-from angr.ailment import Block
-from angr.ailment.block_walker import AILBlockWalkerBase
-from angr.ailment.statement import ConditionalJump, Statement, Store, Assignment, Call
-from angr.ailment.expression import Expression, Load, Const, VirtualVariable, Convert, BinaryOp
 
 
 base_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../")
@@ -130,7 +126,6 @@ class ConditionWalker(AILBlockWalkerBase):
     def _handle_VirtualVariable(
             self, expr_idx: int, expr: VirtualVariable, stmt_idx: int, stmt: Statement, block: Block | None
     ):
-        # import ipdb; ipdb.set_trace()
         walker = ExprDependsOnExternal(self.nodes_dict, self.srda)
         walker.walk_expression(expr)
         self.depends_on_external |= walker.depends_on_external & (not walker.depends_on_stack)
@@ -201,7 +196,6 @@ def extract_variable_from_expr(
     cond_parser.walk_expression(expr, None, None, None)
 
     # if cond_parser.depends_on_external and cond_parser.replace_vvar:
-    #     import ipdb; ipdb.set_trace()
         # (old_vvar, new_vvar) = cond_parser.replace_vvar[0]
         # expr_new = expr.replace(old_vvar, new_vvar)
 
@@ -229,13 +223,11 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
         last_stmt = node.statements[-1]
         # if node.addr == 0x42d05e:
         #     print(last_stmt)
-        #     import ipdb; ipdb.set_trace()
         if isinstance(last_stmt, ConditionalJump):
             cond = last_stmt.condition
             conds.append(cond)
 
     print(conds)
-    # import ipdb; ipdb.set_trace()
     # collect all assignments between global variables
     intermediate_global_vars = defaultdict(set)  # addr of the intermediate variable to other global variables
     for node in nodes:
@@ -274,7 +266,6 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
             cond = last_stmt.condition
             cond_parser = extract_variable_from_expr(cond, nodes_dict, srda, intermediate_global_vars)
             if cond_parser.depends_on_external:
-                # import ipdb; ipdb.set_trace()
                 global_vars = cond_parser.load_vars
                 for expr in global_vars:
                     if isinstance(expr, VirtualVariable):
@@ -292,7 +283,6 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                         continue
                     elif expr.addr.op == "Add":
                         # vvar_0 + x
-                        # import ipdb; ipdb.set_trace()
                         vvar_base = expr.addr.operands[0]
                         vvar_offset = expr.addr.operands[1]
                         if isinstance(vvar_offset, Const):
@@ -312,7 +302,6 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                     else:
                         print(expr)
                         continue
-                        # import ipdb; ipdb.set_trace()
 
         for stmt in node.statements:
             if isinstance(stmt, Store):
@@ -339,7 +328,7 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                             gv = GlobalVar(vvar_offset_value, stmt.size, GlobalVarType.VVAR, vvar_base)
                             gv_dict[gv].append(("write", stmt.ins_addr))
                         else:
-                            import ipdb; ipdb.set_trace()
+                            raise NotImplementedError(f"unsupported store address expression: {expr.addr}")
 
 
     """
@@ -630,7 +619,6 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 for inst in entry_block.capstone.insns:
                     if inst.mnemonic == "str":
                         # first store instruction to store r0
-                        # import ipdb; ipdb.set_trace()
                         if inst.operands[0].type == capstone.arm.ARM_OP_REG and inst.operands[0].reg == capstone.arm.ARM_REG_R0 and inst.operands[1].type == capstone.arm.ARM_OP_MEM:
                             stack_mem_base = inst.operands[1].mem.base
                             stack_offset = inst.operands[1].mem.disp
@@ -695,7 +683,6 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                                 initial_arg_values[insn.address] = {dst: data_addr}
         else:
             print("Architecture not supported for initial argument value injection.")
-            # import ipdb; ipdb.set_trace()
             pass
 
 
@@ -730,7 +717,6 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
         dec = proj.analyses.Decompiler(func, cfg=cfg.model, fail_fast=True)
         print(dec.codegen.text)
         # ddg = proj.analyses.DataDependencyGraph()
-        # import ipdb; ipdb.set_trace()
         # traverse the graph to get all conditions and variables used
 
         func_args = {vvar for vvar, _ in dec.clinic.arg_vvars.values()}
@@ -770,10 +756,8 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
             if sorted_accesses[0][0] == "read" and any(a[0] == "write" for a in sorted_accesses):
                 offsets = [gv.addr - base for base in all_var_bases if gv.addr >= base]
                 print(f"State variable candidate {gv},  offset = {hex(min(offsets) if offsets else gv.addr)}")
-                # import ipdb; ipdb.set_trace()
                 statevar_candidates.append(gv)
 
-    # import ipdb; ipdb.set_trace()
 
 
 def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optional[Dict[str, Any]] = None, out_file: Optional[str] = None) -> bool:
@@ -813,7 +797,6 @@ def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optiona
         #     func = cfg.kb.functions[func_addr]
         #     dec = proj.analyses.Decompiler(func, cfg=cfg.model)
         #     print(dec.codegen.text)
-        #     # import ipdb; ipdb.set_trace()
         #     # traverse the graph to get all conditions and variables used
         #
         #     func_args = {vvar for vvar, _ in dec.clinic.arg_vvars.values()}

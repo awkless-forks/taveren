@@ -1,12 +1,6 @@
 
-# This file defines APIs for altering a state graph inside a binary. Some patches are defined by Patcherex.
-#
-#
-# Do not import this file anywhere in angr by default since that would add a dependency from angr to Patcherex. Instead,
-# import this file when needed::
-#
-#   from angr.analyses.state_graph_recovery import apis
-#
+# This file defines APIs for altering a state graph inside a binary. Patches subclass Patcherex's Patch when Patcherex
+# is installed; Patcherex is optional, since applying a patch does not use it.
 
 import struct
 from typing import List, Optional, Iterable, TYPE_CHECKING
@@ -18,12 +12,8 @@ if TYPE_CHECKING:
 _l = logging.getLogger(name=__name__)
 
 try:
-    from patcherex.patches import AddCodePatch, InsertCodePatch, AddLabelPatch
     from patcherex.patches import Patch
-    from patcherex.backends.detourbackend import DetourBackend
 except ImportError:
-    _l.warning("Cannot import Patcherex. You will not be able to apply patches.")
-
     # dummy patch base class
     class Patch:
         def __init__(self, name):
@@ -290,48 +280,5 @@ process.detach()
             f.write(py_code)
 
         return
-
-        # create a patch to overwrite the address with the data we want
-        backend = DetourBackend(file_path)
-        # TODO: Support ASLR
-        if proj.arch.name == "AMD64":
-            prolog = "push rdi"
-            overwrite_one_byte = """
-            mov rdi, %#x
-            mov BYTE [rdi], %#x
-            """
-            epilog = "pop rdi"
-        else:
-            raise RuntimeError("Unsupported architecture %s." % proj.arch.name)
-
-        asm_code = prolog + "\n"
-        base_addr = 0x400000  # FIXME: Adjust this address based on the base address of the executable on PLC devices
-        for pos, byt in enumerate(patch.data):
-            asm_code += overwrite_one_byte % (
-                base_addr + patch.addr - proj.loader.main_object.mapped_base + pos,
-                byt,
-            )
-            asm_code += "\n"
-        asm_code += epilog
-        new_patch = InsertCodePatch(start_addr, asm_code)
-        backend.apply_patches([new_patch])
-        backend.save(output_path)
-
-        return
-
-        # convert memory address to file offset
-        section = proj.loader.find_section_containing(patch.addr)
-        if section is None:
-            # TODO: Support section-less binaries
-            raise RuntimeError(f"Cannot find the section containing the address {patch.addr:#x}")
-
-        fileaddr = section.offset + (patch.addr - section.vaddr)
-
-        if not 0 <= fileaddr < len(raw_binary):
-            raise RuntimeError(f"Calculated fileaddr {fileaddr} is out of bound.")
-
-        # apply the patch
-        binary = raw_binary[:fileaddr] + patch.data + raw_binary[fileaddr + len(patch.data):]
-        return binary
 
     return None

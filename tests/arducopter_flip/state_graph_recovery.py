@@ -8,74 +8,13 @@ import claripy
 
 from angr.sim_options import NO_CROSS_INSN_OPT, SYMBOL_FILL_UNCONSTRAINED_MEMORY, SYMBOL_FILL_UNCONSTRAINED_REGISTERS, SIMPLIFY_CONSTRAINTS
 from angr.state_plugins.inspect import BP_BEFORE, BP_AFTER, BP
-from angr.analyses.analysis import Analysis, AnalysesHub
+from angr.analyses.analysis import AnalysesHub
+from taveren.state_graph_recovery import ConstraintLogger, DefinitionNode, StateGraphRecoveryBase
 
 if TYPE_CHECKING:
     from angr import SimState
     from angr.knowledge_plugins.functions import Function
     from .abstract_state import AbstractStateFields
-
-
-class ConstraintLogger:
-    """
-    Logs constraints and where they are created via the on_adding_constraints callback.
-    """
-    def __init__(self, mapping: Dict[claripy.ast.Base,Tuple[int,int]]):
-        self.mapping = mapping
-
-    def on_adding_constraints(self, state: 'SimState'):
-        added_constraints = state._inspect_getattr('added_constraints', None)
-        if not (len(added_constraints) == 1 and (
-                claripy.is_true(added_constraints[0]) or
-                claripy.is_false(added_constraints[0]))):
-            for constraint in added_constraints:
-                self.mapping[constraint] = state.scratch.irsb.addr, state.scratch.stmt_idx
-
-
-class ExpressionLogger:
-    """
-    Logs symbolic expressions and where they are created via the on_register_write callback.
-    """
-    def __init__(self, mapping: Dict[claripy.ast.Base,Tuple[int,int]], variables: Set[str]):
-        self.mapping = mapping
-        self.variables: Set[str] = variables if variables else set()
-
-    def on_memory_read(self, state: 'SimState'):
-        expr = state._inspect_getattr("mem_read_expr", None)
-        if expr is not None and expr.symbolic and expr.variables.intersection(self.variables):
-            mem_read_addr = state._inspect_getattr("mem_read_address", None)
-            if mem_read_addr is not None:
-                if isinstance(mem_read_addr, int):
-                    self.mapping[expr] = mem_read_addr
-                elif not mem_read_addr.symbolic:
-                    self.mapping[expr] = mem_read_addr.concrete_value
-
-    def on_register_write(self, state: 'SimState'):
-        expr = state._inspect_getattr('reg_write_expr', None)
-        if expr is not None and expr.symbolic and expr.variables.intersection(self.variables):
-            if expr not in self.mapping:
-                # do not overwrite an existing source - it might have been from a memory read, which is the real source...
-                self.mapping[expr] = state.scratch.irsb.addr, state.scratch.stmt_idx
-
-
-class DefinitionNode:
-    def __init__(self, variable: str, block_addr: int, stmt_idx: int):
-        self.variable = variable
-        self.block_addr = block_addr
-        self.stmt_idx = stmt_idx
-
-    def __eq__(self, other):
-        return (
-                isinstance(other, DefinitionNode)
-                and self.variable == other.variable
-                and self.block_addr == other.block_addr
-        )
-
-    def __hash__(self):
-        return hash((DefinitionNode, self.variable, self.block_addr, self.stmt_idx))
-
-    def __repr__(self):
-        return f"{self.variable}@{self.block_addr:#x}:{self.stmt_idx}"
 
 
 class SliceGenerator:
@@ -115,7 +54,7 @@ class SliceGenerator:
             # print(expr, state.scratch.irsb.statements[state.scratch.stmt_idx])
 
 
-class StateGraphRecoveryAnalysis(Analysis):
+class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     """
     Traverses a function and derive a state graph with respect to given variables.
     """
@@ -255,7 +194,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
             # print(f"motor throttle in {next_state.memory.load(0xc00042f0 + 0x28, 4, endness=self.project.arch.memory_endness).raw_to_fp()}")
             # print(f"motor throttle out {next_state.memory.load(0xc00042f0+0x2c,4, endness=self.project.arch.memory_endness).raw_to_fp()}")
-            # import ipdb; ipdb.set_trace()
             # expression_bp.enabled = False
 
             abs_state = self.fields.generate_abstract_state(next_state)
@@ -344,7 +282,6 @@ class StateGraphRecoveryAnalysis(Analysis):
             if rollsensor_delta_and_sources or time_delta_and_sources:
 
                 if any(x.steps for x in rollsensor_delta_and_sources):
-                    # import ipdb; ipdb.set_trace()
                     for rollsensor_object in rollsensor_delta_and_sources:
                         # append two states in queue
 
@@ -504,7 +441,6 @@ class StateGraphRecoveryAnalysis(Analysis):
         state.inspect.add_breakpoint('constraints', bp_0)
 
         next_state = self._traverse_one(state)
-        # import ipdb; ipdb.set_trace()
         # detect required time delta
         # TODO: Extend it to more than just seconds
         steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
@@ -521,7 +457,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
                     if constraint.op == "__eq__" and constraint.args[0].op == "Extract" and constraint.args[1].op == "BVV" and constraint.args[1].args[0] == 0 and delta.args[0] in constraint.variables:
                         # < Bool tv_sec_4966_32[11:0] <= 0x9c4 >, < Bool tv_sec_4966_32[31:12] == 0x0 > -----> tv_sec_4966_32 <= 0x9c4
-                        # import ipdb; ipdb.set_trace()
                         cons = [con for con in next_state.solver.constraints if len(con.variables) == 2 and len(con.args) == 2 and delta.args[0] in con.variables]
                         if cons:
                             left = cons[0].args[0].args[0].args[2] + cons[0].args[0].args[1].args[2]
@@ -589,60 +524,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                                         continue
         return steps
 
-    def _discover_temp_deltas(self, state: 'SimState') -> List[Tuple[int,claripy.ast.Base,Tuple[int,int]]]:
-        """
-        Discover all possible temperature that may be required to transition the current state to successor states.
-
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
-        """
-        if self._temp_addr is None:
-            return []
-        state = self._initialize_state(state)
-        temp_deltas = self._symbolically_advance_temp(state)
-        # setup inspection points to catch where comparison happens
-        constraint_source = { }
-        constraint_logger = ConstraintLogger(constraint_source)
-        bp_0 = BP(when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints)
-        state.inspect.add_breakpoint('constraints', bp_0)
-
-        next_state = self._traverse_one(state)
-
-        # detect required temp delta
-        steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
-        if temp_deltas:
-            for delta in temp_deltas:
-                for constraint in next_state.solver.constraints:
-                    original_constraint = constraint
-
-                    if constraint.op == "__eq__" and constraint.args[0] is delta:
-                        continue
-                    elif constraint.op == 'Not':
-                        if len(constraint.args[0].args[1].args) > 2:
-                            if constraint.args[0].args[1].args[2] is delta:
-                                if constraint.args[0].args[0].op == 'FPV':
-                                    step = constraint.args[0].args[0].concrete_value
-                                    if step != 0 and step < 10000:
-                                        steps.append((
-                                            step,
-                                            constraint,
-                                            constraint_source.get(original_constraint, None),
-                                        ))
-                                        continue
-                        elif len(constraint.args[0].args[0].args) > 2:
-                            if constraint.args[0].args[0].args[2] is delta:
-                                if constraint.args[0].args[1].op == 'FPV':
-                                    step = constraint.args[0].args[1].concrete_value
-                                    if step != 0 and step < 10000:
-                                        steps.append((
-                                            step,
-                                            constraint,
-                                            constraint_source.get(original_constraint, None),
-                                        ))
-                                        continue
-
-        return steps
-
     def _discover_rollsensor_deltas(self, state: 'SimState') -> List[Deltas]:
         """
         Discover all possible roll sensor that may be required to transition the current state to successor states.
@@ -652,7 +533,6 @@ class StateGraphRecoveryAnalysis(Analysis):
         """
         if self._rollsensor_addr is None:
             return []
-        # import ipdb; ipdb.set_trace()
         state = self._initialize_state(state)
         prev = state.memory.load(self._rollsensor_addr, size=4, endness=self.project.arch.memory_endness)
         prev_rollsensor = state.solver.eval(prev)
@@ -665,10 +545,9 @@ class StateGraphRecoveryAnalysis(Analysis):
         state.inspect.add_breakpoint('constraints', bp_0)
 
         next_states = self._traverse_one(state, discover=True)
-        # import ipdb; ipdb.set_trace()
         # next_state = next_states[0]
         # detect required rollsensor delta
-        steps: List[Deltas] = []
+        steps: List[self.Deltas] = []
         deltas_info = []
 
         # ------------------------------------------------------------
@@ -680,7 +559,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                 for delta in rollsensor_deltas:     # Question: in which case it will return multiple deltas?
                     delta_info['delta'] = delta
                     if next_state.solver.satisfiable(extra_constraints=(delta == prev_rollsensor,)):
-                        # import ipdb; ipdb.set_trace()
                         delta_info['same_range'] = True
                         # fixme: should we remove this part since we are checking state id
                         # continue
@@ -693,7 +571,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                         if delta.args[0] in constraint.variables:
                             # print(constraint)
                             # add logic to simplify -1*var
-                            # import ipdb; ipdb.set_trace()
                             op = constraint.op
 
                             if constraint.args[0].op == '__mul__' and constraint.args[0].args[1] is delta   \
@@ -704,33 +581,29 @@ class StateGraphRecoveryAnalysis(Analysis):
                                     right = constraint.args[1] * -1
                                     simplified_constraint = claripy.SGE(left, right)
                                     constraint = simplified_constraint
-                                    # import ipdb; ipdb.set_trace()
                                 elif op == 'SGE':
                                     left = constraint.args[0].args[1]
                                     right = constraint.args[1] * -1
                                     simplified_constraint = claripy.SLE(left, right)
                                     constraint = simplified_constraint
-                                    # import ipdb; ipdb.set_trace()
                                 elif op == 'SLT':
                                     left = constraint.args[0].args[1]
                                     right = constraint.args[1] * -1
                                     simplified_constraint = claripy.SGT(left, right)
                                     constraint = simplified_constraint
-                                    # import ipdb; ipdb.set_trace()
                                 elif op == 'SGT':
                                     left = constraint.args[0].args[1]
                                     right = constraint.args[1] * -1
                                     simplified_constraint = claripy.SLT(left, right)
                                     constraint = simplified_constraint
-                                    # import ipdb; ipdb.set_trace()
                                 else:
-                                    import ipdb; ipdb.set_trace()
+                                    raise NotImplementedError(f"unsupported comparison operator {op} in constraint: {constraint}")
                             '''
                             if constraint.args[0].op == '__add__':
 
                                 arg_num = len(constraint.args[0].args)
                                 if arg_num != 2:
-                                    import ipdb; ipdb.set_trace()
+                                    raise NotImplementedError(f"expected 2 operands in __add__ constraint, got {arg_num}")
 
                                 # TODO: generalize it when -1 is in different position
                                 if constraint.args[0].args[0].op == '__mul__' and constraint.args[0].args[1].op == '__mul__' \
@@ -743,27 +616,23 @@ class StateGraphRecoveryAnalysis(Analysis):
                                         right = constraint.args[1] * -1
                                         simplified_constraint = claripy.SGE(left, right)
                                         constraint = simplified_constraint
-                                        # import ipdb; ipdb.set_trace()
                                     elif op == 'SGE':
                                         left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
                                         right = constraint.args[1] * -1
                                         simplified_constraint = claripy.SLE(left, right)
                                         constraint = simplified_constraint
-                                        # import ipdb; ipdb.set_trace()
                                     elif op == 'SLT':
                                         left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
                                         right = constraint.args[1] * -1
                                         simplified_constraint = claripy.SGT(left, right)
                                         constraint = simplified_constraint
-                                        # import ipdb; ipdb.set_trace()
                                     elif op == 'SGT':
                                         left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
                                         right = constraint.args[1] * -1
                                         simplified_constraint = claripy.SLT(left, right)
                                         constraint = simplified_constraint
-                                        # import ipdb; ipdb.set_trace()
                                     else:
-                                        import ipdb; ipdb.set_trace()
+                                        raise NotImplementedError(f"unsupported comparison operator {op} in constraint: {constraint}")
                             '''
 
                         else:
@@ -788,7 +657,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
                         elif constraint.op in ['Or','Not'] and delta.args[0] in constraint.variables:     # wierd constraint, fixme
                             # in Recovery
-                            # import ipdb; ipdb.set_trace()
                             blank = self.project.factory.blank_state()
                             blank.solver.add(constraint)
                             step = blank.solver.min(delta)
@@ -803,12 +671,10 @@ class StateGraphRecoveryAnalysis(Analysis):
                             continue
 
                 deltas_info.append(delta_info)
-            # import ipdb; ipdb.set_trace()
             #
             # # for channel pitch control in
             # for each_delta_info in deltas_info:
             #     print("check each delta info")
-            #     import ipdb; ipdb.set_trace()
 
 
 
@@ -818,7 +684,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                 if each_delta_info['curr_id'] == each_delta_info['next_id']:
                 # if False:
                     # fixme here if we want to track constraints for self loops
-                    # import ipdb; ipdb.set_trace()
                     continue    # fixme for rollsensor
                     # pass
                 else:
@@ -865,13 +730,11 @@ class StateGraphRecoveryAnalysis(Analysis):
                 blank_state.solver.add(claripy.SGT(delta, -18000))
                 each.new_value = blank_state.solver.min(each.delta, signed=True) + 1     # fixme: min or max or eval?
                 # if blank_state.solver.eval(claripy.SLE(claripy.BVV(each.new_value,32), claripy.BVV(-18000,32))):
-                #     import ipdb; ipdb.set_trace()
 
             # -----------------------------------
 
             # if len(steps) == 0 and len(next_states) == 2:
             #     # found branches but not deltas
-            #     import ipdb; ipdb.set_trace()
             #     for each_delta_info in deltas_info:
             #         if not each_delta_info['same_range']:
             #             one_step = self.Deltas(curr_id=each_delta_info['curr_id'], next_id=each_delta_info['next_id'],
@@ -882,7 +745,6 @@ class StateGraphRecoveryAnalysis(Analysis):
             #             one_step.constraint_sources.append(each_delta_info['step_info'][0][2])
             #             one_step.new_value = each_delta_info['step_info'][0][0]
             #             steps.append(one_step)
-        # import ipdb; ipdb.set_trace()
 
         # TODO: return original step_info
         return steps
@@ -1007,41 +869,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
         return None, source
 
-    def _symbolize_input_fields(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
-
-        symbolic_input_vars = { }
-
-        for name, (address, type_, size) in self.fields.fields.items():
-            # print(f"[.] Symbolizing field {name}...")
-
-            v = state.memory.load(address, size=size, endness=self.project.arch.memory_endness)
-            if not state.solver.symbolic(v):
-                # if type_ == "float":
-                #     concrete_v = state.solver.eval(v, cast_to=float)
-                #     symbolic_v = claripy.FPS(name, claripy.fp.FSORT_FLOAT)
-                # elif type_ == "double":
-                #     concrete_v = state.solver.eval(v, cast_to=float)
-                #     symbolic_v = claripy.FPS(name, claripy.fp.FSORT_DOUBLE)
-                # else:
-                concrete_v = state.solver.eval(v)
-                # if name in {"channel_roll", "channel_pitch"}:
-                #     # write positive numbers
-                #     symbolic_v = claripy.Concat(claripy.BVV(0, 1),
-                #                                 claripy.BVS(name, size * self.project.arch.byte_width - 1))
-                # else:
-                symbolic_v = claripy.BVS(name, size * self.project.arch.byte_width)
-                symbolic_input_vars[name] = symbolic_v
-
-                # update the value in memory
-                state.memory.store(address, symbolic_v, endness=self.project.arch.memory_endness)
-
-                # preconstrain it
-                state.preconstrainer.preconstrain(concrete_v, symbolic_v)
-            else:
-                symbolic_input_vars[name] = v
-
-        return symbolic_input_vars
-
     def _symbolize_timecounter(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
         tv_sec_addr = self._time_addr
         time_var_size = 4   # test for channel pitch , change back to 4
@@ -1081,18 +908,6 @@ class StateGraphRecoveryAnalysis(Analysis):
             'tv_sec_var': self._tv_sec_var,
             'tv_nsec_var': self._tv_nsec_var
         }
-
-    # reflowoven Arduino
-    def _symbolize_timecounter_arduino(self, state: 'SimState') -> Dict[str, claripy.ast.Base]:
-        tv_sec_addr = self._time_addr
-        prev = state.memory.load(self._time_addr, size=self.project.arch.bytes, endness=self.project.arch.memory_endness)
-        prev_time = state.solver.eval(prev) + 1
-
-        self._tv_sec_var = claripy.BVS('tv_sec', self.project.arch.bytes * self.project.arch.byte_width)
-        state.memory.store(tv_sec_addr, self._tv_sec_var, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.BVV(prev_time, self.project.arch.bytes * self.project.arch.byte_width), self._tv_sec_var)
-
-        return {'tv_sec': self._tv_sec_var}
 
     def _symbolically_advance_timecounter(self, state: 'SimState') -> List[claripy.ast.Bits]:
         time_var_size = 4  # fixme: test for channel pitch , change back to 4
@@ -1177,16 +992,10 @@ class StateGraphRecoveryAnalysis(Analysis):
 
         return [temp_delta]
 
-    def _advance_temp(self, state: 'SimState', delta) -> None:
-        self._temperature = claripy.FPS('temperature', claripy.fp.FSORT_DOUBLE)
-        state.memory.store(self._temp_addr, self._temperature, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.FPV(delta, claripy.fp.FSORT_DOUBLE), self._temperature)
-
     def _traverse_one(self, state: 'SimState', unsat_flag: bool = False, discover: bool = False):
 
         simgr = self.project.factory.simgr(state, save_unsat=unsat_flag)
 
-        # import ipdb; ipdb.set_trace()
         while simgr.active:
             s = simgr.active[0]
             # print(f"{simgr.active},  {hex(simgr.active[0].addr - 0x0000555555554000)}")
@@ -1199,16 +1008,14 @@ class StateGraphRecoveryAnalysis(Analysis):
 
             if not discover:    # ignore multiple states when discovering deltas
                 if len(simgr.active) > 1:
-                    import ipdb; ipdb.set_trace()
+                    raise RuntimeError("scan cycle execution forked into multiple active states")
 
             # if unsat_flag:
             #     if simgr.unsat:
             #         print("unsat")
-            #         import ipdb; ipdb.set_trace()
             #
             # if s.addr == 0x47e45e:
             #     print("check flip angle in roll")
-            #     import ipdb; ipdb.set_trace()
 
             # # Copter modeflip
             # if s.addr == 0x47e336:
@@ -1242,24 +1049,18 @@ class StateGraphRecoveryAnalysis(Analysis):
 
             # if s.addr == 0x47e0a4:
             #     print("check channel picth controlin")
-            #     import ipdb; ipdb.set_trace()
             # if s.addr == 0x47dfda:
             #     print("check armed")
-            #     import ipdb; ipdb.set_trace()
 
             # if s.addr == 0x0000555555554000+0x779B9:
             #     print("after get_at_hold_state")
-            #     import ipdb; ipdb.set_trace()
             # if s.addr == 0x47e312 or s.addr == 0x47e2ff:
             #     print("check time")
-            #     import ipdb; ipdb.set_trace()
 
-            # import ipdb; ipdb.set_trace()
 
             simgr.stash(lambda x: x.addr == self._ret_trap, from_stash='active', to_stash='finished')
 
             simgr.step()
-        # import ipdb; ipdb.set_trace()
         # import sys
         # sys.stdout.write('\n')
         if not discover:

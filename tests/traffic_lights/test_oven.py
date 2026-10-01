@@ -40,13 +40,11 @@ class readThermo(angr.SimProcedure):
         prev_temp = self.state.memory.load(temp_addr, 8, endness=self.arch.memory_endness)
         self.state.regs._r1 = prev_temp[63:32]
         self.state.regs._r0 = prev_temp[31:0]
-        # import ipdb; ipdb.set_trace()
         return None
 
 class doubleAdd(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("ADD")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -63,7 +61,6 @@ class doubleAdd(angr.SimProcedure):
 class doubleSub(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("SUB")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -80,7 +77,6 @@ class doubleSub(angr.SimProcedure):
 class doubleMul(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("MUL")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -97,7 +93,6 @@ class doubleMul(angr.SimProcedure):
 class doubleDiv(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("DIV")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -114,7 +109,6 @@ class doubleDiv(angr.SimProcedure):
 class doubleCMPEQ(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("CMPEQ")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -130,7 +124,6 @@ class doubleCMPEQ(angr.SimProcedure):
 class doubleCMPLE(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("CMPLE")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -146,7 +139,6 @@ class doubleCMPLE(angr.SimProcedure):
 class doubleCMPLT(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("CMPLT")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -163,7 +155,6 @@ class doubleCMPLT(angr.SimProcedure):
 class doubleCMPGE(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("CMPGE")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -178,7 +169,6 @@ class doubleCMPGE(angr.SimProcedure):
 class doubleCMPGT(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
         # print("CMPGT")
-        # import ipdb; ipdb.set_trace()
         a1 = self.state.regs._r0
         a2 = self.state.regs._r1
         a3 = self.state.regs._r2
@@ -192,7 +182,6 @@ class doubleCMPGT(angr.SimProcedure):
 class SerialPrintFloat(angr.SimProcedure):
     def run(self, a0, a1, a2):
         print("Serial Print Float")
-        # import ipdb; ipdb.set_trace()
         a0 = self.state.regs._r0
         a1 = self.state.regs._r2
         a1_1 = self.state.regs._r3
@@ -226,7 +215,6 @@ class OvenOffAfterCook(IllegalTransitionBaseRule):
     def verify_node(self, graph: 'networkx.DiGraph', a):
 
         if dict(a)['ovenState'] == 2:
-            # import ipdb; ipdb.set_trace()
             for b in graph.successors(a):
                 data = graph.get_edge_data(a, b)
                 if data['time_delta'] is not None and data['time_delta'] >= 9000 and dict(b)['ovenStatus'] != 0:
@@ -250,7 +238,6 @@ def switch_on(state):
     # switch on
     # base_addr = int(data['variable_base_addr'], 16)
     # switch = next(x for x in data['variables'] if x['name'] == "SWITCH_BUTTON")
-    # import ipdb; ipdb.set_trace()
     prev = state.memory.load(0x200002ec, 4, endness=state.arch.memory_endness)
     state.memory.store(0x200002ec, prev + 50, endness=state.arch.memory_endness)
     # switchstatus_addr = 0x20000208
@@ -323,7 +310,6 @@ def test_oven():
 
         simgr.step()
 
-    # import ipdb; ipdb.set_trace()
     initial_state = simgr.active[0]
     print(initial_state)
 

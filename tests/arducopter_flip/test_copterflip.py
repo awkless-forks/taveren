@@ -70,7 +70,6 @@ class NoFlipBelow10m(IllegalTransitionBaseRule):
 
 class millis(angr.SimProcedure):
     def run(self):
-        # import ipdb; ipdb.set_trace()
         # time_addr = 0x200001d8 # a random number
         prev = self.state.memory.load(time_addr, 4, endness=self.arch.memory_endness)
         # self.state.memory.store(time_addr, prev + usec, endness=self.arch.memory_endness)
@@ -88,21 +87,18 @@ class WriteEvent(angr.SimProcedure):
 # class sinf(angr.SimProcedure):
 #     def run(self, x):
 #         print("in sinf")
-#         import ipdb; ipdb.set_trace()
 #         return None
 #
 #
 # class cosf(angr.SimProcedure):
 #     def run(self, x):
 #         print("in cosf")
-#         import ipdb; ipdb.set_trace()
 #         return None
 
 
 class is_zero(angr.SimProcedure):
     def run(self, x):
         # print("in is_zero!")
-        # import ipdb;ipdb.set_trace()
         x_num = self.state.regs._xmm0
         x_bytes = struct.pack("@P", x_num.args[0])
         # x_float = struct.unpack("<d", x_bytes)[0]
@@ -114,7 +110,6 @@ class is_zero(angr.SimProcedure):
 class abs(angr.SimProcedure):
     def run(self, x):
         # print("in abs!")
-        # import ipdb;ipdb.set_trace()
         x_num = self.state.regs._eax
         self.state.regs._eax = claripy.If(claripy.SGE(x_num, 0), x_num, -x_num)
         return None
@@ -131,15 +126,12 @@ def call_one_func(state: 'SimState') -> 'SimState':
         # print(simgr.active)
         s = simgr.active[0]
         # if len(simgr.active) > 1:
-        #     import ipdb; ipdb.set_trace()
         if s.addr == 0x458158:  # armed()
             # rdi is motors object i dont know how to initialize it
-            # import ipdb; ipdb.set_trace()
             s.memory.store(s.regs.rdi + 0x80, claripy.BVV(1, 8), endness = s.project.arch.memory_endness)
 
         # if s.addr == 0x47dfc4:
         #     print("after abs")
-        #     import ipdb; ipdb.set_trace()
 
         simgr.stash(lambda x: x.addr == ret_trap, from_stash='active', to_stash='finished')
         simgr.step()
@@ -161,7 +153,6 @@ def test_flip():
     #         cfg = pickle.load(f)
     # else:
     #     cfg = proj.analyses.CFG(binary=proj.loader.main_object, show_progressbar=True)
-    #     # import ipdb; ipdb.set_trace()
     #     # with open(cfg_path, "wb") as f:
     #     #     pickle.dump(cfg, f)
     #
@@ -183,7 +174,6 @@ def test_flip():
             "type": "time"
         }
 
-    # import ipdb; ipdb.set_trace()
     proj.hook_symbol('_ZN6AP_HAL6millisEv', millis())
     proj.hook_symbol('_ZN6AP_HAL8micros64Ev', millis())
     proj.hook_symbol('_ZN9AP_Logger11Write_EventE8LogEvent', WriteEvent())
@@ -241,7 +231,6 @@ def test_flip():
     blank.memory.store(channel_roll_addr + 0xc, channel_roll_var, endness=proj.arch.memory_endness)
     blank.memory.store(channel_pitch_addr + 0xc, channel_pitch_var, endness=proj.arch.memory_endness)
     rc_state = blank
-    # import ipdb; ipdb.set_trace()
 
     # initialize motors
     blank = rc_state.copy()
@@ -254,7 +243,6 @@ def test_flip():
         # print(simgr.active)
         s = simgr.active[0]
         if s.addr == 0x494959:
-            # import ipdb; ipdb.set_trace()
             break
         simgr.step()
 
@@ -269,10 +257,8 @@ def test_flip():
         # print(simgr.active)
         s = simgr.active[0]
         if s.addr == 0x494b1f:
-            # import ipdb; ipdb.set_trace()
             break
         simgr.step()
-    # import ipdb; ipdb.set_trace()
     att_state = simgr.active[0]
 
     blank = att_state.copy()
@@ -290,7 +276,6 @@ def test_flip():
     initial_states = call_one_func(blank)       # here should be 4 states
 
     # # explore init function and set channel_pitch and channel_roll as input variables
-    # # import ipdb; ipdb.set_trace()
     # state_graph = networkx.DiGraph()
     #
     # init_state_init = mode_state[0].copy()
@@ -315,7 +300,6 @@ def test_flip():
     #                                             init_state=init_state_init, init_variables=init_variables,
     #                                             state_id_addr = 0x8f9c15, state_graph = state_graph)
 
-    # import ipdb; ipdb.set_trace()
 
     # proj.hook_symbol('sinf', sinf())
     # proj.hook_symbol('cosf', cosf())
@@ -327,7 +311,6 @@ def test_flip():
             continue
         else:
 
-            # import ipdb; ipdb.set_trace()
             initial_state = s
             initial_state = initial_states[4]   # roll right
 
@@ -361,7 +344,6 @@ def test_flip():
             os.makedirs(graphs_dir, exist_ok=True)
             write_dot(sgr.state_graph, os.path.join(graphs_dir, "rollr.dot"))
             print(f"[INFO] After SGR: #Node {sgr.state_graph.number_of_nodes()}, #Edge {sgr.state_graph.number_of_edges()}")
-            # import ipdb; ipdb.set_trace()
 
 
             # verify rule

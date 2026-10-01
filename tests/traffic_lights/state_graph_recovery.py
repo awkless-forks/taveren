@@ -1,5 +1,5 @@
 from itertools import count
-from typing import Optional, List, Dict, Tuple, Set, Callable, Any, TYPE_CHECKING
+from typing import Optional, List, Dict, Tuple, Set, Callable, TYPE_CHECKING
 
 import networkx
 
@@ -7,75 +7,14 @@ import claripy
 
 from angr.sim_options import NO_CROSS_INSN_OPT, SYMBOL_FILL_UNCONSTRAINED_MEMORY, SYMBOL_FILL_UNCONSTRAINED_REGISTERS
 from angr.state_plugins.inspect import BP_BEFORE, BP_AFTER, BP
-from angr.analyses.analysis import Analysis, AnalysesHub
+from angr.analyses.analysis import AnalysesHub
 from angr.utils.timing import timethis
+from taveren.state_graph_recovery import ConstraintLogger, DefinitionNode, StateGraphRecoveryBase
 
 if TYPE_CHECKING:
     from angr import SimState
     from angr.knowledge_plugins.functions import Function
     from .abstract_state import AbstractStateFields
-
-
-class ConstraintLogger:
-    """
-    Logs constraints and where they are created via the on_adding_constraints callback.
-    """
-    def __init__(self, mapping: Dict[claripy.ast.Base,Tuple[int,int]]):
-        self.mapping = mapping
-
-    def on_adding_constraints(self, state: 'SimState'):
-        added_constraints = state._inspect_getattr('added_constraints', None)
-        if not (len(added_constraints) == 1 and (
-                claripy.is_true(added_constraints[0]) or
-                claripy.is_false(added_constraints[0]))):
-            for constraint in added_constraints:
-                self.mapping[constraint] = state.scratch.irsb.addr, state.scratch.stmt_idx
-
-
-class ExpressionLogger:
-    """
-    Logs symbolic expressions and where they are created via the on_register_write callback.
-    """
-    def __init__(self, mapping: Dict[claripy.ast.Base,Tuple[int,int]], variables: Set[str]):
-        self.mapping = mapping
-        self.variables: Set[str] = variables if variables else set()
-
-    def on_memory_read(self, state: 'SimState'):
-        expr = state._inspect_getattr("mem_read_expr", None)
-        if expr is not None and expr.symbolic and expr.variables.intersection(self.variables):
-            mem_read_addr = state._inspect_getattr("mem_read_address", None)
-            if mem_read_addr is not None:
-                if isinstance(mem_read_addr, int):
-                    self.mapping[expr] = mem_read_addr
-                elif not mem_read_addr.symbolic:
-                    self.mapping[expr] = mem_read_addr.concrete_value
-
-    def on_register_write(self, state: 'SimState'):
-        expr = state._inspect_getattr('reg_write_expr', None)
-        if expr is not None and expr.symbolic and expr.variables.intersection(self.variables):
-            if expr not in self.mapping:
-                # do not overwrite an existing source - it might have been from a memory read, which is the real source...
-                self.mapping[expr] = state.scratch.irsb.addr, state.scratch.stmt_idx
-
-
-class DefinitionNode:
-    def __init__(self, variable: str, block_addr: int, stmt_idx: int):
-        self.variable = variable
-        self.block_addr = block_addr
-        self.stmt_idx = stmt_idx
-
-    def __eq__(self, other):
-        return (
-                isinstance(other, DefinitionNode)
-                and self.variable == other.variable
-                and self.block_addr == other.block_addr
-        )
-
-    def __hash__(self):
-        return hash((DefinitionNode, self.variable, self.block_addr, self.stmt_idx))
-
-    def __repr__(self):
-        return f"{self.variable}@{self.block_addr:#x}:{self.stmt_idx}"
 
 
 class SliceGenerator:
@@ -115,7 +54,7 @@ class SliceGenerator:
             # print(expr, state.scratch.irsb.statements[state.scratch.stmt_idx])
 
 
-class StateGraphRecoveryAnalysis(Analysis):
+class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     """
     Traverses a function and derive a state graph with respect to given variables.
     """
@@ -250,11 +189,9 @@ class StateGraphRecoveryAnalysis(Analysis):
                                     (new_state, abs_state_id, abs_state, None, None, None, None, delta0,
                                      temp_constraint0, temp_src0))
                             else:
-                                import ipdb;
-                                ipdb.set_trace()
+                                raise RuntimeError(f"temperature delta {temp_delta} equals the previous temperature")
 
                         elif op in ['fpEQ']:
-                            # import ipdb; ipdb.set_trace()
                             new_state = self._initialize_state(init_state=init_state)
 
                             # re-symbolize input fields, time counters, and update slice generator
@@ -491,10 +428,9 @@ class StateGraphRecoveryAnalysis(Analysis):
                                 state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, delta0,
                                                     temp_constraint0, temp_src0))
                             else:
-                                import ipdb; ipdb.set_trace()
+                                raise RuntimeError(f"temperature delta {temp_delta} equals the previous temperature")
 
                         elif op in ['fpEQ']:
-                            # import ipdb; ipdb.set_trace()
                             new_state = self._initialize_state(init_state=next_state)
 
                             # re-symbolize input fields, time counters, and update slice generator
@@ -511,7 +447,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
                         if time_delta_and_sources:
                             # # TODO: need debug, this one is not showing in the graph
-                            # import ipdb; ipdb.set_trace()
                             # print(time_delta_constraint)
                             for time_delta, time_constraint, time_src in time_delta_and_sources:
                                 # append state satisfy constraint
@@ -584,7 +519,6 @@ class StateGraphRecoveryAnalysis(Analysis):
         # # test
         # # from networkx.drawing.nx_agraph import write_dot
         # # write_dot(self.state_graph, "testbothg.dot")
-        # # import ipdb; ipdb.set_trace()
         # # check if any nodes need to be divided
         # for state_node in list(self.state_graph):
         #     predecessors = list(self.state_graph.predecessors(state_node))
@@ -620,7 +554,6 @@ class StateGraphRecoveryAnalysis(Analysis):
         #                     suc_id = known_states[suc_node]
         #                     suc_edge_data = self.state_graph.get_edge_data(state_node, ((('NODE_CTR',suc_id),) + suc_node))
         #                     if suc_edge_data is None:
-        #                         import ipdb; ipdb.set_trace()
         #                     self.state_graph.add_edge((('NODE_CTR', new_id),) + state_node[1:],
         #                                               (('NODE_CTR', suc_id),) + suc_node,
         #                                               time_delta=suc_edge_data['time_delta'],
@@ -653,7 +586,6 @@ class StateGraphRecoveryAnalysis(Analysis):
         state.inspect.add_breakpoint('constraints', bp_0)
 
         next_state = self._traverse_one(state)
-        # import ipdb; ipdb.set_trace()
         # detect required time delta
         # TODO: Extend it to more than just seconds
         steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
@@ -759,10 +691,8 @@ class StateGraphRecoveryAnalysis(Analysis):
                                         continue
 
                     if constraint.op in ['__ne__', '__eq__'] and constraint.args[0].op == "__and__" and  constraint.args[0].args[0].op == "If":     # simulink one
-                        import ipdb; ipdb.set_trace()
                         if constraint.args[0].args[0].args[0].args[0].args[1] is delta:
                             if constraint.args[0].args[0].args[0].args[1].op == "BVV":
-                                # import ipdb; ipdb.set_trace()
                                 step = constraint.args[0].args[0].args[0].args[1].args[0]
                                 if step != 0:
                                     steps.append((
@@ -774,7 +704,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                     if constraint.op == "__eq__" and constraint.args[0].op == "__and__" and  constraint.args[0].args[0].op == "If":
                         if constraint.args[0].args[0].args[0].args[0].args[2] is delta:
                             if constraint.args[0].args[0].args[0].args[1].op == "BVV":
-                                import ipdb; ipdb.set_trace()
                                 step = constraint.args[0].args[0].args[0].args[1].args[0]
                                 if step != 0:
                                     steps.append((
@@ -785,232 +714,6 @@ class StateGraphRecoveryAnalysis(Analysis):
                                     continue
 
         return steps
-
-    def _discover_temp_deltas(self, state: 'SimState') -> List[Tuple[int,claripy.ast.Base,Tuple[int,int]]]:
-        """
-        Discover all possible temperature that may be required to transition the current state to successor states.
-
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
-        """
-        if self._temp_addr is None:
-            return []
-        state = self._initialize_state(state)
-        temp_deltas = self._symbolically_advance_temp(state)
-        # setup inspection points to catch where comparison happens
-        constraint_source = { }
-        constraint_logger = ConstraintLogger(constraint_source)
-        bp_0 = BP(when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints)
-        state.inspect.add_breakpoint('constraints', bp_0)
-
-        next_state = self._traverse_one(state)
-
-        # detect required temp delta
-        steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
-        if temp_deltas:
-            for delta in temp_deltas:
-                for constraint in next_state.solver.constraints:
-                    original_constraint = constraint
-
-                    if constraint.op == "__eq__" and constraint.args[0] is delta:
-                        continue
-                    elif constraint.op == 'Not':
-                        if len(constraint.args[0].args[1].args) > 2:
-                            if constraint.args[0].args[1].args[2] is delta:
-                                if constraint.args[0].args[0].op == 'FPV':
-                                    step = constraint.args[0].args[0].concrete_value
-                                    if step != 0 and step < 10000:
-                                    # if step != 0:
-                                        steps.append((
-                                            step,
-                                            constraint,
-                                            constraint_source.get(original_constraint, None),
-                                        ))
-                                        continue
-                        elif len(constraint.args[0].args[0].args) > 2:
-                            if constraint.args[0].args[0].args[2] is delta:
-                                if constraint.args[0].args[1].op == 'FPV':
-                                    step = constraint.args[0].args[1].concrete_value
-                                    if step != 0 and step < 10000:
-                                        steps.append((
-                                            step,
-                                            constraint,
-                                            constraint_source.get(original_constraint, None),
-                                        ))
-                                        continue
-
-        return steps
-
-    def _simplify_constraint(self, constraint: claripy.ast.Base, source: Dict[claripy.ast.Base,Any]) -> Tuple[Optional[claripy.ast.Base],Dict[claripy.ast.Base,Any]]:
-        """
-        Attempt to simplify a constraint and generate a new source mapping.
-
-        Note that this simplification focuses on readability and is not always sound!
-
-        :param constraint:
-        :param source:
-        :return:
-        """
-
-        if (constraint.op in ("__ne__", "__eq__", "ULE")
-                and constraint.args[0].op == "__add__"
-                and constraint.args[1].op == "__add__"):
-            # remove arguments that appear in both sides of the comparison
-            same_args = set(constraint.args[0].args).intersection(set(constraint.args[1].args))
-            if same_args:
-                left_new_args = tuple(arg for arg in constraint.args[0].args if arg not in same_args)
-                left = constraint.args[0].make_like("__add__", left_new_args) if len(left_new_args) > 1 else left_new_args[0]
-                if constraint.args[0] in source:
-                    source[left] = source[constraint.args[0]]
-
-                right_new_args = tuple(arg for arg in constraint.args[1].args if arg not in same_args)
-                right = constraint.args[1].make_like("__add__", right_new_args) if len(right_new_args) > 1 else right_new_args[0]
-                if constraint.args[1] in source:
-                    source[right] = source[constraint.args[1]]
-
-                simplified = constraint.make_like(constraint.op, (left, right))
-                if constraint in source:
-                    source[simplified] = source[constraint]
-                return self._simplify_constraint(simplified, source)
-
-        # Transform signed-extension of fpToSBV() to unsigned extension
-        if constraint.op == "Concat":
-            args = constraint.args
-            if all(arg.op == "Extract" for arg in args):
-                if len(set(arg.args[2] for arg in args)) == 1:
-                    if all(arg.args[0:2] in ((15,15), (31,31)) for arg in args[:-1]):
-                        # found it!
-                        core, source = self._simplify_constraint(args[0].args[2], source)
-                        if core is None:
-                            core = args[0].args[2]
-                        simplified = claripy.ZeroExt(len(args) - 1, core)
-                        if constraint in source:
-                            source[simplified] = source[constraint]
-                        return simplified, source
-            elif all(arg.op == "Extract" for arg in args[:-1]):
-                if len(set(arg.args[2] for arg in args[:-1])) == 1:
-                    v = args[0].args[2]
-                    if v is args[-1]:
-                        if all(arg.args[0:2] in ((15,15), (31,31)) for arg in args[:-1]):
-                            # found it!
-                            core, source = self._simplify_constraint(v, source)
-                            if core is None:
-                                core = v
-                            simplified = claripy.ZeroExt(len(args) - 1, core)
-                            if constraint is source:
-                                source[simplified] = source[constraint]
-                            return simplified, source
-
-        elif constraint.op in ('__ne__', '__mod__', '__floordiv__'):
-            left, source = self._simplify_constraint(constraint.args[0], source)
-            right, source = self._simplify_constraint(constraint.args[1], source)
-            if left is None and right is None:
-                return None, source
-            if left is None:
-                left = constraint.args[0]
-            if right is None:
-                right = constraint.args[1]
-            simplified = constraint.make_like(constraint.op, (left, right))
-            if constraint in source:
-                source[simplified] = source[constraint]
-            return simplified, source
-
-        elif constraint.op in ('__add__', ):
-            new_args = [ ]
-            simplified = False
-            for arg in constraint.args:
-                new_arg, source = self._simplify_constraint(arg, source)
-                if new_arg is not None:
-                    new_args.append(new_arg)
-                    simplified = True
-                else:
-                    new_args.append(arg)
-            if not simplified:
-                return None, source
-            simplified = constraint.make_like(constraint.op, tuple(new_args))
-            if constraint in source:
-                source[simplified] = source[constraint]
-            return simplified, source
-
-        elif constraint.op in ('fpToSBV', 'fpToFP'):
-            arg1, source = self._simplify_constraint(constraint.args[1], source)
-            if arg1 is None:
-                return None, source
-            simplified = constraint.make_like(constraint.op, (constraint.args[0], arg1, constraint.args[2]))
-            if constraint in source:
-                source[simplified] = source[constraint]
-            return simplified, source
-
-        elif constraint.op in ('fpMul', ):
-            if constraint.args[1].op == "FPV" and constraint.args[1].concrete_value == 0.0:
-                return constraint.args[1], source
-            elif constraint.args[2].op == "FPV" and constraint.args[2].concrete_value == 0.0:
-                return constraint.args[2], source
-            arg1, source = self._simplify_constraint(constraint.args[1], source)
-            arg2, source = self._simplify_constraint(constraint.args[2], source)
-            if arg1 is None and arg2 is None:
-                return None, source
-            if arg1 is None:
-                arg1 = constraint.args[1]
-            if arg2 is None:
-                arg2 = constraint.args[2]
-            simplified = constraint.make_like(constraint.op, (constraint.args[0], arg1, arg2))
-            if constraint in source:
-                source[simplified] = source[constraint]
-            return simplified, source
-
-        return None, source
-
-    def _symbolize_input_fields(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
-
-        symbolic_input_vars = { }
-
-        for name, (address, type_, size) in self.fields.fields.items():
-            # print(f"[.] Symbolizing field {name}...")
-
-            v = state.memory.load(address, size=size, endness=self.project.arch.memory_endness)
-            if not state.solver.symbolic(v):
-                # if type_ == "float":
-                #     concrete_v = state.solver.eval(v, cast_to=float)
-                #     symbolic_v = claripy.FPS(name, claripy.fp.FSORT_FLOAT)
-                # elif type_ == "double":
-                #     concrete_v = state.solver.eval(v, cast_to=float)
-                #     symbolic_v = claripy.FPS(name, claripy.fp.FSORT_DOUBLE)
-                # else:
-                concrete_v = state.solver.eval(v)
-                symbolic_v = claripy.BVS(name, size * self.project.arch.byte_width)
-                symbolic_input_vars[name] = symbolic_v
-
-                # update the value in memory
-                state.memory.store(address, symbolic_v, endness=self.project.arch.memory_endness)
-
-                # preconstrain it
-                state.preconstrainer.preconstrain(concrete_v, symbolic_v)
-            else:
-                symbolic_input_vars[name] = v
-
-        return symbolic_input_vars
-
-    def _symbolize_timecounter(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
-        if self.software == "beremiz":
-            return self._symbolize_timecounter_beremiz(state)
-        elif self.software == 'arduino':
-            return self._symbolize_timecounter_arduino(state)
-        elif self.software == 'simulink':
-            return self._symbolize_timecounter_simulink(state)
-
-    # simulink time 255
-    def _symbolize_timecounter_simulink(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
-        tv_sec_addr = self._time_addr
-        # prev = state.memory.load(self._time_addr, size=1, endness=self.project.arch.memory_endness)
-        # prev_time = state.solver.eval(prev) + 1
-
-        self._tv_sec_var = claripy.BVS('tv_sec', 1 * self.project.arch.byte_width)
-        state.memory.store(tv_sec_addr, self._tv_sec_var, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(
-            claripy.BVV(0, 1 * self.project.arch.byte_width), self._tv_sec_var)
-
-        return {'tv_sec': self._tv_sec_var}
 
     # Traffic_Light Beremiz
     def _symbolize_timecounter_beremiz(self, state: 'SimState') -> Dict[str,claripy.ast.Base]:
@@ -1031,43 +734,6 @@ class StateGraphRecoveryAnalysis(Analysis):
             'tv_sec_var': self._tv_sec_var,
             'tv_nsec_var': self._tv_nsec_var
         }
-
-    # reflowoven Arduino
-    def _symbolize_timecounter_arduino(self, state: 'SimState') -> Dict[str, claripy.ast.Base]:
-        tv_sec_addr = self._time_addr
-        prev = state.memory.load(self._time_addr, size=self.project.arch.bytes, endness=self.project.arch.memory_endness)
-        prev_time = state.solver.eval(prev) + 1
-
-        self._tv_sec_var = claripy.BVS('tv_sec', self.project.arch.bytes * self.project.arch.byte_width)
-        state.memory.store(tv_sec_addr, self._tv_sec_var, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.BVV(prev_time, self.project.arch.bytes * self.project.arch.byte_width), self._tv_sec_var)
-
-        return {'tv_sec': self._tv_sec_var}
-
-    def _symbolically_advance_timecounter(self, state: 'SimState') -> List[claripy.ast.Bits]:
-        bytesize = self.project.arch.bytes
-        if self.software == 'simulink':
-            bytesize = 1
-        sec_delta = claripy.BVS("sec_delta", bytesize * self.project.arch.byte_width)
-        state.preconstrainer.preconstrain(claripy.BVV(1, bytesize * self.project.arch.byte_width), sec_delta)
-
-        tv_sec = state.memory.load(self._time_addr, size=bytesize, endness=self.project.arch.memory_endness)
-        state.memory.store(self._time_addr, tv_sec + sec_delta, endness=self.project.arch.memory_endness)
-
-        return [sec_delta]
-
-    def _advance_timecounter(self, state: 'SimState', delta: int) -> None:
-        bytesize = self.project.arch.bytes
-        if self.software == 'simulink':
-            bytesize = 1
-        prev = state.memory.load(self._time_addr, size=bytesize, endness=self.project.arch.memory_endness)
-        state.memory.store(self._time_addr, prev + delta, endness=self.project.arch.memory_endness)
-
-        if self.software == 'beremiz':
-            tv_nsec = state.memory.load(self._time_addr + self.project.arch.bytes, size=self.project.arch.bytes,
-                                        endness=self.project.arch.memory_endness)
-            state.memory.store(self._time_addr + self.project.arch.bytes, tv_nsec + 200,
-                               endness=self.project.arch.memory_endness)
 
     def _symbolize_temp(self, state: 'SimState') -> Dict[str, claripy.ast.Base]:
         temp_addr = self._temp_addr
@@ -1090,11 +756,6 @@ class StateGraphRecoveryAnalysis(Analysis):
 
         return [temp_delta]
 
-    def _advance_temp(self, state: 'SimState', delta) -> None:
-        self._temperature = claripy.FPS('temperature', claripy.fp.FSORT_DOUBLE)
-        state.memory.store(self._temp_addr, self._temperature, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.FPV(delta, claripy.fp.FSORT_DOUBLE), self._temperature)
-
     @timethis
     def _traverse_one(self, state: 'SimState'):
         self.traverse_counter += 1
@@ -1104,25 +765,20 @@ class StateGraphRecoveryAnalysis(Analysis):
             s = simgr.active[0]
             # print(s)
             if len(simgr.active) > 1:
-                import ipdb; ipdb.set_trace()
+                raise RuntimeError("scan cycle execution forked into multiple active states")
 
             # if s.addr == 0x21d5:
             #     print("IN READ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #     # import ipdb; ipdb.set_trace()
             # if s.addr == 0x2245:
             #     print("IN CHECk!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #     # import ipdb; ipdb.set_trace()
             # if s.addr == 0x2315:
             #     print("IN IDLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #     # import ipdb; ipdb.set_trace()
             # if s.addr == 0x2349:
             #     print("IN PREHEAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             # if s.addr == 0x2377:
             #     print("IN COOK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #     # import ipdb; ipdb.set_trace()
             # if s.addr == 0x23e3:
             #     print("IN COOL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #     import ipdb; ipdb.set_trace()
             # if s.addr == 0x2405:
             #     print("IN COMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             # if s.addr == 0x2415:

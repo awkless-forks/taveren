@@ -78,8 +78,6 @@ class NoPedGreenCarGreen(IllegalNodeBaseRule):
 
 class readDigitalPin(angr.SimProcedure):
     def run(self, pin):
-        # import ipdb;
-        # ipdb.set_trace()
         pin = self.state.regs._r0
         # get the int
         if pin.op == "BVV":
@@ -92,7 +90,6 @@ class readDigitalPin(angr.SimProcedure):
 
 class writeDigitalPin(angr.SimProcedure):
     def run(self, pin, val):
-        # import ipdb; ipdb.set_trace()
         pin = self.state.regs._r0
         val = self.state.regs._r1
         print("writeDigitalPin")
@@ -133,7 +130,6 @@ def test_blinky():
     #             simgr.step()
     #         simgr.active[0].memory.store(0x40001400, claripy.BVV(0, 32))
     #     if simgr.active[0].addr == 0x21b5:
-    #         import ipdb; ipdb.set_trace()
     #
     #     simgr.step()
 
@@ -180,7 +176,6 @@ def test_blinky():
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - sgr_time))
 
-    # import ipdb; ipdb.set_trace()
     rule = MinDelayRule_PedGreen(190.0)
     r, src, dst = finder.verify(rule)
     # assert r is False

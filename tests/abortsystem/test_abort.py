@@ -18,6 +18,7 @@ from taveren import (
 )
 
 import time
+from taveren.env_model import generate_field_desc
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -51,61 +52,19 @@ def call_one_func(state: 'SimState') -> 'SimState':
         print(simgr.active)
         s = simgr.active[0]
         # if len(simgr.active) > 1:
-        #     import ipdb; ipdb.set_trace()
         # if s.addr == 0x458158:  # armed()
         #     # TODO: Should i move since i initialized motors?
         #     # rdi is motors object i dont know how to initialize it
-        #     # import ipdb; ipdb.set_trace()
         #     s.memory.store(s.regs.rdi + 0x80, claripy.BVV(1, 8), endness = s.project.arch.memory_endness)
 
         # if s.addr == 0x47dfc4:
         #     print("after abs")
-        #     import ipdb; ipdb.set_trace()
 
         simgr.stash(lambda x: x.addr == ret_trap, from_stash='active', to_stash='finished')
         simgr.step()
 
     initial_states = simgr.finished
     return initial_states[0]
-
-def _generate_field_desc(data, base_addr: int):
-    # define abstract fields
-    fields_desc = {}
-    config_fields = {}
-    for variable in data['variables']:
-        if variable['type'] == 'output':
-            fields_desc[variable['name']] = (base_addr + int(variable['address'], 16),
-                                             variable.get('sort', "int"),
-                                             variable['size'],
-                                             )
-        elif variable['type'] == 'config':
-            config_fields[variable['name']] = (base_addr + int(variable['address'], 16),
-                                               variable.get('sort', "int"),
-                                               variable['size'],
-                                               )
-
-    return fields_desc, config_fields
-
-def generate_field_desc(var_info):
-    # define abstract fields
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["type"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['sort'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["type"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['sort'],
-                                               variable['size'],
-                                               )
-
-    return fields_output, fields_input
 
 @pytest.mark.parametrize("mode", ["modelogic", "abortlogic", "full"])
 def test_abort(mode: str):
@@ -125,7 +84,6 @@ def test_abort(mode: str):
 
     # nnode = len(list(cfg.kb.functions[0x42c034].blocks))
     # print(f"number of blocks: {nnode}")
-    # import ipdb; ipdb.set_trace()
 
     # run the state initializer
     initialize_addr = 0x401f7a
@@ -140,7 +98,6 @@ def test_abort(mode: str):
     # simgr = proj.factory.simgr(initial_state)
     # simgr.step()
     # initial_state = simgr.active[0]
-    # import ipdb; ipdb.set_trace()
     print("------------init time: %s ----------" % (init_time - start_time))
 
     if mode == "abortlogic":
@@ -153,7 +110,6 @@ def test_abort(mode: str):
 
 
     # define abstract fields
-    # fields_desc, config_fields = _generate_field_desc(data, base_addr)
     outputs, inputs = generate_field_desc(data)
     # pre-constrain configuration variables so that we can track them
     fields_output = AbstractStateFields(outputs)
@@ -166,7 +122,6 @@ def test_abort(mode: str):
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
-    # import ipdb; ipdb.set_trace()
     # import pickle
     # pickle.dumps(sgr, -1)
 
@@ -182,7 +137,6 @@ def test_abort(mode: str):
         write_dot(sgr.state_graph, os.path.join(graphs_dir, "abort3.dot"))
     print("node number: ", state_graph.number_of_nodes())
     print("edge number: ", state_graph.number_of_edges())
-    # import ipdb; ipdb.set_trace()
 
     if mode == "full":
         # verify rules on full state machine
@@ -197,7 +151,6 @@ def test_abort(mode: str):
         print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
 
 
-        # import ipdb; ipdb.set_trace()
         rule2 = ReleaseBoosterLastRule()
         r, src, dst = finder.verify(rule2)
         # assert r is False

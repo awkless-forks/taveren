@@ -107,7 +107,6 @@ class MaxDelayBaseRule(BaseRule):
             t = 0
             for src, dst in zip(path, path[1:]):
                 # print(path)
-                # import ipdb; ipdb.set_trace()
                 data = graph.get_edge_data(src, dst)
                 if 'time_delta' in data and data['time_delta'] is not None:
                     t += data['time_delta']

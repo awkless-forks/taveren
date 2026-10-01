@@ -30,7 +30,6 @@ if __name__ == '__main__':
     init_callable = proj.factory.callable(init.addr, perform_merge=False)
     init_callable.perform_call()
     initial_state = init_callable.result_state
-    # import ipdb; ipdb.set_trace()
     initial_state.ip = scan_cycle_function_addr  # initialize your state at the correct execution address
     ret_trap = 0x1f32ff40
 
@@ -45,7 +44,6 @@ if __name__ == '__main__':
     while simgr.active or simgr.cycle_done:
         print(simgr.active)
         for state in simgr.cycle_done:
-            # import ipdb; ipdb.set_trace()
             if state.addr == ret_trap:
                 state.ip = scan_cycle_function_addr
                 state.stack_push(claripy.BVV(ret_trap, state.project.arch.bits))
@@ -54,7 +52,7 @@ if __name__ == '__main__':
 
         # while simgr.active:
         if len(simgr.active) > 1:
-            import ipdb; ipdb.set_trace()
+            raise RuntimeError("scan cycle execution forked into multiple active states")
         simgr.step()
         state_counter += len(simgr.active)
         simgr.stash(filter_func=lambda path: len(path.history.bbl_addrs) > 10000, to_stash="dropped")
@@ -62,4 +60,3 @@ if __name__ == '__main__':
         print(state_counter)
 
     print("final state count: ", state_counter)
-    # import ipdb; ipdb.set_trace()

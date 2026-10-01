@@ -15,7 +15,6 @@ class uart_atoi(angr.SimProcedure):
 class pinMode(angr.SimProcedure):
     def run(self, pin, mode):
         if self.arch.name in ["ARMCortexM"]:
-            # import ipdb; ipdb.set_trace()
             pin = self.state.regs._r0
             if pin.op == "BVV":
                 pin = pin.concrete_value

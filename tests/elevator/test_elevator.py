@@ -19,6 +19,7 @@ from taveren import (
 
 import time
 from .arduino_peripherial import *
+from taveren.env_model import generate_field_desc
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -59,45 +60,6 @@ class down(angr.SimProcedure):
 
 
 
-def _generate_field_desc(data, base_addr: int):
-    # define abstract fields
-    fields_desc = {}
-    config_fields = {}
-    for variable in data['variables']:
-        if variable['type'] == 'output':
-            fields_desc[variable['name']] = (base_addr + int(variable['address'], 16),
-                                             variable.get('sort', "int"),
-                                             variable['size'],
-                                             )
-        elif variable['type'] == 'config':
-            config_fields[variable['name']] = (base_addr + int(variable['address'], 16),
-                                               variable.get('sort', "int"),
-                                               variable['size'],
-                                               )
-
-    return fields_desc, config_fields
-
-def generate_field_desc(var_info):
-    # define abstract fields
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["type"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['sort'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["type"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['sort'],
-                                               variable['size'],
-                                               )
-
-    return fields_output, fields_input
-
 @pytest.mark.parametrize("variant", ["ARM", "AVR"])
 def test_elevator(variant: str):
     print("Testing elevator variant:", variant)
@@ -129,7 +91,6 @@ def test_elevator(variant: str):
         data = json.load(f)
     # print(data)
 
-    # import ipdb; ipdb.set_trace()
     proj.hook_symbol("delay", delay())
     proj.hook_symbol("pinMode", pinMode())
     proj.hook_symbol("digitalWrite", digitalWrite())
@@ -154,7 +115,6 @@ def test_elevator(variant: str):
 
     # nnode = len(list(cfg.kb.functions[0x42c034].blocks))
     # print(f"number of blocks: {nnode}")
-    # import ipdb; ipdb.set_trace()
 
     # run the state initializer
     init = proj.loader.find_symbol("setup")
@@ -172,7 +132,6 @@ def test_elevator(variant: str):
 
 
     # define abstract fields
-    # fields_desc, config_fields = _generate_field_desc(data, base_addr)
     outputs, inputs = generate_field_desc(data)
     # pre-constrain configuration variables so that we can track them
     # config_vars = {}
@@ -201,7 +160,6 @@ def test_elevator(variant: str):
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
-    # import ipdb; ipdb.set_trace()
     # import pickle
     # pickle.dumps(sgr, -1)
 
@@ -229,7 +187,6 @@ def test_elevator(variant: str):
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
 
 
-    # import ipdb; ipdb.set_trace()
     rule2 = NoDownOnGroundFloorRule()
     r, src, dst = finder.verify(rule2)
     # assert r is False

@@ -18,6 +18,8 @@ from taveren import (
     IllegalTransitionBaseRule,
     BaseRule,
 )
+from taveren.env_model import generate_field_desc
+from taveren.hooks import hook_py_extensions
 
 
 # Get path relative to this test file (important for pytest)
@@ -44,33 +46,6 @@ class WaterHighPumpOff(IllegalTransitionBaseRule):
         return True, None
 
 
-def _hook_py_extensions(proj, cfg):
-    proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['PYTHON_POLL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_debug'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_py_ext'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-
-
-def generate_field_desc(var_info):
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["type"] or "statevar" in variable["type"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['sort'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["type"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['sort'],
-                                               variable['size'],
-                                               )
-    return fields_output, fields_input
-
-
 def test_water_tank():
     # Paths relative to this test file
     binary_path = os.path.join(TEST_DIR, '../fixtures/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so')
@@ -83,7 +58,7 @@ def test_water_tank():
         data = json.load(f)
 
     cfg = proj.analyses.CFG()
-    _hook_py_extensions(proj, cfg)
+    hook_py_extensions(proj, cfg)
 
     init = cfg.kb.functions['config_init__']
     init_callable = proj.factory.callable(init.addr, perform_merge=False)

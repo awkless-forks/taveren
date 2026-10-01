@@ -5,30 +5,9 @@ import angr
 
 from . import state_graph_recovery
 from taveren import AbstractStateFields
+from taveren.env_model import generate_field_desc
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
-
-def generate_field_desc(var_info):
-    # define abstract fields
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["mode"] or "statevar" in variable["mode"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['type'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["mode"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['type'],
-                                               variable['size'],
-                                               )
-
-    return fields_output, fields_input
-
 
 def test_ihex_parser():
     binary_path = os.path.join(TEST_DIR, "../fixtures/binaries/ihex_parser")
@@ -72,7 +51,6 @@ def test_ihex_parser():
     write_dot(sgr.state_graph, os.path.join(graphs_dir, "ihex.dot"))
     print("nodes:", sgr.state_graph.number_of_nodes())
     print("edges:", sgr.state_graph.number_of_edges())
-    # import ipdb; ipdb.set_trace()
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ from taveren import (
     IllegalTransitionBaseRule,
     BaseRule,
 )
+from taveren.env_model import generate_field_desc
 
 # Get path relative to this test file (important for pytest)
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -48,52 +49,6 @@ class WaterHighPumpOff(IllegalTransitionBaseRule):
                         return False, dst
         return True, None
 
-
-def _hook_py_extensions(proj, cfg):
-    proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['PYTHON_POLL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_debug'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_py_ext'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-
-
-def _generate_field_desc(data, base_addr: int):
-    # define abstract fields
-    fields_desc = {}
-    config_fields = {}
-    for variable in data['variables']:
-        if variable['type'] == 'output':
-            fields_desc[variable['name']] = (base_addr + int(variable['address'], 16),
-                                             variable.get('sort', "int"),
-                                             variable['size'],
-                                             )
-        elif variable['type'] == 'config':
-            config_fields[variable['name']] = (base_addr + int(variable['address'], 16),
-                                               variable.get('sort', "int"),
-                                               variable['size'],
-                                               )
-
-    return fields_desc, config_fields
-
-def generate_field_desc(var_info):
-    # define abstract fields
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["type"] or "statevar" in variable["type"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['sort'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["type"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['sort'],
-                                               variable['size'],
-                                               )
-
-    return fields_output, fields_input
 
 @pytest.mark.parametrize("mode", ["WT1", "WT3"])
 def test_water_tank(mode: str):

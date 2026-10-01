@@ -19,6 +19,8 @@ from taveren import (
 
 import time
 import pickle
+from taveren.env_model import generate_field_desc
+from taveren.hooks import normalize_timespec
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -53,59 +55,6 @@ class MaxDelayMotor(MaxDelayBaseRule):
 # after the car wash starts (after selection), even if the selection button is pressed again, the service should not change
 
 
-class normalize_timespec(angr.SimProcedure):
-    def run(self):
-        # print("in normalize_timespec")
-        # import ipdb; ipdb.set_trace()
-        return None
-
-def _hook_py_extensions(proj, cfg):
-    proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['PYTHON_POLL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_debug'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_py_ext'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-
-
-def _generate_field_desc(data, base_addr: int):
-    # define abstract fields
-    fields_desc = {}
-    config_fields = {}
-    for variable in data['variables']:
-        if variable['type'] == 'output':
-            fields_desc[variable['name']] = (base_addr + int(variable['address'], 16),
-                                             variable.get('sort', "int"),
-                                             variable['size'],
-                                             )
-        elif variable['type'] == 'config':
-            config_fields[variable['name']] = (base_addr + int(variable['address'], 16),
-                                               variable.get('sort', "int"),
-                                               variable['size'],
-                                               )
-
-    return fields_desc, config_fields
-
-def generate_field_desc(var_info):
-    # define abstract fields
-    fields_output = {}
-    fields_input = {}
-    var_base_addr = var_info["variable_base_addr"]
-    for variable in var_info['variables']:
-        addr = var_base_addr + variable['address'] if isinstance(var_base_addr, int) else int(var_base_addr, 16) + int(
-            variable['address'], 16)
-        if "output" in variable["type"] or "statevar" in variable["type"]:
-            fields_output[variable['name']] = (addr,
-                                             variable['sort'],
-                                             variable['size'],
-                                             )
-        if "input" in variable["type"]:
-            fields_input[variable['name']] = (addr,
-                                               variable['sort'],
-                                               variable['size'],
-                                               )
-
-    return fields_output, fields_input
-
-
 @pytest.mark.parametrize("mode", ["arm", "x86"])
 def test_carwash(mode:str):
     if mode == "x86":
@@ -128,7 +77,6 @@ def test_carwash(mode:str):
 
     # We do not support Python eval (obviously)
     cfg = proj.analyses.CFG()
-    # import ipdb; ipdb.set_trace()
     # nnode = len(list(cfg.kb.functions[0x438395].transition_graph.nodes))     # 2137  x86_64
     # nedge = len(list(cfg.kb.functions[0x438395].transition_graph.edges))      # 4025
 
@@ -136,8 +84,6 @@ def test_carwash(mode:str):
     # nedge = len(list(cfg.kb.functions[0x2da5].transition_graph.edges))      # 4037
     #
     # print(f"number of blocks: {nnode}, number of edges: {nedge}")
-    # import ipdb; ipdb.set_trace()
-    # _hook_py_extensions(proj, cfg)
     proj.hook_symbol('__normalize_timespec', normalize_timespec())
 
     # run the state initializer
@@ -163,7 +109,6 @@ def test_carwash(mode:str):
     #     initial_state.memory.store(switch_flag_addr, claripy.BVV(0x2, 8), endness=proj.arch.memory_endness)  # flag
 
     # define abstract fields
-    # fields_desc, config_fields = _generate_field_desc(data, base_addr)
     outputs, inputs = generate_field_desc(data)
     # pre-constrain configuration variables so that we can track them
     # config_vars = {}
@@ -191,7 +136,6 @@ def test_carwash(mode:str):
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
-    # import ipdb; ipdb.set_trace()
     # import pickle
     # pickle.dumps(sgr, -1)
 
@@ -225,7 +169,6 @@ def test_policy():
 
 
     rule = MaxDelayMotor(10.0)
-    # import ipdb; ipdb.set_trace()
     r, src, dst = finder.verify(rule)
     rule2_time = time.time()
     print("------------rule2 time: %s ----------" % (rule2_time - rule1_time))
