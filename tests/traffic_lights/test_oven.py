@@ -1,12 +1,11 @@
 import os
-import struct
-from typing import TYPE_CHECKING#angr/analyses/state_graph_recovery
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
+import pytest
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY
 
 from . import state_graph_recovery
@@ -18,9 +17,6 @@ from taveren import (
     MaxDelayBaseRule,
     IllegalTransitionBaseRule,
 )
-
-if TYPE_CHECKING:
-    import networkx
 
 import time
 
@@ -211,16 +207,16 @@ class MaxCookTime(MaxDelayBaseRule):
                 yield node
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['ovenState'] == 3:
                 yield node
                 continue
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 
@@ -264,6 +260,7 @@ def switch_on(state):
     # state.memory.store(debouncestate_addr, claripy.BVV(0, 8), endness=state.arch.memory_endness)
 
 
+@pytest.mark.skip(reason="no variable-description JSON ships for the oven artifact; variable_path is a placeholder")
 def test_oven():
     binary_path = os.path.join(TEST_DIR, '../../artifacts/oven/oven.ino.elf')
     variable_path = ''

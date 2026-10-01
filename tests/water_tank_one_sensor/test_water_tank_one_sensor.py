@@ -1,9 +1,7 @@
 import os
-import struct
-from typing import TYPE_CHECKING, Any, Tuple
+from typing import Any, Tuple
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -20,9 +18,6 @@ from taveren import (
     IllegalTransitionBaseRule,
     BaseRule,
 )
-
-if TYPE_CHECKING:
-    import networkx
 
 
 # Get path relative to this test file (important for pytest)

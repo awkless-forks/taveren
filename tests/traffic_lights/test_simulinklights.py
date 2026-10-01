@@ -1,9 +1,7 @@
 import os
-import struct
-from typing import TYPE_CHECKING
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -17,8 +15,6 @@ from taveren import (
     IllegalNodeBaseRule,
     MaxDelayBaseRule,
 )
-if TYPE_CHECKING:
-    import networkx
 
 import time
 
@@ -34,16 +30,16 @@ class MinDelayRule_PedGreen(MinDelayBaseRule):
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple):
         # ped light is red
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['pg'] == 0 and dict(node)['pr'] == 1:
                 yield node
                 continue
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 
@@ -56,16 +52,16 @@ class MinDelayRule_Orange(MinDelayBaseRule):
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple):
         # ped light is red
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['yl'] == 0 and dict(node)['rl'] == 1:
                 yield node
                 continue
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 

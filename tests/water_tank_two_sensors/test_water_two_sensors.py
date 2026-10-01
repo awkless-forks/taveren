@@ -1,10 +1,8 @@
 import os
-import struct
 import time
-from typing import TYPE_CHECKING, Generator, Any, Iterable, Tuple, List
+from typing import Any, Tuple
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -21,12 +19,9 @@ from taveren import (
     BaseRule,
 )
 
-if TYPE_CHECKING:
-    import networkx
-
 # Get path relative to this test file (important for pytest)
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
-GRAPHS_DIR = os.path.join(TEST_DIR, '../../graphs')
+GRAPHS_DIR = os.path.join(TEST_DIR, 'graphs')
 
 # Ensure graphs directory exists
 os.makedirs(GRAPHS_DIR, exist_ok=True)

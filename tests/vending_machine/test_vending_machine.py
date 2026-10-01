@@ -1,8 +1,6 @@
 import os
-import struct
-from typing import TYPE_CHECKING, Generator, Any, Iterable, Tuple, List
+from typing import Generator, Any, Tuple
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -18,9 +16,6 @@ from taveren import (
     BaseRule,
 )
 
-if TYPE_CHECKING:
-    import networkx
-
 import time
 
 # Get path relative to this test file (important for pytest)
@@ -30,17 +25,17 @@ TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 class GiveChange(BaseRule):
     # calculate the money inserted, if sum is over 75 cents, but give change is not executed, return false
     def moneysum(self, graph: 'networkx.DiGraph', path) -> Generator[float, None, None]:
-
-        sum = 0
+        total = 0
         for src, dst in zip(path, path[1:]):
-            max = 0
+            # a (src, dst) pair can have several parallel edges (a MultiDiGraph);
+            # only the highest-value one actually happened between those two states
+            max_value = 0
             for data in graph.get_edge_data(src, dst).values():
-                # calculate the max value of each edge
                 value = 0
                 if data["dollar_delta"] is None and data["quarter_delta"] is None:
                     continue
                 elif data["dollar_delta"] is None and data["quarter_delta"] is not None:
-                    value +=1
+                    value += 1
                     value += 0.25 if data["quarter_delta"] > 0 else 0
                 elif data["dollar_delta"] is not None and data["quarter_delta"] is None:
                     value += 1 if data["dollar_delta"] > 0 else 0
@@ -48,12 +43,12 @@ class GiveChange(BaseRule):
                 else:
                     value += 1 if data["dollar_delta"] > 0 else 0
                     value += 0.25 if data["quarter_delta"] > 0 else 0
-                if value > max:
-                    max = value
-                sum += max
-            print(sum)
-            if sum > 0.75:
-                yield sum, src, dst
+                if value > max_value:
+                    max_value = value
+            total += max_value
+            print(total)
+            if total > 0.75:
+                yield total, src, dst
 
     def eval(self, graph) -> Tuple[bool, Any, Any]:
         # find state node and drop can node
@@ -62,10 +57,8 @@ class GiveChange(BaseRule):
         node_change = [node for node in graph.nodes() if dict(node)["vmstate"] == 3][0]
         print(list(networkx.all_simple_paths(graph, node_wait, node_drop)))
         for path in networkx.all_simple_paths(graph, node_wait, node_drop):
-
-
-            for sum, src, dst in self.moneysum(graph, path):
-                if sum > 0.75 and node_change not in path:
+            for total, src, dst in self.moneysum(graph, path):
+                if total > 0.75 and node_change not in path:
                     print(path)
                     return False, src, dst
 
@@ -199,7 +192,9 @@ def test_vending_machine():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    write_dot(sgr.state_graph, "./graphs/vending_machine.dot")
+    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    os.makedirs(graphs_dir, exist_ok=True)
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, 'vending_machine.dot'))
 
 
     print("Number of nodes: %d" % state_graph.number_of_nodes())

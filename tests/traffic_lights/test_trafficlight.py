@@ -1,9 +1,7 @@
 import os
-import struct
-from typing import TYPE_CHECKING
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -18,9 +16,6 @@ from taveren import (
     MaxDelayBaseRule,
 )
 # from taveren.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
-
-if TYPE_CHECKING:
-    import networkx
 
 import time
 
@@ -51,16 +46,16 @@ class MinDelayRule_PedGreen(MinDelayBaseRule):
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple):
         # ped light is red
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['PEDESTRIAN_GREEN_LIGHT'] == 0 and dict(node)['PEDESTRIAN_RED_LIGHT'] == 1:
                 yield node
                 continue
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 
@@ -77,15 +72,16 @@ class MinDelayRule_Orange(MinDelayBaseRule):
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple):
         # car light is red
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['ORANGE_LIGHT'] == 0 and dict(node)['RED_LIGHT'] == 1:
                 yield node
+                continue   # stop at the match, same as MinDelayRule_PedGreen.node_b above
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 

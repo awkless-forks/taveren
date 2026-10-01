@@ -1,10 +1,8 @@
 import os
-import struct
 import pytest
-from typing import TYPE_CHECKING
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -18,9 +16,6 @@ from taveren import (
 )
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
-
-if TYPE_CHECKING:
-    import networkx
 
 import time
 import pickle
@@ -43,18 +38,17 @@ class MaxDelayMotor(MaxDelayBaseRule):
                 yield node
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['CONVEYOR_MOTOR'] == 0:
                 yield node
                 continue   # stop searching path after this node
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
-                    # print(queue)
 
 # after the car wash starts (after selection), even if the selection button is pressed again, the service should not change
 
@@ -203,24 +197,22 @@ def test_carwash(mode:str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    if mode == "arm":
-        write_dot(sgr.state_graph, "./graphs/car_wash_arm.dot")
-    elif mode == "x86":
-        write_dot(sgr.state_graph, "./graphs/car_wash_x86.dot")
+    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    os.makedirs(graphs_dir, exist_ok=True)
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, f"car_wash_{mode}.dot"))
     print(f"[.] Total iteration number: {sgr.iter_count}")
 
-    import pickle
-    pkl_file = "./car_wash_arm.pkl" if mode == "arm" else "./car_wash_x86.pkl"
-    # with open("./car_wash_graph_arm_o.pkl", "wb") as f:
-    # with open("./car_wash_x86_o.pkl", "wb") as f:
+    pkl_file = os.path.join(TEST_DIR, f"car_wash_{mode}.pkl")
     with open(pkl_file, "wb") as f:
         pickle.dump(sgr.state_graph, f)
 
 def test_policy():
-    with open("./car_wash_x86.pkl", "rb") as f:
-    # with open("./car_wash_arm.pkl", "rb") as f:
+    # NOTE: depends on test_carwash[x86] having already run in this session to
+    # produce car_wash_x86.pkl (pytest runs tests in file order by default, so
+    # this works as long as test_carwash[x86] isn't deselected/reordered).
+    pkl_file = os.path.join(TEST_DIR, "car_wash_x86.pkl")
+    with open(pkl_file, "rb") as f:
         state_graph_multi = pickle.load(f)
-    # import ipdb; ipdb.set_trace()
     state_graph = networkx.DiGraph(state_graph_multi)
 
     finder = RuleVerifier(state_graph)

@@ -1,9 +1,6 @@
 import os
-import struct
-from typing import TYPE_CHECKING
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -22,9 +19,6 @@ from taveren import (
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
 # from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
-
-if TYPE_CHECKING:
-    import networkx
 
 import time
 
@@ -176,8 +170,10 @@ def test_lifter():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    variant_name = variable_path.split("/")[-1].replace(".json", "")
-    write_dot(sgr.state_graph, "./graphs/" + variant_name + ".dot")
+    variant_name = os.path.basename(variable_path).replace(".json", "")
+    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    os.makedirs(graphs_dir, exist_ok=True)
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, variant_name + ".dot"))
 
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())

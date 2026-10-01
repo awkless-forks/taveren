@@ -1,9 +1,7 @@
 import os
-import struct
-from typing import TYPE_CHECKING
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
@@ -23,9 +21,6 @@ from taveren import (
 # from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
 
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY
-
-if TYPE_CHECKING:
-    import networkx
 
 import time
 
@@ -53,16 +48,16 @@ class ValveMax15s(MaxDelayBaseRule):
                 yield node
 
     def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['PRODUCT_VALVE'] == 0:
                 yield node
                 continue
             for suc in graph.successors(node):
                 if suc not in visited:
-                    visited.append(suc)
+                    visited.add(suc)
                     queue.append(suc)
 
 
@@ -214,14 +209,10 @@ def test_packaging(mode:str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    os.makedirs("graphs", exist_ok=True)
-    match mode:
-        case "x86":
-            write_dot(sgr.state_graph, "graphs/package.dot")
-        case "mips":
-            write_dot(sgr.state_graph, "graphs/package_mips.dot")
-        case "ppc":
-            write_dot(sgr.state_graph, "graphs/package_ppc.dot")
+    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    os.makedirs(graphs_dir, exist_ok=True)
+    dot_names = {"x86": "package.dot", "mips": "package_mips.dot", "ppc": "package_ppc.dot"}
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, dot_names[mode]))
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())
 

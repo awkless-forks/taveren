@@ -1,12 +1,12 @@
 import os
 import struct
-from typing import TYPE_CHECKING
+from collections import deque
 
 import networkx
-import sys
 import json
 import claripy
 import angr
+import pytest
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY
 
 from . import state_graph_recovery
@@ -20,11 +20,7 @@ from taveren import (
 )
 # from taveren.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
 
-if TYPE_CHECKING:
-    import networkx
-
 import time
-import pickle
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -48,17 +44,16 @@ class TimeoutAbandon(MaxDelayBaseRule):
 
     def node_b(self, graph:'networkx.DiGraph', start: tuple):
         # abandon state
-        visited = [start]
-        queue = [start]
+        visited = {start}
+        queue = deque([start])
         while queue:
-            # import ipdb; ipdb.set_trace()
-            node = queue.pop(0)
+            node = queue.popleft()
             if dict(node)['state'] == 5:
                 yield node
             else:
                 for suc in graph.successors(node):
                     if suc not in visited:
-                        visited.append(suc)
+                        visited.add(suc)
                         queue.append(suc)
 
 
@@ -387,3 +382,8 @@ def test_flip():
             r, src, dst = finder.verify(rule3)
 
             return
+    else:
+        # for...else: runs only if the loop finished without ever returning above,
+        # i.e. every finished state had eax == 0. Without this, the test would
+        # silently do nothing and still report as "passed".
+        pytest.fail("No finished state had eax != 0; flip analysis never ran")
