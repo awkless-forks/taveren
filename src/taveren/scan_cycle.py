@@ -11,13 +11,13 @@ from angr.analyses.decompiler.structured_codegen.c import CStructuredCodeWalker
 
 from .callgraph import call_tree_from_call_graph, patch_ppc32_got_calls
 
-
 FAIL_FAST = False
 
 
 #
 # Utility functions
 #
+
 
 def cache_this(cache_dict: dict):
     def decorator(func):
@@ -28,13 +28,16 @@ def cache_this(cache_dict: dict):
             r = func(proj, func_addr, *args, **kwargs)
             cache_dict[func_addr] = r
             return r
+
         return wrapper
+
     return decorator
 
 
 #
 # Decompiled function traversal
 #
+
 
 class FunctionCallWithinALoopFinder(CStructuredCodeWalker):
     def __init__(self, *args, **kwargs):
@@ -77,8 +80,11 @@ CACHE_STATE_TRANS: dict[int, bool] = {}
 # Logic
 #
 
+
 @cache_this(CACHE_WHILE_LOOP)
-def has_while_loop(proj: angr.Project, func_addr: int, funcs_within_loop: list[int]) -> bool:
+def has_while_loop(
+    proj: angr.Project, func_addr: int, funcs_within_loop: list[int]
+) -> bool:
     func = proj.kb.functions.get_by_addr(func_addr)
     if func is None:
         return False
@@ -116,7 +122,9 @@ def likely_state_transition_function(proj: angr.Project, func_addr: int) -> bool
     if func.is_simprocedure or func.is_syscall or func.is_plt or func.is_alignment:
         return False
 
-    print(f"[.] likely_state_transition_function: Decompiling function {func.name}@{func.addr:#x}...")
+    print(
+        f"[.] likely_state_transition_function: Decompiling function {func.name}@{func.addr:#x}..."
+    )
     dec = proj.analyses.Decompiler(func, fail_fast=FAIL_FAST)
     if dec.codegen is None or dec.codegen.text is None:
         print(f"Decompiler failed for function {func.name}@{func.addr:#x}")
@@ -156,7 +164,9 @@ def analyze(binary_path: str) -> None:
     proj = angr.Project(binary_path, auto_load_libs=False)
 
     # CFG recovery
-    cfg = proj.analyses.CFGFast(force_smart_scan=False, normalize=True, show_progressbar=True)
+    cfg = proj.analyses.CFGFast(
+        force_smart_scan=False, normalize=True, show_progressbar=True
+    )
     proj.analyses.CompleteCallingConventions(show_progressbar=True)
 
     patch_ppc32_got_calls(proj, cfg.functions.callgraph)
@@ -176,7 +186,10 @@ def analyze(binary_path: str) -> None:
 
         for func_addr_0 in networkx.bfs_tree(call_tree, func_start_addr):
             funcs_within_loop: list[int] = []
-            if has_while_loop(proj, func_addr_0, funcs_within_loop) and funcs_within_loop:
+            if (
+                has_while_loop(proj, func_addr_0, funcs_within_loop)
+                and funcs_within_loop
+            ):
                 has_a_candidate = False
                 for func_within_loop in funcs_within_loop:
                     traversed = set()
@@ -199,7 +212,10 @@ def analyze(binary_path: str) -> None:
                             has_a_candidate = True
                         else:
                             if not has_a_candidate:
-                                ifs[func_addr_0][func_addr_1] = count_ifs(proj, func_addr_1), -depth
+                                ifs[func_addr_0][func_addr_1] = (
+                                    count_ifs(proj, func_addr_1),
+                                    -depth,
+                                )
                             for succ in call_tree.successors(func_addr_1):
                                 if succ not in traversed:
                                     queue.append((depth + 1, succ))

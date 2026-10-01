@@ -21,35 +21,44 @@ from taveren import (
 from taveren.env_model import generate_field_desc
 from taveren.hooks import hook_py_extensions
 
-
 # Get path relative to this test file (important for pytest)
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 class SensorExclusionRule(BaseRule):
-    def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool, Any, Any]:
-        for (src, dst) in graph.edges():
+    def eval(self, graph: "networkx.DiGraph") -> Tuple[bool, Any, Any]:
+        for src, dst in graph.edges():
             for edge_data in graph.get_edge_data(src, dst).values():
-                water_level = edge_data["water_level_delta"] if edge_data["water_level_delta"] is not None else 50
+                water_level = (
+                    edge_data["water_level_delta"]
+                    if edge_data["water_level_delta"] is not None
+                    else 50
+                )
                 if water_level < 15 or water_level > 85:
                     return False, src, dst
         return True, None, None
 
 
 class WaterHighPumpOff(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
         for dst in graph.successors(node):
             if dict(dst)["MOTOR"] == 1:
                 for edge_data in graph.get_edge_data(node, dst).values():
-                    if edge_data["water_level_delta"] is None or edge_data["water_level_delta"] > 85:
+                    if (
+                        edge_data["water_level_delta"] is None
+                        or edge_data["water_level_delta"] > 85
+                    ):
                         return False, dst
         return True, None
 
 
 def test_water_tank():
     # Paths relative to this test file
-    binary_path = os.path.join(TEST_DIR, '../fixtures/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so')
-    variable_path = os.path.join(TEST_DIR, 'water_tank.json')
+    binary_path = os.path.join(
+        TEST_DIR,
+        "../fixtures/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so",
+    )
+    variable_path = os.path.join(TEST_DIR, "water_tank.json")
 
     start_time = time.time()
 
@@ -60,7 +69,7 @@ def test_water_tank():
     cfg = proj.analyses.CFG()
     hook_py_extensions(proj, cfg)
 
-    init = cfg.kb.functions['config_init__']
+    init = cfg.kb.functions["config_init__"]
     init_callable = proj.factory.callable(init.addr, perform_merge=False)
     init_callable.perform_call()
     initial_state = init_callable.result_state
@@ -69,20 +78,23 @@ def test_water_tank():
     init_time = time.time()
     print(f"init time: {init_time - start_time:.2f}s")
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     outputs, inputs = generate_field_desc(data)
 
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
-    func = cfg.kb.functions['__run']
+    func = cfg.kb.functions["__run"]
     sgr = proj.analyses.StateGraphRecoveryOneSensor(
-        func, fields_output, software, time_addr,
+        func,
+        fields_output,
+        software,
+        time_addr,
         init_state=initial_state,
         inputs=inputs,
-        fields_input=fields_input
+        fields_input=fields_input,
     )
     sgr_time = time.time()
     print(f"sgr time: {sgr_time - init_time:.2f}s")
@@ -90,10 +102,11 @@ def test_water_tank():
     state_graph = sgr.state_graph
 
     # Ensure output directory exists
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
 
     from networkx.drawing.nx_agraph import write_dot
+
     write_dot(sgr.state_graph, os.path.join(graphs_dir, "water_tank.dot"))
 
     print(f"Number of nodes: {state_graph.number_of_nodes()}")

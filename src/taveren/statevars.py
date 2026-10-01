@@ -4,6 +4,7 @@ import argparse
 import os
 import pathlib
 import sys
+
 sys.setrecursionlimit(50000)
 import traceback
 from typing import Any, DefaultDict, Dict, List, Optional, Union
@@ -12,15 +13,21 @@ from collections import defaultdict
 from angr.ailment import Block
 from angr.ailment.block_walker import AILBlockWalkerBase
 from angr.ailment.statement import ConditionalJump, Statement, Store, Call, Assignment
-from angr.ailment.expression import Expression, Load, Const, VirtualVariable, Convert, BinaryOp, Register
+from angr.ailment.expression import (
+    Expression,
+    Load,
+    Const,
+    VirtualVariable,
+    Convert,
+    BinaryOp,
+    Register,
+)
 import angr
 from angr.utils.graph import GraphUtils
 from angr.analyses.s_reaching_definitions import SRDAModel
 from angr.code_location import ExternalCodeLocation
 
-
 base_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../")
-
 
 
 class ExprDependsOnExternal(AILBlockWalkerBase):
@@ -32,10 +39,15 @@ class ExprDependsOnExternal(AILBlockWalkerBase):
         self.nodes_dict = nodes_dict
         self.srda = srda
 
-        self.replace_vvar = [ ]
+        self.replace_vvar = []
 
     def _handle_VirtualVariable(
-        self, expr_idx: int, expr: VirtualVariable, stmt_idx: int, stmt: Statement, block: Block | None
+        self,
+        expr_idx: int,
+        expr: VirtualVariable,
+        stmt_idx: int,
+        stmt: Statement,
+        block: Block | None,
     ):
         if expr.category == 1:  # stack
             self.depends_on_stack = True
@@ -45,7 +57,9 @@ class ExprDependsOnExternal(AILBlockWalkerBase):
                 # it's external!
                 self.depends_on_external = True
             else:
-                def_stmt = self.nodes_dict[(def_loc.block_addr,def_loc.block_idx)].statements[def_loc.stmt_idx]
+                def_stmt = self.nodes_dict[
+                    (def_loc.block_addr, def_loc.block_idx)
+                ].statements[def_loc.stmt_idx]
                 if isinstance(def_stmt, Assignment):
                     src = def_stmt.src
                     if isinstance(src, Convert):
@@ -61,7 +75,9 @@ class ExprDependsOnExternal(AILBlockWalkerBase):
                         return
 
 
-def _expand(intermediate_global_vars: dict[int, set[Load]], addr: int, seen: set[Load]) -> set[Load]:
+def _expand(
+    intermediate_global_vars: dict[int, set[Load]], addr: int, seen: set[Load]
+) -> set[Load]:
     # this function may loop forever; fix it after -- Fish
     expanded = set()
     if addr in intermediate_global_vars:
@@ -78,7 +94,12 @@ def _expand(intermediate_global_vars: dict[int, set[Load]], addr: int, seen: set
 
 
 class ConditionWalker(AILBlockWalkerBase):
-    def __init__(self, nodes_dict: dict[tuple[int, int | None], Block], srda, intermediate_global_vars: dict[int, set[Load]]):
+    def __init__(
+        self,
+        nodes_dict: dict[tuple[int, int | None], Block],
+        srda,
+        intermediate_global_vars: dict[int, set[Load]],
+    ):
         super().__init__()
         self.depends_on_external: bool = False
 
@@ -86,12 +107,19 @@ class ConditionWalker(AILBlockWalkerBase):
         self.intermediate_global_vars = intermediate_global_vars
         self.srda = srda
 
-        self.load_vars = [ ]
-        self.store_vars = [ ]
+        self.load_vars = []
+        self.store_vars = []
 
-        self.replace_vvar = [ ]
+        self.replace_vvar = []
 
-    def _handle_Load(self, expr_idx: int, expr: Load, stmt_idx: int, stmt: Statement, block: Block | None):
+    def _handle_Load(
+        self,
+        expr_idx: int,
+        expr: Load,
+        stmt_idx: int,
+        stmt: Statement,
+        block: Block | None,
+    ):
         # *vvar_X, or *(vvar_X + 5), or *(global_addr), or *(vvar_X + 6 + vvar_y * 7)
         if isinstance(expr.addr, Const):
             # *(global_addr)
@@ -99,11 +127,15 @@ class ConditionWalker(AILBlockWalkerBase):
             if expr.addr.value not in self.intermediate_global_vars:
                 self.load_vars.append(expr)
             else:
-                self.load_vars += list(_expand(self.intermediate_global_vars, expr.addr.value, set()))
+                self.load_vars += list(
+                    _expand(self.intermediate_global_vars, expr.addr.value, set())
+                )
         else:
             walker = ExprDependsOnExternal(self.nodes_dict, self.srda)
             walker.walk_expression(expr.addr)
-            self.depends_on_external |= walker.depends_on_external & (not walker.depends_on_stack)
+            self.depends_on_external |= walker.depends_on_external & (
+                not walker.depends_on_stack
+            )
             self.load_vars.append(expr)
 
     def _handle_Store(self, stmt_idx: int, stmt: Store, block: Block | None):
@@ -114,9 +146,11 @@ class ConditionWalker(AILBlockWalkerBase):
         else:
             walker = ExprDependsOnExternal(self.nodes_dict, self.srda)
             walker.walk_expression(stmt.addr)
-            self.depends_on_external |= walker.depends_on_external & (not walker.depends_on_stack)
+            self.depends_on_external |= walker.depends_on_external & (
+                not walker.depends_on_stack
+            )
             if walker.replace_vvar:
-                for (old_vvar, new_vvar) in walker.replace_vvar:
+                for old_vvar, new_vvar in walker.replace_vvar:
                     stmt_new = stmt.replace(old_vvar, new_vvar)
                     if stmt_new[0]:
                         self.store_vars.append(stmt_new[1])
@@ -124,13 +158,20 @@ class ConditionWalker(AILBlockWalkerBase):
                 self.store_vars.append(stmt)
 
     def _handle_VirtualVariable(
-            self, expr_idx: int, expr: VirtualVariable, stmt_idx: int, stmt: Statement, block: Block | None
+        self,
+        expr_idx: int,
+        expr: VirtualVariable,
+        stmt_idx: int,
+        stmt: Statement,
+        block: Block | None,
     ):
         walker = ExprDependsOnExternal(self.nodes_dict, self.srda)
         walker.walk_expression(expr)
-        self.depends_on_external |= walker.depends_on_external & (not walker.depends_on_stack)
+        self.depends_on_external |= walker.depends_on_external & (
+            not walker.depends_on_stack
+        )
         if walker.replace_vvar:
-            (old_vvar, new_vvar) = walker.replace_vvar[0]
+            old_vvar, new_vvar = walker.replace_vvar[0]
             if isinstance(new_vvar, VirtualVariable):
                 self.load_vars.append(new_vvar)
             # elif isinstance(new_vvar, Load):
@@ -139,9 +180,9 @@ class ConditionWalker(AILBlockWalkerBase):
             else:
                 self.walk_expression(new_vvar)
             # self.replace_vvar.append((old_vvar, new_vvar))
-    #             stmt_new = stmt.replace(old_vvar, new_vvar)
-    #             if stmt_new[0]:
-    #                 self.store_vars.append(stmt_new[1])
+        #             stmt_new = stmt.replace(old_vvar, new_vvar)
+        #             if stmt_new[0]:
+        #                 self.store_vars.append(stmt_new[1])
         else:
             self.load_vars.append(expr)
 
@@ -154,7 +195,12 @@ class OperandExtractor(AILBlockWalkerBase):
         self.walk_expression(expr, None, None, None)
 
     def _handle_expr(
-        self, expr_idx: int, expr: Expression, stmt_idx: int, stmt: Statement | None, block: Block | None
+        self,
+        expr_idx: int,
+        expr: Expression,
+        stmt_idx: int,
+        stmt: Statement | None,
+        block: Block | None,
     ) -> Any:
         if expr is not self.expr:
             self.operands.append(expr)
@@ -167,14 +213,26 @@ class GlobalVarType(Enum):
 
 
 class GlobalVar:
-    def __init__(self, addr: int, size: int, var_type: GlobalVarType, vvar_base: VirtualVariable = None):
+    def __init__(
+        self,
+        addr: int,
+        size: int,
+        var_type: GlobalVarType,
+        vvar_base: VirtualVariable = None,
+    ):
         self.addr = addr
         self.size = size
         self.type = var_type
         self.vvar_base = vvar_base
 
     def __eq__(self, other):
-        return isinstance(other, GlobalVar) and self.addr == other.addr and self.size == other.size and self.type == other.type and self.vvar_base == other.vvar_base
+        return (
+            isinstance(other, GlobalVar)
+            and self.addr == other.addr
+            and self.size == other.size
+            and self.type == other.type
+            and self.vvar_base == other.vvar_base
+        )
 
     def __hash__(self):
         return hash((GlobalVar, self.addr, self.size))
@@ -196,27 +254,31 @@ def extract_variable_from_expr(
     cond_parser.walk_expression(expr, None, None, None)
 
     # if cond_parser.depends_on_external and cond_parser.replace_vvar:
-        # (old_vvar, new_vvar) = cond_parser.replace_vvar[0]
-        # expr_new = expr.replace(old_vvar, new_vvar)
+    # (old_vvar, new_vvar) = cond_parser.replace_vvar[0]
+    # expr_new = expr.replace(old_vvar, new_vvar)
 
     return cond_parser
 
-def extract_addr_from_stmt(stmt:Statement,
-                           nodes_dict: dict[tuple[int, int | None], Block],
-                           srda: SRDAModel,
-                           intermediate_global_vars,
-                           ):
+
+def extract_addr_from_stmt(
+    stmt: Statement,
+    nodes_dict: dict[tuple[int, int | None], Block],
+    srda: SRDAModel,
+    intermediate_global_vars,
+):
     cond_parser = ConditionWalker(nodes_dict, srda, intermediate_global_vars)
     cond_parser.walk_statement(stmt, None)
 
-    return  cond_parser
+    return cond_parser
 
 
-def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, list], proj):
+def trace_global_vars(
+    nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, list], proj
+):
     func_virtual_vars = [var[0] for var in dec.clinic.arg_vvars.values()]
 
     # parse all conditions from each conditional jump statement
-    conds = [ ]
+    conds = []
     for node in nodes:
         if not node.statements:
             continue
@@ -229,7 +291,9 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
 
     print(conds)
     # collect all assignments between global variables
-    intermediate_global_vars = defaultdict(set)  # addr of the intermediate variable to other global variables
+    intermediate_global_vars = defaultdict(
+        set
+    )  # addr of the intermediate variable to other global variables
     for node in nodes:
         for stmt in node.statements:
             if isinstance(stmt, Store) and isinstance(stmt.addr, Const):
@@ -241,7 +305,11 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                     for arg in oe.operands:
                         if isinstance(arg, Load) and isinstance(arg.addr, Const):
                             intermediate_global_vars[stmt.addr.value].add(arg)
-                if isinstance(data, Call) and isinstance(data.target, Const) and proj.kb.functions.contains_addr(data.target.value):
+                if (
+                    isinstance(data, Call)
+                    and isinstance(data.target, Const)
+                    and proj.kb.functions.contains_addr(data.target.value)
+                ):
                     the_func = proj.kb.functions[data.target.value]
                     # TODO: Handle other types of functions
                     if the_func.name == "OR__BOOL__BOOL" and len(data.args) == 5:
@@ -251,7 +319,12 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                             arg3 = arg3.operand
                         if isinstance(arg4, Convert):
                             arg4 = arg4.operand
-                        if isinstance(arg3, Load) and isinstance(arg3.addr, Const) and isinstance(arg4, Load) and isinstance(arg4.addr, Const):
+                        if (
+                            isinstance(arg3, Load)
+                            and isinstance(arg3.addr, Const)
+                            and isinstance(arg4, Load)
+                            and isinstance(arg4.addr, Const)
+                        ):
                             intermediate_global_vars[stmt.addr.value] |= {arg3, arg4}
 
     nodes_dict = {(node.addr, node.idx): node for node in nodes}
@@ -264,7 +337,9 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
         last_stmt = node.statements[-1]
         if isinstance(last_stmt, ConditionalJump):
             cond = last_stmt.condition
-            cond_parser = extract_variable_from_expr(cond, nodes_dict, srda, intermediate_global_vars)
+            cond_parser = extract_variable_from_expr(
+                cond, nodes_dict, srda, intermediate_global_vars
+            )
             if cond_parser.depends_on_external:
                 global_vars = cond_parser.load_vars
                 for expr in global_vars:
@@ -276,7 +351,12 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                         gv_dict[gv].append(("read", last_stmt.ins_addr))
                     elif isinstance(expr.addr, VirtualVariable):
                         # vvar_0
-                        gv = GlobalVar(addr=0, size=expr.size, var_type=GlobalVarType.VVAR, vvar_base=expr.addr)
+                        gv = GlobalVar(
+                            addr=0,
+                            size=expr.size,
+                            var_type=GlobalVarType.VVAR,
+                            vvar_base=expr.addr,
+                        )
                         gv_dict[gv].append(("read", last_stmt.ins_addr))
                     elif isinstance(expr.addr, Load):
                         # [vvar_0 + 0x8]+x
@@ -286,16 +366,28 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
                         vvar_base = expr.addr.operands[0]
                         vvar_offset = expr.addr.operands[1]
                         if isinstance(vvar_offset, Const):
-                            gv = GlobalVar(vvar_offset.value, expr.size, GlobalVarType.VVAR, vvar_base)
+                            gv = GlobalVar(
+                                vvar_offset.value,
+                                expr.size,
+                                GlobalVarType.VVAR,
+                                vvar_base,
+                            )
                             gv_dict[gv].append(("read", last_stmt.ins_addr))
                         else:
                             print(vvar_offset)
                     elif expr.addr.op == "Sub" and expr.addr.operands[1].sign_bit == 1:
                         # optimize sub
                         vvar_base = expr.addr.operands[0]
-                        vvar_offset_value = (1 << expr.addr.operands[1].bits) - expr.addr.operands[1].value
+                        vvar_offset_value = (
+                            1 << expr.addr.operands[1].bits
+                        ) - expr.addr.operands[1].value
                         if isinstance(vvar_offset, Const):
-                            gv = GlobalVar(vvar_offset_value, expr.size, GlobalVarType.VVAR, vvar_base)
+                            gv = GlobalVar(
+                                vvar_offset_value,
+                                expr.size,
+                                GlobalVarType.VVAR,
+                                vvar_base,
+                            )
                             gv_dict[gv].append(("read", stmt.ins_addr))
                         else:
                             print(vvar_offset)
@@ -305,31 +397,56 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
 
         for stmt in node.statements:
             if isinstance(stmt, Store):
-                stmt_parser = extract_addr_from_stmt(stmt, nodes_dict, srda, intermediate_global_vars)
+                stmt_parser = extract_addr_from_stmt(
+                    stmt, nodes_dict, srda, intermediate_global_vars
+                )
                 if stmt_parser.depends_on_external:
                     global_vars = stmt_parser.store_vars
                     for expr in global_vars:
                         if isinstance(expr.addr, Const):
-                            gv = GlobalVar(stmt.addr.value, stmt.size, GlobalVarType.GLOBAL)
+                            gv = GlobalVar(
+                                stmt.addr.value, stmt.size, GlobalVarType.GLOBAL
+                            )
                             gv_dict[gv].append(("write", stmt.ins_addr))
                         elif isinstance(expr.addr, VirtualVariable):
                             # vvar_0
-                            gv = GlobalVar(addr=0, size=stmt.size, var_type=GlobalVarType.VVAR, vvar_base=expr.addr)
+                            gv = GlobalVar(
+                                addr=0,
+                                size=stmt.size,
+                                var_type=GlobalVarType.VVAR,
+                                vvar_base=expr.addr,
+                            )
                             gv_dict[gv].append(("write", stmt.ins_addr))
                         elif expr.addr.op == "Add":
                             vvar_base = expr.addr.operands[0]
                             vvar_offset = expr.addr.operands[1]
-                            gv = GlobalVar(vvar_offset.value, stmt.size, GlobalVarType.VVAR, vvar_base)
+                            gv = GlobalVar(
+                                vvar_offset.value,
+                                stmt.size,
+                                GlobalVarType.VVAR,
+                                vvar_base,
+                            )
                             gv_dict[gv].append(("write", stmt.ins_addr))
-                        elif expr.addr.op == "Sub" and expr.addr.operands[1].sign_bit == 1:
+                        elif (
+                            expr.addr.op == "Sub"
+                            and expr.addr.operands[1].sign_bit == 1
+                        ):
                             # optimize sub
                             vvar_base = expr.addr.operands[0]
-                            vvar_offset_value = (1 << expr.addr.operands[1].bits) - expr.addr.operands[1].value
-                            gv = GlobalVar(vvar_offset_value, stmt.size, GlobalVarType.VVAR, vvar_base)
+                            vvar_offset_value = (
+                                1 << expr.addr.operands[1].bits
+                            ) - expr.addr.operands[1].value
+                            gv = GlobalVar(
+                                vvar_offset_value,
+                                stmt.size,
+                                GlobalVarType.VVAR,
+                                vvar_base,
+                            )
                             gv_dict[gv].append(("write", stmt.ins_addr))
                         else:
-                            raise NotImplementedError(f"unsupported store address expression: {expr.addr}")
-
+                            raise NotImplementedError(
+                                f"unsupported store address expression: {expr.addr}"
+                            )
 
     """
             global_vars = extract_variable_from_expr(cond)
@@ -359,48 +476,47 @@ def trace_global_vars(nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, li
     """
 
 
-def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
+def analyse_statevars(binary_path: str = None, funcs: List[Union[int, str]] = None):
 
     proj = angr.Project(binary_path)
-    cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    cfg = proj.analyses.CFGFast(
+        show_progressbar=True, force_smart_scan=False, normalize=True
+    )
     proj.analyses.CompleteCallingConventions(
-        analyze_callsites=True,
-        prioritize_func_addrs=funcs,
-        skip_other_funcs=True
+        analyze_callsites=True, prioritize_func_addrs=funcs, skip_other_funcs=True
     )
 
     # which registers the data pointer is stored for the scan cycle function, and what the addresses are
     data_args: dict[str, int] = {}
 
-
-#     # # rover
-#     # proj = angr.Project("statevars/arduino-b_flash_R7FA4M1AB.hex", main_opts = {"arch": "ARMCortexM", "endness": "Iend_LE", "entry_point": 0x1f35}, auto_load_libs=False)
-#     # cfg = proj.analyses.CFGFast(force_smart_scan=False, show_progressbar=True, normalize=True)
-#     #
-#     # funcs = [
-#     #     0x46f1,  # update_position
-#     #     0x4ec9,  # loop
-#     # ]
-#
-#     # # copter x86
-#     # binary_path = "/home/bonnie/PLCRCA/arducopter/arducopter_nobuildin"
-#     # proj = angr.Project(binary_path)
-#     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
-#     # funcs = [0x47e1cc]
-#
+    #     # # rover
+    #     # proj = angr.Project("statevars/arduino-b_flash_R7FA4M1AB.hex", main_opts = {"arch": "ARMCortexM", "endness": "Iend_LE", "entry_point": 0x1f35}, auto_load_libs=False)
+    #     # cfg = proj.analyses.CFGFast(force_smart_scan=False, show_progressbar=True, normalize=True)
+    #     #
+    #     # funcs = [
+    #     #     0x46f1,  # update_position
+    #     #     0x4ec9,  # loop
+    #     # ]
+    #
+    #     # # copter x86
+    #     # binary_path = "/home/bonnie/PLCRCA/arducopter/arducopter_nobuildin"
+    #     # proj = angr.Project(binary_path)
+    #     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    #     # funcs = [0x47e1cc]
+    #
     # water tank
     # binary_path = '/home/bonnie/SMCheck/fbd_examples/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so'
     # proj = angr.Project(binary_path)
     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
     # funcs = [0x4235C9]
-#
-#     # # water tank fbd
-#     # # State variable candidate <VVAR vvar_0 offset 0x8: 1 bytes>
-#     # binary_path = '/home/bonnie/SMCheck/fbd_examples/CPS Binary Analysis/water_tank/build/water_tank.so'
-#     # proj = angr.Project(binary_path)
-#     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
-#     # funcs = [0x41C24A]
-#
+    #
+    #     # # water tank fbd
+    #     # # State variable candidate <VVAR vvar_0 offset 0x8: 1 bytes>
+    #     # binary_path = '/home/bonnie/SMCheck/fbd_examples/CPS Binary Analysis/water_tank/build/water_tank.so'
+    #     # proj = angr.Project(binary_path)
+    #     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    #     # funcs = [0x41C24A]
+    #
     # # car wash arm
     # binary_path = "/home/bonnie/SMCheck/binaries/carwash-mkr1010-g.elf"
     # proj = angr.Project(binary_path)
@@ -412,36 +528,36 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     # )
     # funcs = [0x2da5]
 
-        # # warehouse lifter
+    # # warehouse lifter
     # binary_path = '/home/bonnie/SMCheck/fbd_examples/warehouse_lift/build/warehouse_lift.so'
     # proj = angr.Project(binary_path)
     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
     # funcs = [0x423A54]
-#
-#     # # Water Tank WT.3
-#     # binary_path = '/home/bonnie/SMCheck/fbd_examples/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so'
-#     # proj = angr.Project(binary_path)
-#     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
-#     # funcs = [0x42359A]
-#
-#     # # Packaging
-#     # binary_path = '/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc.so'
-#     # proj = angr.Project(binary_path)
-#     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
-#     # funcs = [0x4236C0]
-#
-#     # packaging 2 mips
-#     binary_path = "/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_mips.so"
-#     proj = angr.Project(binary_path)
-#     cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
-#     proj.analyses.CompleteCallingConventions(
-#         analyze_callsites=True,
-#         prioritize_func_addrs=[0x416634],
-#         skip_other_funcs=True
-#     )
-#     funcs = [0x416634]
+    #
+    #     # # Water Tank WT.3
+    #     # binary_path = '/home/bonnie/SMCheck/fbd_examples/water_tank_sfc_two_sesnors/build/water_tank_sfc_two_sesnors.so'
+    #     # proj = angr.Project(binary_path)
+    #     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    #     # funcs = [0x42359A]
+    #
+    #     # # Packaging
+    #     # binary_path = '/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc.so'
+    #     # proj = angr.Project(binary_path)
+    #     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    #     # funcs = [0x4236C0]
+    #
+    #     # packaging 2 mips
+    #     binary_path = "/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_mips.so"
+    #     proj = angr.Project(binary_path)
+    #     cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
+    #     proj.analyses.CompleteCallingConventions(
+    #         analyze_callsites=True,
+    #         prioritize_func_addrs=[0x416634],
+    #         skip_other_funcs=True
+    #     )
+    #     funcs = [0x416634]
 
-#     packaging 3 ppc
+    #     packaging 3 ppc
     # binary_path = "/home/bonnie/SMCheck/fbd_examples/packaging_sfc/build/packaging_sfc_powerpc.so"
     # proj = angr.Project(binary_path)
     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
@@ -451,7 +567,7 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     #     skip_other_funcs=True
     # )
     # funcs = [0x41689c]
-#
+    #
     # # Traffic Light TL.4
     # binary_path = os.path.join(base_dir, 'PLCRCA/traffic_light_addsensor_x86-64/Traffic_Light_addsensor_x86-64.so')
     # proj = angr.Project(binary_path)
@@ -474,7 +590,6 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     # )
     # funcs = [0x42BF53]
 
-
     # # Traffic Light TL.6
     # binary_path = '/home/bonnie/PLCRCA/arm32/Traffic_Light_Short_Ped/build/Traffic_Light_Short_Ped.so'
     # proj = angr.Project(binary_path)
@@ -491,12 +606,11 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     # proj = angr.Project(binary_path)
     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
     # proj.analyses.CompleteCallingConventions(
-#         analyze_callsites=True,
-#         prioritize_func_addrs=[0x42BF53],
-#         skip_other_funcs=True
-#     )
+    #         analyze_callsites=True,
+    #         prioritize_func_addrs=[0x42BF53],
+    #         skip_other_funcs=True
+    #     )
     # funcs = [0x42BF53]
-
 
     #
     # # Traffic Light TL.8
@@ -509,7 +623,7 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     #     skip_other_funcs=True
     # )
     # funcs = [0x42BF53]
-#
+    #
     # # traffic light beremiz TL.9
     # proj = angr.Project("/home/bonnie/PLCRCA/Traffic_Light_original/build/Traffic_Light_original.so")
     # cfg = proj.analyses.CFGFast(show_progressbar=True, force_smart_scan=False, normalize=True)
@@ -570,7 +684,10 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
     initial_arg_values = {}
     if not data_args:
         symbols = ["RESOURCE1__MAIN_INSTANCE", "RES0__INSTANCE0"]
-        arg_symbol = next((proj.loader.find_symbol(s) for s in symbols if proj.loader.find_symbol(s)), None)
+        arg_symbol = next(
+            (proj.loader.find_symbol(s) for s in symbols if proj.loader.find_symbol(s)),
+            None,
+        )
         if arg_symbol:
             data_addr = arg_symbol.rebased_addr
             match proj.arch.name:
@@ -583,10 +700,10 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 case "PPC32":
                     first_arg = "r3"
                 case _:
-                    raise NotImplementedError(f"Architecture {proj.arch.name} not supported yet.")
-            data_args = {
-                first_arg: data_addr
-            }
+                    raise NotImplementedError(
+                        f"Architecture {proj.arch.name} not supported yet."
+                    )
+            data_args = {first_arg: data_addr}
 
     if data_args:
         stack_offset = None
@@ -597,18 +714,27 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 for data_reg, data_addr in data_args.items():
                     entry_block = proj.factory.block(func_addr)
                     for inst in entry_block.capstone.insns:
-                        if (inst.mnemonic == "mov"
-                                and inst.operands[0].type == capstone.x86.X86_OP_MEM
-                                and inst.operands[0].mem.base == capstone.x86.X86_REG_RBP
-                                and inst.operands[1].type == capstone.x86.X86_OP_REG
-                                and inst.operands[1].reg == getattr(capstone.x86, f"X86_REG_{data_reg.upper()}")
+                        if (
+                            inst.mnemonic == "mov"
+                            and inst.operands[0].type == capstone.x86.X86_OP_MEM
+                            and inst.operands[0].mem.base == capstone.x86.X86_REG_RBP
+                            and inst.operands[1].type == capstone.x86.X86_OP_REG
+                            and inst.operands[1].reg
+                            == getattr(capstone.x86, f"X86_REG_{data_reg.upper()}")
                         ):
                             stack_offset = inst.operands[0].mem.disp
                             break
                     if stack_offset is not None:
                         for block_addr in func.block_addrs_set:
                             for insn in proj.factory.block(block_addr).capstone.insns:
-                                if insn.mnemonic == "mov" and insn.operands[0].type == capstone.x86.X86_OP_REG and insn.operands[1].type == capstone.x86.X86_OP_MEM and insn.operands[1].mem.base == capstone.x86.X86_REG_RBP and insn.operands[1].mem.disp == stack_offset:
+                                if (
+                                    insn.mnemonic == "mov"
+                                    and insn.operands[0].type == capstone.x86.X86_OP_REG
+                                    and insn.operands[1].type == capstone.x86.X86_OP_MEM
+                                    and insn.operands[1].mem.base
+                                    == capstone.x86.X86_REG_RBP
+                                    and insn.operands[1].mem.disp == stack_offset
+                                ):
                                     dst = insn.op_str.split(",")[0]
                                     initial_arg_values[insn.address] = {dst: data_addr}
         elif "ARM" in proj.arch.name:
@@ -619,18 +745,24 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 for inst in entry_block.capstone.insns:
                     if inst.mnemonic == "str":
                         # first store instruction to store r0
-                        if inst.operands[0].type == capstone.arm.ARM_OP_REG and inst.operands[0].reg == capstone.arm.ARM_REG_R0 and inst.operands[1].type == capstone.arm.ARM_OP_MEM:
+                        if (
+                            inst.operands[0].type == capstone.arm.ARM_OP_REG
+                            and inst.operands[0].reg == capstone.arm.ARM_REG_R0
+                            and inst.operands[1].type == capstone.arm.ARM_OP_MEM
+                        ):
                             stack_mem_base = inst.operands[1].mem.base
                             stack_offset = inst.operands[1].mem.disp
                             break
                 if stack_offset is not None:
                     for block_addr in func.block_addrs_set:
                         for insn in proj.factory.block(block_addr).capstone.insns:
-                            if (insn.mnemonic == "ldr"
-                                    and insn.operands[0].type == capstone.arm.ARM_OP_REG
-                                    and insn.operands[1].type == capstone.arm.ARM_OP_MEM
-                                    and insn.operands[1].mem.base == stack_mem_base
-                                    and insn.operands[1].mem.disp == stack_offset):
+                            if (
+                                insn.mnemonic == "ldr"
+                                and insn.operands[0].type == capstone.arm.ARM_OP_REG
+                                and insn.operands[1].type == capstone.arm.ARM_OP_MEM
+                                and insn.operands[1].mem.base == stack_mem_base
+                                and insn.operands[1].mem.disp == stack_offset
+                            ):
                                 dst = insn.op_str.split(",")[0]
                                 initial_arg_values[insn.address] = {dst: data_addr}
         elif "MIPS" in proj.arch.name:
@@ -639,21 +771,25 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 # find where a0 is stored on stack
                 entry_block = proj.factory.block(func_addr)
                 for inst in entry_block.capstone.insns:
-                    if (inst.mnemonic == "sw"
-                            and inst.operands[0].type == capstone.mips.MIPS_OP_REG
-                            and inst.operands[0].reg == capstone.mips.MIPS_REG_A0
-                            and inst.operands[1].type == capstone.mips.MIPS_OP_MEM):
+                    if (
+                        inst.mnemonic == "sw"
+                        and inst.operands[0].type == capstone.mips.MIPS_OP_REG
+                        and inst.operands[0].reg == capstone.mips.MIPS_REG_A0
+                        and inst.operands[1].type == capstone.mips.MIPS_OP_MEM
+                    ):
                         stack_mem_base = inst.operands[1].mem.base
                         stack_offset = inst.operands[1].mem.disp
                         break
                 if stack_offset is not None:
                     for block_addr in func.block_addrs_set:
                         for insn in proj.factory.block(block_addr).capstone.insns:
-                            if (insn.mnemonic == "lw"
-                                    and insn.operands[0].type == capstone.mips.MIPS_OP_REG
-                                    and insn.operands[1].type == capstone.mips.MIPS_OP_MEM
-                                    and insn.operands[1].mem.base == stack_mem_base
-                                    and insn.operands[1].mem.disp == stack_offset):
+                            if (
+                                insn.mnemonic == "lw"
+                                and insn.operands[0].type == capstone.mips.MIPS_OP_REG
+                                and insn.operands[1].type == capstone.mips.MIPS_OP_MEM
+                                and insn.operands[1].mem.base == stack_mem_base
+                                and insn.operands[1].mem.disp == stack_offset
+                            ):
                                 dst = insn.op_str.split(",")[0].strip("$")
                                 initial_arg_values[insn.address] = {dst: data_addr}
         elif "PPC32" in proj.arch.name:
@@ -663,10 +799,12 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 entry_block = proj.factory.block(func_addr)
                 stack_mem_base = None
                 for inst in entry_block.capstone.insns:
-                    if (inst.mnemonic == "stw"
-                            and inst.operands[0].type == capstone.ppc.PPC_OP_REG
-                            and inst.operands[0].reg == capstone.ppc.PPC_REG_R3
-                            and inst.operands[1].type == capstone.ppc.PPC_OP_MEM):
+                    if (
+                        inst.mnemonic == "stw"
+                        and inst.operands[0].type == capstone.ppc.PPC_OP_REG
+                        and inst.operands[0].reg == capstone.ppc.PPC_REG_R3
+                        and inst.operands[1].type == capstone.ppc.PPC_OP_MEM
+                    ):
                         stack_mem_base = inst.operands[1].mem.base
                         stack_offset = inst.operands[1].mem.disp
                         break
@@ -674,35 +812,51 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
                 if stack_offset is not None:
                     for block_addr in func.block_addrs_set:
                         for insn in proj.factory.block(block_addr).capstone.insns:
-                            if (insn.mnemonic == "lwz"
-                                    and insn.operands[0].type == capstone.ppc.PPC_OP_REG
-                                    and insn.operands[1].type == capstone.ppc.PPC_OP_MEM
-                                    and insn.operands[1].mem.base == stack_mem_base
-                                    and insn.operands[1].mem.disp == stack_offset):
+                            if (
+                                insn.mnemonic == "lwz"
+                                and insn.operands[0].type == capstone.ppc.PPC_OP_REG
+                                and insn.operands[1].type == capstone.ppc.PPC_OP_MEM
+                                and insn.operands[1].mem.base == stack_mem_base
+                                and insn.operands[1].mem.disp == stack_offset
+                            ):
                                 dst = insn.op_str.split(",")[0]
                                 initial_arg_values[insn.address] = {dst: data_addr}
         else:
             print("Architecture not supported for initial argument value injection.")
             pass
 
-
-
     def _hooked_convert_vex(o, block):
         # convert it regardless
         converted = Clinic._convert_vex_original(o, block)
         touched_insn_addrs = set()
         for idx, stmt in reversed(list(enumerate(converted.statements))):
-            if stmt.ins_addr not in touched_insn_addrs and stmt.ins_addr in initial_arg_values:
+            if (
+                stmt.ins_addr not in touched_insn_addrs
+                and stmt.ins_addr in initial_arg_values
+            ):
                 for reg_name, reg_value in initial_arg_values[stmt.ins_addr].items():
                     reg_offset, reg_size = proj.arch.registers[reg_name]
                     reg_bits = reg_size * 8
-                    reg = Register(o._ail_manager.next_atom(), None, reg_offset, reg_bits, ins_addr=stmt.ins_addr)
-                    val = Const(o._ail_manager.next_atom(), None, reg_value, reg_bits, ins_addr=stmt.ins_addr)
-                    set_reg_stmt = Assignment(o._ail_manager.next_atom(), reg, val, ins_addr=stmt.ins_addr)
+                    reg = Register(
+                        o._ail_manager.next_atom(),
+                        None,
+                        reg_offset,
+                        reg_bits,
+                        ins_addr=stmt.ins_addr,
+                    )
+                    val = Const(
+                        o._ail_manager.next_atom(),
+                        None,
+                        reg_value,
+                        reg_bits,
+                        ins_addr=stmt.ins_addr,
+                    )
+                    set_reg_stmt = Assignment(
+                        o._ail_manager.next_atom(), reg, val, ins_addr=stmt.ins_addr
+                    )
                     converted.statements.insert(idx + 1, set_reg_stmt)
                     touched_insn_addrs.add(stmt.ins_addr)
         return converted
-
 
     if initial_arg_values:
         # hack
@@ -720,7 +874,9 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
         # traverse the graph to get all conditions and variables used
 
         func_args = {vvar for vvar, _ in dec.clinic.arg_vvars.values()}
-        srda = proj.analyses.SReachingDefinitions(subject=func, func_graph=dec.clinic.cc_graph, func_args=func_args)
+        srda = proj.analyses.SReachingDefinitions(
+            subject=func, func_graph=dec.clinic.cc_graph, func_args=func_args
+        )
         # srda.model.all_vvar_uses[0]
         # print({node.addr: node for node in dec.clinic.graph}[0x42c055].statements[1])
 
@@ -729,8 +885,9 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
         trace_global_vars(nodes, dec, srda.model, gv_dict, proj)
 
     from pprint import pprint
+
     pprint(gv_dict)
-    print("--"*20)
+    print("--" * 20)
 
     statevar_candidates = []
 
@@ -740,33 +897,49 @@ def analyse_statevars(binary_path: str=None, funcs: List[Union[int, str]]=None):
         # special hack for this binary because it abuses "is_Abort" as an output variable as well
         blacklist_blocks = [(0x40160D, 0x401634)]
         for gv, accesses in list(gv_dict.items()):
-            accesses = [a for a in accesses if not any(start <= a[1] <= end for start, end in blacklist_blocks)]
+            accesses = [
+                a
+                for a in accesses
+                if not any(start <= a[1] <= end for start, end in blacklist_blocks)
+            ]
             gv_dict[gv] = accesses
 
     if "oven" in proj.filename:
         # skip the error handling code is at the beginning of the scan cycle
-        blaclist_blocks = [(0x21c3, 0x2301)]
+        blaclist_blocks = [(0x21C3, 0x2301)]
         for gv, accesses in list(gv_dict.items()):
-            accesses = [a for a in accesses if not any(start <= a[1] <= end for start, end in blaclist_blocks)]
+            accesses = [
+                a
+                for a in accesses
+                if not any(start <= a[1] <= end for start, end in blaclist_blocks)
+            ]
             gv_dict[gv] = accesses
 
     for gv, accesses in gv_dict.items():
         if accesses:
             sorted_accesses = sorted(accesses, key=lambda x: x[1])
-            if sorted_accesses[0][0] == "read" and any(a[0] == "write" for a in sorted_accesses):
+            if sorted_accesses[0][0] == "read" and any(
+                a[0] == "write" for a in sorted_accesses
+            ):
                 offsets = [gv.addr - base for base in all_var_bases if gv.addr >= base]
-                print(f"State variable candidate {gv},  offset = {hex(min(offsets) if offsets else gv.addr)}")
+                print(
+                    f"State variable candidate {gv},  offset = {hex(min(offsets) if offsets else gv.addr)}"
+                )
                 statevar_candidates.append(gv)
 
 
-
-def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optional[Dict[str, Any]] = None, out_file: Optional[str] = None) -> bool:
+def run_one(
+    binary_path: str,
+    funcs: List[Union[int, str]],
+    binary_opts: Optional[Dict[str, Any]] = None,
+    out_file: Optional[str] = None,
+) -> bool:
     saved_stdout = None
     saved_stderr = None
     success = True
 
     if binary_opts:
-        proj = angr.Project(binary_path, main_opts = binary_opts, auto_load_libs=False)
+        proj = angr.Project(binary_path, main_opts=binary_opts, auto_load_libs=False)
     else:
         proj = angr.Project(binary_path)
 
@@ -784,7 +957,7 @@ def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optiona
         return
 
     if out_file:
-        fh_out = open(out_file, 'w')
+        fh_out = open(out_file, "w")
         saved_stdout = sys.stdout
         sys.stdout = fh_out
         saved_stderr = sys.stderr
@@ -829,7 +1002,6 @@ def run_one(binary_path: str, funcs: List[Union[int, str]], binary_opts: Optiona
     return success
 
 
-
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="taveren-statevars",
@@ -841,7 +1013,9 @@ def main(argv: list[str] | None = None) -> None:
         nargs="+",
         help="scan cycle function(s), as hex addresses (0x...) or symbol names",
     )
-    parser.add_argument("-o", "--out", help="write the analysis log to this file instead of stdout")
+    parser.add_argument(
+        "-o", "--out", help="write the analysis log to this file instead of stdout"
+    )
     args = parser.parse_args(argv)
 
     funcs = [int(f, 16) if f.startswith("0x") else f for f in args.funcs]

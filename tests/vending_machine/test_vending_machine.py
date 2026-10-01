@@ -22,10 +22,11 @@ from taveren.env_model import generate_field_desc
 # Get path relative to this test file (important for pytest)
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # when insert more amount of money, give change
 class GiveChange(BaseRule):
     # calculate the money inserted, if sum is over 75 cents, but give change is not executed, return false
-    def moneysum(self, graph: 'networkx.DiGraph', path) -> Generator[float, None, None]:
+    def moneysum(self, graph: "networkx.DiGraph", path) -> Generator[float, None, None]:
         total = 0
         for src, dst in zip(path, path[1:]):
             # a (src, dst) pair can have several parallel edges (a MultiDiGraph);
@@ -72,7 +73,10 @@ class dollarInserted(angr.SimProcedure):
         #     return True
         # else:
         #     return False
-        return claripy.If(self.state.globals[10] != 0, claripy.BVV(1, 32), claripy.BVV(0, 32))
+        return claripy.If(
+            self.state.globals[10] != 0, claripy.BVV(1, 32), claripy.BVV(0, 32)
+        )
+
 
 class quatertInserted(angr.SimProcedure):
     def run(self):
@@ -80,12 +84,16 @@ class quatertInserted(angr.SimProcedure):
         #     return True
         # else:
         #     return False
-        return claripy.If(self.state.globals[11] != 0, claripy.BVV(1, 32), claripy.BVV(0, 32))
+        return claripy.If(
+            self.state.globals[11] != 0, claripy.BVV(1, 32), claripy.BVV(0, 32)
+        )
+
 
 class dropCan(angr.SimProcedure):
     def run(self):
         print("Drop Can")
         return None
+
 
 class giveChange(angr.SimProcedure):
     def run(self):
@@ -95,9 +103,13 @@ class giveChange(angr.SimProcedure):
 
 # state graph acquired. define a rule
 
+
 def test_vending_machine():
-    binary_path = os.path.join(TEST_DIR, '../fixtures/vending_machine/arduino_build_389120/vending_machine.ino.elf')
-    variable_path = os.path.join(TEST_DIR, 'vending_machine.json')
+    binary_path = os.path.join(
+        TEST_DIR,
+        "../fixtures/vending_machine/arduino_build_389120/vending_machine.ino.elf",
+    )
+    variable_path = os.path.join(TEST_DIR, "vending_machine.json")
 
     start_time = time.time()
 
@@ -114,10 +126,10 @@ def test_vending_machine():
     # print(f"number of nodes: {nnode}")
     # nedge = len(list(cfg.kb.functions["_Z14vendingMachinev"].transition_graph.edges))
     # print(f"number of edges: {nedge}")
-    proj.hook_symbol('_Z14dollarInsertedv', dollarInserted())
-    proj.hook_symbol('_Z15quarterInsertedv', quatertInserted())
-    proj.hook_symbol('_Z7dropCanv', dropCan())
-    proj.hook_symbol('_Z10giveChangev', giveChange())
+    proj.hook_symbol("_Z14dollarInsertedv", dollarInserted())
+    proj.hook_symbol("_Z15quarterInsertedv", quatertInserted())
+    proj.hook_symbol("_Z7dropCanv", dropCan())
+    proj.hook_symbol("_Z10giveChangev", giveChange())
 
     # run the state initializer
     # init = cfg.kb.functions['config_init__']
@@ -125,15 +137,13 @@ def test_vending_machine():
     # init_callable.perform_call()
     # initial_state = init_callable.result_state
 
-
     # assert initial_state is not None
     init_time = time.time()
     print("------------init time: %s ----------" % (init_time - start_time))
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
-
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # define abstract fields
     outputs, inputs = generate_field_desc(data)
@@ -156,11 +166,17 @@ def test_vending_machine():
 
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
-    func = cfg.kb.functions['loop']
-    initial_state = proj.factory.blank_state(addr = func.addr)
-    sgr = proj.analyses.StateGraphRecoveryVendingMachine(func, fields_output, software, time_addr, init_state=initial_state,
-                                        inputs = inputs, fields_input=fields_input
-                                           )
+    func = cfg.kb.functions["loop"]
+    initial_state = proj.factory.blank_state(addr=func.addr)
+    sgr = proj.analyses.StateGraphRecoveryVendingMachine(
+        func,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
@@ -169,10 +185,10 @@ def test_vending_machine():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
-    os.makedirs(graphs_dir, exist_ok=True)
-    write_dot(sgr.state_graph, os.path.join(graphs_dir, 'vending_machine.dot'))
 
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
+    os.makedirs(graphs_dir, exist_ok=True)
+    write_dot(sgr.state_graph, os.path.join(graphs_dir, "vending_machine.dot"))
 
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())

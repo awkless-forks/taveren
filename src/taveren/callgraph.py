@@ -6,7 +6,9 @@ import networkx
 import angr
 
 
-def call_tree_from_call_graph(call_graph: networkx.DiGraph) -> dict[int, networkx.DiGraph]:
+def call_tree_from_call_graph(
+    call_graph: networkx.DiGraph,
+) -> dict[int, networkx.DiGraph]:
     call_trees = {}
     entry_nodes = [n for n, d in call_graph.in_degree() if d == 0]
 

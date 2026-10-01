@@ -8,12 +8,13 @@ import claripy
 import angr
 from . import state_graph_recovery
 from taveren import (
-        AbstractStateFields,
-        MinDelayBaseRule,
-        RuleVerifier,
-        IllegalNodeBaseRule,
-        MaxDelayBaseRule
+    AbstractStateFields,
+    MinDelayBaseRule,
+    RuleVerifier,
+    IllegalNodeBaseRule,
+    MaxDelayBaseRule,
 )
+
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
 
@@ -24,44 +25,51 @@ from taveren.hooks import normalize_timespec
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # state graph acquired. define a rule
 # water and soap sprinkler should not be on at the same time
 class NoTwoSprinklerOn(IllegalNodeBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: 'networkx.Node') -> bool:
-        if dict(node)['SOAP_SPRINKLER'] == 1 and dict(node)['WATER_SPRINKLER'] == 1:
+    def verify_node(self, graph: "networkx.DiGraph", node: "networkx.Node") -> bool:
+        if dict(node)["SOAP_SPRINKLER"] == 1 and dict(node)["WATER_SPRINKLER"] == 1:
             return False
         return True
 
+
 # Conveyor belt should not be on for more than 10 seconds continuously
 class MaxDelayMotor(MaxDelayBaseRule):
-    def node_a(self, graph: 'networkx.DiGraph'):
+    def node_a(self, graph: "networkx.DiGraph"):
         for node in graph.nodes():
-            if dict(node)['CONVEYOR_MOTOR'] == 1:
+            if dict(node)["CONVEYOR_MOTOR"] == 1:
                 yield node
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
+    def node_b(self, graph: "networkx.DiGraph", start: tuple):
         visited = {start}
         queue = deque([start])
         while queue:
             node = queue.popleft()
-            if dict(node)['CONVEYOR_MOTOR'] == 0:
+            if dict(node)["CONVEYOR_MOTOR"] == 0:
                 yield node
-                continue   # stop searching path after this node
+                continue  # stop searching path after this node
             for suc in graph.successors(node):
                 if suc not in visited:
                     visited.add(suc)
                     queue.append(suc)
 
+
 # after the car wash starts (after selection), even if the selection button is pressed again, the service should not change
 
 
 @pytest.mark.parametrize("mode", ["arm", "x86"])
-def test_carwash(mode:str):
+def test_carwash(mode: str):
     if mode == "x86":
-        binary_path = os.path.join(TEST_DIR, "../fixtures/car_wash/build/car_wash.so") #x86_64
+        binary_path = os.path.join(
+            TEST_DIR, "../fixtures/car_wash/build/car_wash.so"
+        )  # x86_64
         variable_path = os.path.join(TEST_DIR, "carwash.json")
     elif mode == "arm":
-        binary_path = os.path.join(TEST_DIR, "../fixtures/car_wash/build/carwash-mkr1010.elf")   # arm
+        binary_path = os.path.join(
+            TEST_DIR, "../fixtures/car_wash/build/carwash-mkr1010.elf"
+        )  # arm
         variable_path = os.path.join(TEST_DIR, "carwash_arm.json")
     else:
         print("unknown mode")
@@ -84,10 +92,10 @@ def test_carwash(mode:str):
     # nedge = len(list(cfg.kb.functions[0x2da5].transition_graph.edges))      # 4037
     #
     # print(f"number of blocks: {nnode}, number of edges: {nedge}")
-    proj.hook_symbol('__normalize_timespec', normalize_timespec())
+    proj.hook_symbol("__normalize_timespec", normalize_timespec())
 
     # run the state initializer
-    init = cfg.kb.functions['config_init__']
+    init = cfg.kb.functions["config_init__"]
     init_callable = proj.factory.callable(init.addr, perform_merge=False)
     init_callable.perform_call()
     initial_state = init_callable.result_state
@@ -96,9 +104,9 @@ def test_carwash(mode:str):
     init_time = time.time()
     print("------------init time: %s ----------" % (init_time - start_time))
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # def switch_on(state):
     #     # switch on
@@ -129,10 +137,16 @@ def test_carwash(mode:str):
 
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
-    func = cfg.kb.functions['RES0_run__']
-    sgr = proj.analyses.StateGraphRecoveryCarWash(func, fields_output, software, time_addr, init_state=initial_state,
-                                        inputs = inputs, fields_input=fields_input
-                                           )
+    func = cfg.kb.functions["RES0_run__"]
+    sgr = proj.analyses.StateGraphRecoveryCarWash(
+        func,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
@@ -141,7 +155,8 @@ def test_carwash(mode:str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     write_dot(sgr.state_graph, os.path.join(graphs_dir, f"car_wash_{mode}.dot"))
     print(f"[.] Total iteration number: {sgr.iter_count}")
@@ -149,6 +164,7 @@ def test_carwash(mode:str):
     pkl_file = os.path.join(TEST_DIR, f"car_wash_{mode}.pkl")
     with open(pkl_file, "wb") as f:
         pickle.dump(sgr.state_graph, f)
+
 
 def test_policy():
     # NOTE: depends on test_carwash[x86] having already run in this session to
@@ -166,7 +182,6 @@ def test_policy():
     r, src, dst = finder.verify(rule)
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
-
 
     rule = MaxDelayMotor(10.0)
     r, src, dst = finder.verify(rule)

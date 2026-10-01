@@ -20,21 +20,22 @@ import time
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # state graph acquired. define a rule
 class MinDelayRule_PedGreen(MinDelayBaseRule):
-    def node_a(self, graph: 'networkx.DiGraph'):
+    def node_a(self, graph: "networkx.DiGraph"):
         # ped light is green
         for node in graph.nodes():
-            if dict(node)['pg'] == 1 and dict(node)['pr'] == 0:
+            if dict(node)["pg"] == 1 and dict(node)["pr"] == 0:
                 yield node
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple):
+    def node_b(self, graph: "networkx.DiGraph", start: tuple):
         # ped light is red
         visited = {start}
         queue = deque([start])
         while queue:
             node = queue.popleft()
-            if dict(node)['pg'] == 0 and dict(node)['pr'] == 1:
+            if dict(node)["pg"] == 0 and dict(node)["pr"] == 1:
                 yield node
                 continue
             for suc in graph.successors(node):
@@ -44,19 +45,19 @@ class MinDelayRule_PedGreen(MinDelayBaseRule):
 
 
 class MinDelayRule_Orange(MinDelayBaseRule):
-    def node_a(self, graph: 'networkx.DiGraph'):
+    def node_a(self, graph: "networkx.DiGraph"):
         # ped light is orange
         for node in graph.nodes():
-            if dict(node)['yl'] == 1 and dict(node)['rl'] == 0:
+            if dict(node)["yl"] == 1 and dict(node)["rl"] == 0:
                 yield node
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple):
+    def node_b(self, graph: "networkx.DiGraph", start: tuple):
         # ped light is red
         visited = {start}
         queue = deque([start])
         while queue:
             node = queue.popleft()
-            if dict(node)['yl'] == 0 and dict(node)['rl'] == 1:
+            if dict(node)["yl"] == 0 and dict(node)["rl"] == 1:
                 yield node
                 continue
             for suc in graph.successors(node):
@@ -65,11 +66,9 @@ class MinDelayRule_Orange(MinDelayBaseRule):
                     queue.append(suc)
 
 
-
-
 class NoPedGreenCarGreen(IllegalNodeBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node) -> bool:
-        if dict(node)['gl'] == 1 and dict(node)['pg'] == 1:
+    def verify_node(self, graph: "networkx.DiGraph", node) -> bool:
+        if dict(node)["gl"] == 1 and dict(node)["pg"] == 1:
             # both car green light and the pedestrian green light are on at the same time
             # this is bad!
             return False
@@ -88,6 +87,7 @@ class readDigitalPin(angr.SimProcedure):
 
         return val
 
+
 class writeDigitalPin(angr.SimProcedure):
     def run(self, pin, val):
         pin = self.state.regs._r0
@@ -101,20 +101,23 @@ class writeDigitalPin(angr.SimProcedure):
 
         return None
 
+
 def switch_on(state):
     # switch on
     state.globals[4] = 1
 
+
 def test_blinky():
-    binary_path = os.path.join(TEST_DIR, "../fixtures/traffic_light_simulink/MyBlinky.elf")
+    binary_path = os.path.join(
+        TEST_DIR, "../fixtures/traffic_light_simulink/MyBlinky.elf"
+    )
     start_time = time.time()
     proj = angr.Project(binary_path, auto_load_libs=False)
     cfg = proj.analyses.CFG()
     nnode = len(list(cfg.kb.functions["MyBlinky_step"].blocks))
     print(f"number of blocks: {nnode}")
-    proj.hook_symbol('writeDigitalPin', writeDigitalPin())
-    proj.hook_symbol('readDigitalPin', readDigitalPin())
-
+    proj.hook_symbol("writeDigitalPin", writeDigitalPin())
+    proj.hook_symbol("readDigitalPin", readDigitalPin())
 
     # init = cfg.kb.functions['main']
     # init_callable = proj.factory.callable(init.addr, perform_merge=False)
@@ -138,22 +141,32 @@ def test_blinky():
 
     # define abstract fields
     fields_desc = {
-        'state': (0x200009c1, "int", 1),
-        'signal': (4, "pin", 1),
-        'yl': (9, "pin", 1),
-        'rl': (10, "pin", 1),
-        'gl': (11, "pin", 1),
-        'pr': (6, "pin", 1),
-        'pg': (5, "pin", 1)}
-        # 'active': (0x20000964, "int", 1)}
+        "state": (0x200009C1, "int", 1),
+        "signal": (4, "pin", 1),
+        "yl": (9, "pin", 1),
+        "rl": (10, "pin", 1),
+        "gl": (11, "pin", 1),
+        "pr": (6, "pin", 1),
+        "pg": (5, "pin", 1),
+    }
+    # 'active': (0x20000964, "int", 1)}
 
     fields = AbstractStateFields(fields_desc)
 
-    func = cfg.kb.functions['MyBlinky_step']
-    initial_state = proj.factory.blank_state(addr=func.addr, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
+    func = cfg.kb.functions["MyBlinky_step"]
+    initial_state = proj.factory.blank_state(
+        addr=func.addr, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY}
+    )
     initial_state.globals[4] = 0
-    time_addr = 0x200009c2
-    sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, 'simulink', time_addr, init_state=initial_state, switch_on=switch_on,)
+    time_addr = 0x200009C2
+    sgr = proj.analyses.StateGraphRecoveryTrafficLight(
+        func,
+        fields,
+        "simulink",
+        time_addr,
+        init_state=initial_state,
+        switch_on=switch_on,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
 
@@ -161,12 +174,12 @@ def test_blinky():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     write_dot(sgr.state_graph, os.path.join(graphs_dir, "tl11.dot"))
     print("number of nodes: ", state_graph.number_of_nodes())
     print("number of edges: ", state_graph.number_of_edges())
-
 
     finder = RuleVerifier(state_graph)
     rule = MinDelayRule_Orange(20.0)

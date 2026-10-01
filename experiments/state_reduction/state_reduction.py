@@ -9,33 +9,47 @@ import claripy
 import logging
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
-binary_path = os.path.join(SCRIPT_DIR, '../../tests/fixtures/Traffic_Light_original/build/Traffic_Light_original.so')   #T9   0x42C034
+binary_path = os.path.join(
+    SCRIPT_DIR,
+    "../../tests/fixtures/Traffic_Light_original/build/Traffic_Light_original.so",
+)  # T9   0x42C034
+
 
 def _hook_py_extensions(proj, cfg):
-    proj.hook(cfg.kb.functions['PYTHON_EVAL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['PYTHON_POLL_body__'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_debug'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
-    proj.hook(cfg.kb.functions['__publish_py_ext'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+    proj.hook(
+        cfg.kb.functions["PYTHON_EVAL_body__"].addr,
+        angr.SIM_PROCEDURES["stubs"]["ReturnUnconstrained"](),
+    )
+    proj.hook(
+        cfg.kb.functions["PYTHON_POLL_body__"].addr,
+        angr.SIM_PROCEDURES["stubs"]["ReturnUnconstrained"](),
+    )
+    proj.hook(
+        cfg.kb.functions["__publish_debug"].addr,
+        angr.SIM_PROCEDURES["stubs"]["ReturnUnconstrained"](),
+    )
+    proj.hook(
+        cfg.kb.functions["__publish_py_ext"].addr,
+        angr.SIM_PROCEDURES["stubs"]["ReturnUnconstrained"](),
+    )
 
 
-
-if __name__ == '__main__':
-    proj = angr.Project(binary_path, load_options={'auto_load_libs': False})
+if __name__ == "__main__":
+    proj = angr.Project(binary_path, load_options={"auto_load_libs": False})
     cfg = proj.analyses.CFG()
 
     _hook_py_extensions(proj, cfg)
     scan_cycle_function_addr = 0x42C034
     # run the state initializer
-    init = cfg.kb.functions['config_init__']
+    init = cfg.kb.functions["config_init__"]
     init_callable = proj.factory.callable(init.addr, perform_merge=False)
     init_callable.perform_call()
     initial_state = init_callable.result_state
     initial_state.ip = scan_cycle_function_addr  # initialize your state at the correct execution address
-    ret_trap = 0x1f32ff40
+    ret_trap = 0x1F32FF40
 
     if initial_state.project.arch.call_pushes_ret:
         initial_state.stack_push(claripy.BVV(ret_trap, initial_state.project.arch.bits))
-
 
     simgr = proj.factory.simgr(initial_state)
     simgr.stashes["cycle_done"] = []
@@ -52,11 +66,18 @@ if __name__ == '__main__':
 
         # while simgr.active:
         if len(simgr.active) > 1:
-            raise RuntimeError("scan cycle execution forked into multiple active states")
+            raise RuntimeError(
+                "scan cycle execution forked into multiple active states"
+            )
         simgr.step()
         state_counter += len(simgr.active)
-        simgr.stash(filter_func=lambda path: len(path.history.bbl_addrs) > 10000, to_stash="dropped")
-        simgr.stash(filter_func=lambda path: path.addr == ret_trap, to_stash="cycle_done")
+        simgr.stash(
+            filter_func=lambda path: len(path.history.bbl_addrs) > 10000,
+            to_stash="dropped",
+        )
+        simgr.stash(
+            filter_func=lambda path: path.addr == ret_trap, to_stash="cycle_done"
+        )
         print(state_counter)
 
     print("final state count: ", state_counter)

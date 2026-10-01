@@ -14,7 +14,9 @@ from .callgraph import call_tree_from_call_graph, patch_ppc32_got_calls
 THRESHOLD = 10
 
 
-def get_global_writes(proj: angr.Project, func: angr.knowledge_plugins.Function) -> list:
+def get_global_writes(
+    proj: angr.Project, func: angr.knowledge_plugins.Function
+) -> list:
     # again, we decompile these functions to find global writes!
     # we really don't have to, but this is fun
 
@@ -32,7 +34,9 @@ def get_global_writes(proj: angr.Project, func: angr.knowledge_plugins.Function)
                     write_data = stmt.data
                     global_accesses.append((write_addr, write_size, write_data))
                 elif isinstance(stmt.addr, BinaryOp) and stmt.addr.op == "Add":
-                    if isinstance(stmt.addr.operands[0], VirtualVariable) and isinstance(stmt.addr.operands[1], Const):
+                    if isinstance(
+                        stmt.addr.operands[0], VirtualVariable
+                    ) and isinstance(stmt.addr.operands[1], Const):
                         var = stmt.addr.operands[0]
                         offset = stmt.addr.operands[1].value_int
                         write_addr = offset
@@ -43,7 +47,12 @@ def get_global_writes(proj: angr.Project, func: angr.knowledge_plugins.Function)
     return global_accesses
 
 
-def get_init_function_candidates(proj: angr.Project, scan_cycle_func_addr: int, entry_point: int, only_reachable_from_ep: bool) -> list[tuple[int, int, bool]]:
+def get_init_function_candidates(
+    proj: angr.Project,
+    scan_cycle_func_addr: int,
+    entry_point: int,
+    only_reachable_from_ep: bool,
+) -> list[tuple[int, int, bool]]:
     # build a call tree and then report functions that write to global data sections
 
     call_trees = call_tree_from_call_graph(proj.kb.functions.callgraph)
@@ -99,8 +108,12 @@ def get_init_function_candidates(proj: angr.Project, scan_cycle_func_addr: int, 
         for node in networkx.dfs_postorder_nodes(g, root):
             if node in blacklist:
                 continue
-            succ_write_count = sum(global_writes.get(succ, 0) for succ in g.successors(node))
-            accumulated_write_counts[node] = global_writes.get(node, 0) + succ_write_count
+            succ_write_count = sum(
+                global_writes.get(succ, 0) for succ in g.successors(node)
+            )
+            accumulated_write_counts[node] = (
+                global_writes.get(node, 0) + succ_write_count
+            )
 
     candidates = []
     for func_addr, count in accumulated_write_counts.items():
@@ -108,13 +121,19 @@ def get_init_function_candidates(proj: angr.Project, scan_cycle_func_addr: int, 
         if func.is_plt:
             continue
         if count >= THRESHOLD:
-            candidates.append((func_addr, count, func_addr in reachable_from_entry_point))
+            candidates.append(
+                (func_addr, count, func_addr in reachable_from_entry_point)
+            )
 
     return candidates
 
 
-
-def find_init(bin_path: str, scan_cycle_func_addr: int | str, entry_point: str | int, only_reachable_from_ep: bool = False):
+def find_init(
+    bin_path: str,
+    scan_cycle_func_addr: int | str,
+    entry_point: str | int,
+    only_reachable_from_ep: bool = False,
+):
     proj = angr.Project(bin_path, auto_load_libs=False)
     cfg = proj.analyses.CFG(normalize=True, show_progressbar=True)
 
@@ -128,25 +147,37 @@ def find_init(bin_path: str, scan_cycle_func_addr: int | str, entry_point: str |
         try:
             entry_func = proj.kb.functions["main"]
         except KeyError:
-            raise ValueError("Entry function is not 'startPLC' or 'main' in the binary!")
+            raise ValueError(
+                "Entry function is not 'startPLC' or 'main' in the binary!"
+            )
 
     # special case: angr is too smart and creates a fake CFG edge between SimProcedure pthread_create and the actual
     # thread routine. we gotta redo it
     try:
         pthread_create_func = proj.kb.functions["pthread_create"]
-        for succ_addr in list(cfg.kb.functions.callgraph.successors(pthread_create_func.addr)):
+        for succ_addr in list(
+            cfg.kb.functions.callgraph.successors(pthread_create_func.addr)
+        ):
             cfg.kb.functions.callgraph.remove_edge(pthread_create_func.addr, succ_addr)
     except KeyError:
         pass
 
     scan_cycle_function = cfg.kb.functions[scan_cycle_func_addr]
-    init_func_candidates = get_init_function_candidates(proj, scan_cycle_function.addr, entry_func.addr, only_reachable_from_ep)
-    init_func_candidates = sorted(init_func_candidates, key=lambda x: (x[2], x[1]), reverse=True)
+    init_func_candidates = get_init_function_candidates(
+        proj, scan_cycle_function.addr, entry_func.addr, only_reachable_from_ep
+    )
+    init_func_candidates = sorted(
+        init_func_candidates, key=lambda x: (x[2], x[1]), reverse=True
+    )
 
     for func_addr, write_count, reachable_from_ep in init_func_candidates:
         func = proj.kb.functions[func_addr]
-        reachable = "Reachable from EP" if reachable_from_ep else "Not reachable from EP"
-        print(f"{reachable}: Function {func.name} writes to {write_count} global locations")
+        reachable = (
+            "Reachable from EP" if reachable_from_ep else "Not reachable from EP"
+        )
+        print(
+            f"{reachable}: Function {func.name} writes to {write_count} global locations"
+        )
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -170,7 +201,12 @@ def main(argv: list[str] | None = None) -> None:
     if scan_cycle_func.startswith("0x"):
         scan_cycle_func = int(scan_cycle_func, 16)
 
-    find_init(args.binary, scan_cycle_func, "test", only_reachable_from_ep=not args.include_unreachable)
+    find_init(
+        args.binary,
+        scan_cycle_func,
+        "test",
+        only_reachable_from_ep=not args.include_unreachable,
+    )
 
 
 if __name__ == "__main__":

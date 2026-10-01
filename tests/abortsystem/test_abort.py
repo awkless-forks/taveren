@@ -26,7 +26,7 @@ TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 # state graph acquired. define a rule
 # if anomaly is false (normal), the rocket should not dump fuel, release booster and tank
 class NoDumpFuelRuleNormal(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
         for dst in graph.successors(node):
             if dict(dst)["dumpFuel"] == 1:
                 for edge_data in graph.get_edge_data(node, dst).values():
@@ -34,15 +34,21 @@ class NoDumpFuelRuleNormal(IllegalTransitionBaseRule):
                         return False, dst
         return True, None
 
+
 # if abort in earlier stage, the rocket cannot release tank without releasing booster
 class ReleaseBoosterLastRule(IllegalNodeBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: 'networkx.Node') -> bool:
-        if dict(node)["dumpFuel"] == 1 and dict(node)["releaseBoosters"] == 0 and dict(node)["releaseTank"] == 1:
+    def verify_node(self, graph: "networkx.DiGraph", node: "networkx.Node") -> bool:
+        if (
+            dict(node)["dumpFuel"] == 1
+            and dict(node)["releaseBoosters"] == 0
+            and dict(node)["releaseTank"] == 1
+        ):
             return False
         return True
 
-def call_one_func(state: 'SimState') -> 'SimState':
-    ret_trap = 0x1f32ff40
+
+def call_one_func(state: "SimState") -> "SimState":
+    ret_trap = 0x1F32FF40
 
     if state.project.arch.call_pushes_ret:
         state.stack_push(claripy.BVV(ret_trap, state.project.arch.bits))
@@ -60,16 +66,19 @@ def call_one_func(state: 'SimState') -> 'SimState':
         # if s.addr == 0x47dfc4:
         #     print("after abs")
 
-        simgr.stash(lambda x: x.addr == ret_trap, from_stash='active', to_stash='finished')
+        simgr.stash(
+            lambda x: x.addr == ret_trap, from_stash="active", to_stash="finished"
+        )
         simgr.step()
 
     initial_states = simgr.finished
     return initial_states[0]
 
+
 @pytest.mark.parametrize("mode", ["modelogic", "abortlogic", "full"])
 def test_abort(mode: str):
-    binary_path = os.path.join(TEST_DIR, '../fixtures/binaries/sf_launchabort.exe')
-    variable_path = os.path.join(TEST_DIR, 'abort.json')
+    binary_path = os.path.join(TEST_DIR, "../fixtures/binaries/sf_launchabort.exe")
+    variable_path = os.path.join(TEST_DIR, "abort.json")
 
     start_time = time.time()
 
@@ -86,9 +95,15 @@ def test_abort(mode: str):
     # print(f"number of blocks: {nnode}")
 
     # run the state initializer
-    initialize_addr = 0x401f7a
+    initialize_addr = 0x401F7A
     init = cfg.kb.functions[initialize_addr]
-    blank = proj.factory.blank_state(addr=initialize_addr, add_options={angr.options.ZERO_FILL_UNCONSTRAINED_MEMORY, angr.options.SIMPLIFY_CONSTRAINTS})
+    blank = proj.factory.blank_state(
+        addr=initialize_addr,
+        add_options={
+            angr.options.ZERO_FILL_UNCONSTRAINED_MEMORY,
+            angr.options.SIMPLIFY_CONSTRAINTS,
+        },
+    )
     initial_state = call_one_func(blank)
 
     assert initial_state is not None
@@ -102,12 +117,15 @@ def test_abort(mode: str):
 
     if mode == "abortlogic":
         # set anomaly to true
-        initial_state.memory.store(0x408B48, claripy.FPV(1.0, claripy.fp.FSORT_DOUBLE), endness=proj.arch.memory_endness)    # comment out this for ModeLogic and full
+        initial_state.memory.store(
+            0x408B48,
+            claripy.FPV(1.0, claripy.fp.FSORT_DOUBLE),
+            endness=proj.arch.memory_endness,
+        )  # comment out this for ModeLogic and full
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
-
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # define abstract fields
     outputs, inputs = generate_field_desc(data)
@@ -116,9 +134,16 @@ def test_abort(mode: str):
     fields_input = AbstractStateFields(inputs)
     LaunchAbortController_addr = 0x401EBC
     # func = cfg.kb.functions[LaunchAbortController_addr]
-    sgr = proj.analyses.StateGraphRecoveryAbort(LaunchAbortController_addr, fields_output, software, time_addr, init_state=initial_state,
-                                        inputs = inputs, fields_input=fields_input, mode=mode
-                                           )
+    sgr = proj.analyses.StateGraphRecoveryAbort(
+        LaunchAbortController_addr,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+        mode=mode,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
@@ -127,7 +152,8 @@ def test_abort(mode: str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     if mode == "modelogic":
         write_dot(sgr.state_graph, os.path.join(graphs_dir, "abort1.dot"))
@@ -149,7 +175,6 @@ def test_abort(mode: str):
 
         rule1_time = time.time()
         print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
-
 
         rule2 = ReleaseBoosterLastRule()
         r, src, dst = finder.verify(rule2)

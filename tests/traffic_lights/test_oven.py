@@ -27,20 +27,27 @@ class delay(angr.SimProcedure):
     def run(self, usec):
         # time_addr = 0x200001d8
         prev = self.state.memory.load(time_addr, 4, endness=self.arch.memory_endness)
-        self.state.memory.store(time_addr, prev + usec, endness=self.arch.memory_endness)
+        self.state.memory.store(
+            time_addr, prev + usec, endness=self.arch.memory_endness
+        )
         # print(self.state.solver.eval(self.state.memory.load(0x200002fc, 4, endness=self.arch.memory_endness)))
         return None
+
 
 # def _hook_py_extensions(proj, cfg):
 #     proj.hook(cfg.kb.functions['delayMicroseconds'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
 #     proj.hook(cfg.kb.functions['delay'].addr, angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
 
+
 class readThermo(angr.SimProcedure):
     def run(self, this, unit):
-        prev_temp = self.state.memory.load(temp_addr, 8, endness=self.arch.memory_endness)
+        prev_temp = self.state.memory.load(
+            temp_addr, 8, endness=self.arch.memory_endness
+        )
         self.state.regs._r1 = prev_temp[63:32]
         self.state.regs._r0 = prev_temp[31:0]
         return None
+
 
 class doubleAdd(angr.SimProcedure):
     def run(self, a1, a2, a3, a4):
@@ -179,6 +186,7 @@ class doubleCMPGT(angr.SimProcedure):
         self.state.regs._r0 = claripy.If(result, claripy.BVV(1, 32), claripy.BVV(0, 32))
         return None
 
+
 class SerialPrintFloat(angr.SimProcedure):
     def run(self, a0, a1, a2):
         print("Serial Print Float")
@@ -189,18 +197,19 @@ class SerialPrintFloat(angr.SimProcedure):
         print(var)
         return None
 
+
 class MaxCookTime(MaxDelayBaseRule):
-    def node_a(self, graph: 'networkx.DiGraph'):
+    def node_a(self, graph: "networkx.DiGraph"):
         for node in graph.nodes():
-            if dict(node)['ovenState'] == 2:
+            if dict(node)["ovenState"] == 2:
                 yield node
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
+    def node_b(self, graph: "networkx.DiGraph", start: tuple):
         visited = {start}
         queue = deque([start])
         while queue:
             node = queue.popleft()
-            if dict(node)['ovenState'] == 3:
+            if dict(node)["ovenState"] == 3:
                 yield node
                 continue
             for suc in graph.successors(node):
@@ -209,48 +218,58 @@ class MaxCookTime(MaxDelayBaseRule):
                     queue.append(suc)
 
 
-
-
 class OvenOffAfterCook(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', a):
+    def verify_node(self, graph: "networkx.DiGraph", a):
 
-        if dict(a)['ovenState'] == 2:
+        if dict(a)["ovenState"] == 2:
             for b in graph.successors(a):
                 data = graph.get_edge_data(a, b)
-                if data['time_delta'] is not None and data['time_delta'] >= 9000 and dict(b)['ovenStatus'] != 0:
+                if (
+                    data["time_delta"] is not None
+                    and data["time_delta"] >= 9000
+                    and dict(b)["ovenStatus"] != 0
+                ):
                     # after cooking for 90 seconds, the oven is not off
                     # this is bad!
                     return False, b
         return True, None
 
+
 class OvenOffAfter170(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', a):
+    def verify_node(self, graph: "networkx.DiGraph", a):
 
         for b in graph.successors(a):
             data = graph.get_edge_data(a, b)
-            if data['temp_delta'] is not None and data['temp_delta'] > 170.0 and dict(b)['ovenStatus'] != 0:
+            if (
+                data["temp_delta"] is not None
+                and data["temp_delta"] > 170.0
+                and dict(b)["ovenStatus"] != 0
+            ):
                 # after reaching 170 degrees, the oven is not off
                 # this is bad!
                 return False, b
         return True, None
 
+
 def switch_on(state):
     # switch on
     # base_addr = int(data['variable_base_addr'], 16)
     # switch = next(x for x in data['variables'] if x['name'] == "SWITCH_BUTTON")
-    prev = state.memory.load(0x200002ec, 4, endness=state.arch.memory_endness)
-    state.memory.store(0x200002ec, prev + 50, endness=state.arch.memory_endness)
+    prev = state.memory.load(0x200002EC, 4, endness=state.arch.memory_endness)
+    state.memory.store(0x200002EC, prev + 50, endness=state.arch.memory_endness)
     # switchstatus_addr = 0x20000208
     # debouncestate_addr = 0x20000140
     # switch_value_addr = base_addr + int(switch['address'], 16
-    state.memory.store(0x41004420, claripy.BVV(0x80000, 32), endness='Iend_LE')
+    state.memory.store(0x41004420, claripy.BVV(0x80000, 32), endness="Iend_LE")
     # state.memory.store(debouncestate_addr, claripy.BVV(0, 8), endness=state.arch.memory_endness)
 
 
-@pytest.mark.skip(reason="no variable-description JSON ships for the oven artifact; variable_path is a placeholder")
+@pytest.mark.skip(
+    reason="no variable-description JSON ships for the oven artifact; variable_path is a placeholder"
+)
 def test_oven():
-    binary_path = os.path.join(TEST_DIR, '../fixtures/oven/oven.ino.elf')
-    variable_path = ''
+    binary_path = os.path.join(TEST_DIR, "../fixtures/oven/oven.ino.elf")
+    variable_path = ""
 
     start_time = time.time()
 
@@ -261,34 +280,38 @@ def test_oven():
 
     global time_addr
     global temp_addr
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    temp_addr = int(data['temp_addr'], 16)
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    temp_addr = int(data["temp_addr"], 16)
 
     cfg = proj.analyses.CFG()
 
     # _hook_py_extensions(proj, cfg)
-    nnode = len(list(cfg.kb.functions['loop'].blocks))
+    nnode = len(list(cfg.kb.functions["loop"].blocks))
     print(f"number of blocks: {nnode}")
     # proj.hook_symbol('delayMicroseconds', delay())
-    proj.hook_symbol('delay', delay())
-    proj.hook_symbol('_ZN8MAX3185516readThermocoupleE6unit_t', readThermo())
+    proj.hook_symbol("delay", delay())
+    proj.hook_symbol("_ZN8MAX3185516readThermocoupleE6unit_t", readThermo())
     # fp_cc = proj.factory.cc_from_arg_kinds((True, True, True, True), ret_fp=True)
-    proj.hook_symbol('__aeabi_dadd', doubleAdd())
-    proj.hook_symbol('__aeabi_dsub', doubleSub())
-    proj.hook_symbol('__aeabi_dmul', doubleMul())
-    proj.hook_symbol('__aeabi_ddiv', doubleDiv())
-    proj.hook_symbol('__aeabi_dcmpeq', doubleCMPEQ())
-    proj.hook_symbol('__aeabi_dcmple', doubleCMPLE())
-    proj.hook_symbol('__aeabi_dcmplt', doubleCMPLT())
-    proj.hook_symbol('__aeabi_dcmpge', doubleCMPGE())
-    proj.hook_symbol('__aeabi_dcmpgt', doubleCMPGT())
-    proj.hook_symbol('_ZN7arduino5Print5printEdi', SerialPrintFloat())
+    proj.hook_symbol("__aeabi_dadd", doubleAdd())
+    proj.hook_symbol("__aeabi_dsub", doubleSub())
+    proj.hook_symbol("__aeabi_dmul", doubleMul())
+    proj.hook_symbol("__aeabi_ddiv", doubleDiv())
+    proj.hook_symbol("__aeabi_dcmpeq", doubleCMPEQ())
+    proj.hook_symbol("__aeabi_dcmple", doubleCMPLE())
+    proj.hook_symbol("__aeabi_dcmplt", doubleCMPLT())
+    proj.hook_symbol("__aeabi_dcmpge", doubleCMPGE())
+    proj.hook_symbol("__aeabi_dcmpgt", doubleCMPGT())
+    proj.hook_symbol("_ZN7arduino5Print5printEdi", SerialPrintFloat())
     # run the state initializer
     func_loop = proj.kb.functions["loop"]
     # blank = proj.factory.blank_state(addr=0x289f, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
-    blank = proj.factory.blank_state(addr=0x28ef, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
-    blank.memory.store(0x4000080c, claripy.BVV(0xd2, 32), endness=proj.arch.memory_endness)
+    blank = proj.factory.blank_state(
+        addr=0x28EF, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY}
+    )
+    blank.memory.store(
+        0x4000080C, claripy.BVV(0xD2, 32), endness=proj.arch.memory_endness
+    )
     # blank.memory.store(0x42004018, claripy.BVV(1, 32), endness=proj.arch.memory_endness)
     # blank.memory.store(0x200001f8, claripy.BVV(0, 8), endness=proj.arch.memory_endness)
     simgr = proj.factory.simgr(blank)
@@ -304,7 +327,7 @@ def test_oven():
         # jumpkind = state.history.jumpkind
         # print("state %d 0x%x %s" % (i, eachstate.addr, jumpkind))
         # print(tickcount)
-        if state.addr == 0x21b9:
+        if state.addr == 0x21B9:
             print("IN LOOP !!!!!!!!!!!!!!")
             break
 
@@ -318,14 +341,16 @@ def test_oven():
 
     # define abstract fields
     fields_desc = {
-        'ovenState': (0x200000e8, "int", 1),
-        'ovenStatus': (0x200000e9, "int", 1)}
-        # 'input': (0x200000d0, "double", 8)}
-
+        "ovenState": (0x200000E8, "int", 1),
+        "ovenStatus": (0x200000E9, "int", 1),
+    }
+    # 'input': (0x200000d0, "double", 8)}
 
     fields = AbstractStateFields(fields_desc)
-    func = cfg.kb.functions['loop']
-    sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, "arduino", time_addr, temp_addr, init_state=initial_state)
+    func = cfg.kb.functions["loop"]
+    sgr = proj.analyses.StateGraphRecoveryTrafficLight(
+        func, fields, "arduino", time_addr, temp_addr, init_state=initial_state
+    )
     # sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, time_addr, temp_addr, init_state=initial_state)
 
     sgr_time = time.time()
@@ -335,7 +360,8 @@ def test_oven():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     write_dot(sgr.state_graph, os.path.join(graphs_dir, "oven1.dot"))
     print("Number of nodes: %d" % state_graph.number_of_nodes())

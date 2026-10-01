@@ -5,7 +5,9 @@ class uart_atoi(angr.SimProcedure):
     def run(self, this, buffer):
         if self.arch.name in ["ARMCortexM"]:
             uart_addr = 0x2000050C
-            uart_val = self.state.memory.load(uart_addr, 4, endness=self.arch.memory_endness)
+            uart_val = self.state.memory.load(
+                uart_addr, 4, endness=self.arch.memory_endness
+            )
             self.state.regs._r0 = uart_val
             return None
         else:
@@ -30,12 +32,15 @@ class pinMode(angr.SimProcedure):
                 pin = pin.concrete_value
             if mode.concrete:
                 mode = mode.concrete_value
-            mode_str = "INPUT" if mode == 0 else "OUTPUT" if mode == 1 else f"UNKNOWN({mode})"
+            mode_str = (
+                "INPUT" if mode == 0 else "OUTPUT" if mode == 1 else f"UNKNOWN({mode})"
+            )
             print(f"pinMode {pin} set to {mode_str}")
             self.state.globals[pin] = mode
             return None
         else:
             raise NotImplementedError(f"Not implemented for {self.arch.name}")
+
 
 class print_all(angr.SimProcedure):
     def run(self, x):
@@ -52,18 +57,25 @@ class print_all(angr.SimProcedure):
 class get_time_ms(angr.SimProcedure):
     def run(self):
         if self.arch.name in ["ARMCortexM"]:
-            time_addr = 0xa0000000
-            prev = self.state.memory.load(time_addr, self.arch.bytes, endness=self.arch.memory_endness)
+            time_addr = 0xA0000000
+            prev = self.state.memory.load(
+                time_addr, self.arch.bytes, endness=self.arch.memory_endness
+            )
 
             self.state.regs._r0 = prev
             # increase time every time it is called after return
-            self.state.memory.store(time_addr, prev + 1, endness=self.arch.memory_endness)
+            self.state.memory.store(
+                time_addr, prev + 1, endness=self.arch.memory_endness
+            )
             return None
+
 
 class delay(angr.SimProcedure):
     def run(self, ms):
-        time_addr = 0xa0000000
-        prev = self.state.memory.load(time_addr, self.arch.bytes, endness=self.arch.memory_endness)
+        time_addr = 0xA0000000
+        prev = self.state.memory.load(
+            time_addr, self.arch.bytes, endness=self.arch.memory_endness
+        )
         self.state.memory.store(time_addr, prev + ms, endness=self.arch.memory_endness)
         # print(self.state.solver.eval(self.state.memory.load(0x200002fc, 4, endness=self.arch.memory_endness)))
         return None

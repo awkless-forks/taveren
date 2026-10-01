@@ -3,7 +3,11 @@ from typing import Optional, Dict, Set, Callable, Any, TYPE_CHECKING
 
 import claripy
 import pprint
-from angr.sim_options import NO_CROSS_INSN_OPT, SYMBOL_FILL_UNCONSTRAINED_MEMORY, SYMBOL_FILL_UNCONSTRAINED_REGISTERS
+from angr.sim_options import (
+    NO_CROSS_INSN_OPT,
+    SYMBOL_FILL_UNCONSTRAINED_MEMORY,
+    SYMBOL_FILL_UNCONSTRAINED_REGISTERS,
+)
 from angr.analyses.analysis import AnalysesHub
 from taveren.state_graph_recovery import MultiDiGraph_DedupeEdge, StateGraphRecoveryBase
 
@@ -17,15 +21,22 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     """
     Traverses a function and derive a state graph with respect to given variables.
     """
-    def __init__(self, func: 'Function', fields: 'AbstractStateFields', software: str,
-                 time_addr: int, temp_addr: int = None,
-                 init_state: Optional['SimState']=None,
-                 inputs:Dict=None,
-                 fields_input: Optional[Any]=None,
-                 switch_on: Optional[Callable]=None,
-                 printstate: Optional[Callable]=None,
-                 config_vars: Optional[Set[claripy.ast.Base]]=None,
-                 patch_callback: Optional[Callable]=None):
+
+    def __init__(
+        self,
+        func: "Function",
+        fields: "AbstractStateFields",
+        software: str,
+        time_addr: int,
+        temp_addr: int = None,
+        init_state: Optional["SimState"] = None,
+        inputs: Dict = None,
+        fields_input: Optional[Any] = None,
+        switch_on: Optional[Callable] = None,
+        printstate: Optional[Callable] = None,
+        config_vars: Optional[Set[claripy.ast.Base]] = None,
+        patch_callback: Optional[Callable] = None,
+    ):
         self.func = func
         self.fields = fields
         self.config_vars = config_vars if config_vars is not None else set()
@@ -34,7 +45,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         self.inputs = inputs
         self.fields_input = fields_input
         self._switch_on = switch_on
-        self._ret_trap: int = 0x1f37ff4a if self.project.arch.name != "AVR" else 0xfffe
+        self._ret_trap: int = 0x1F37FF4A if self.project.arch.name != "AVR" else 0xFFFE
         self.printstate = printstate
         self.patch_callback = patch_callback
 
@@ -90,11 +101,35 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         abs_state = self.fields.generate_abstract_state(init_state)
         abs_state_id = next(abs_state_id_ctr)
-        self.state_graph.add_node((('NODE_CTR', abs_state_id),) + abs_state, outvars = dict(abs_state))
-        state_queue = [(init_state, abs_state_id, abs_state, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)]
+        self.state_graph.add_node(
+            (("NODE_CTR", abs_state_id),) + abs_state, outvars=dict(abs_state)
+        )
+        state_queue = [
+            (
+                init_state,
+                abs_state_id,
+                abs_state,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            )
+        ]
 
         switched_on = False if self._switch_on else True
-        '''
+        """
         if self._switch_on is None:
             countdown_timer = 0
             switched_on = True
@@ -253,13 +288,32 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         else:
             countdown_timer = 2  # how many iterations to execute before switching on
             switched_on = False
-        '''
+        """
         known_transitions = list()
         known_states = dict()
-        absstate_to_slice = { }
+        absstate_to_slice = {}
         while state_queue:
-            prev_state, prev_abs_state_id, prev_abs_state, prev_prev_abs, time_delta, time_delta_constraint, time_delta_src, btn1_delta, btn1_constraint, btn1_src,\
-                btn2_delta, btn2_constraint, btn2_src, btn3_delta, btn3_constraint, btn3_src, btn4_delta, btn4_constraint, btn4_src= state_queue.pop(0)
+            (
+                prev_state,
+                prev_abs_state_id,
+                prev_abs_state,
+                prev_prev_abs,
+                time_delta,
+                time_delta_constraint,
+                time_delta_src,
+                btn1_delta,
+                btn1_constraint,
+                btn1_src,
+                btn2_delta,
+                btn2_constraint,
+                btn2_src,
+                btn3_delta,
+                btn3_constraint,
+                btn3_src,
+                btn4_delta,
+                btn4_constraint,
+                btn4_src,
+            ) = state_queue.pop(0)
             print(prev_abs_state, btn1_delta, btn2_delta, btn3_delta, btn4_delta)
             # if prev_abs_state[0][1] == 1 and low_delta == 0:
             if time_delta is None:
@@ -312,34 +366,44 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             # absstate_to_slice[abs_state] = slice_gen.slice
             # print("[.] There are %d nodes in the slice." % len(slice_gen.slice))
 
-            transition = (prev_prev_abs, prev_abs_state, abs_state, btn1_delta, btn2_delta, btn3_delta, btn4_delta)
+            transition = (
+                prev_prev_abs,
+                prev_abs_state,
+                abs_state,
+                btn1_delta,
+                btn2_delta,
+                btn3_delta,
+                btn4_delta,
+            )
             # print(transition)
             if switched_on and transition in known_transitions:
                 continue
 
             known_transitions.append(transition)
-            self.state_graph.add_node((('NODE_CTR', abs_state_id),) + abs_state, outvars=dict(abs_state))
-            self.state_graph.add_edge((('NODE_CTR', prev_abs_state_id),) + prev_abs_state,
-                                      (('NODE_CTR', abs_state_id),) + abs_state,
-                                      time_delta=time_delta,
-                                      time_delta_constraint=time_delta_constraint,
-                                      time_delta_src=time_delta_src,
-                                      btn1_delta=btn1_delta,
-                                      btn1_constraint=btn1_constraint,
-                                      btn1_src=btn1_src,
-                                        btn2_delta=btn2_delta,
-                                        btn2_constraint=btn2_constraint,
-                                        btn2_src=btn2_src,
-                                        btn3_delta=btn3_delta,
-                                        btn3_constraint=btn3_constraint,
-                                        btn3_src=btn3_src,
-                                        btn4_delta=btn4_delta,
-                                        btn4_constraint=btn4_constraint,
-                                        btn4_src=btn4_src,
-
-                                      # label = f'time_delta_constraint={time_delta_constraint},\nlow_constraint={low_constraint}, \nhigh_constraint={high_constraint}'
-                                      label = f"btn1={btn1_delta}\nbtn2={btn2_delta}\nbtn3={btn3_delta}\nbtn4={btn4_delta}"
-                                      )
+            self.state_graph.add_node(
+                (("NODE_CTR", abs_state_id),) + abs_state, outvars=dict(abs_state)
+            )
+            self.state_graph.add_edge(
+                (("NODE_CTR", prev_abs_state_id),) + prev_abs_state,
+                (("NODE_CTR", abs_state_id),) + abs_state,
+                time_delta=time_delta,
+                time_delta_constraint=time_delta_constraint,
+                time_delta_src=time_delta_src,
+                btn1_delta=btn1_delta,
+                btn1_constraint=btn1_constraint,
+                btn1_src=btn1_src,
+                btn2_delta=btn2_delta,
+                btn2_constraint=btn2_constraint,
+                btn2_src=btn2_src,
+                btn3_delta=btn3_delta,
+                btn3_constraint=btn3_constraint,
+                btn3_src=btn3_src,
+                btn4_delta=btn4_delta,
+                btn4_constraint=btn4_constraint,
+                btn4_src=btn4_src,
+                # label = f'time_delta_constraint={time_delta_constraint},\nlow_constraint={low_constraint}, \nhigh_constraint={high_constraint}'
+                label=f"btn1={btn1_delta}\nbtn2={btn2_delta}\nbtn3={btn3_delta}\nbtn4={btn4_delta}",
+            )
 
             # # discover time deltas
             # # also discover what other input fields are used in the constraints
@@ -351,7 +415,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             #     else:
             #         block_addr, stmt_idx = source
             #     print(f"[.] Discovered a new time interval {delta} defined at {block_addr:#x}:{stmt_idx}")
-
 
             # FIXME: This is a hack. We should fix it later.
 
@@ -374,12 +437,100 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             # all_vars |= set(symbolic_btn4.values())
             all_vars |= self.config_vars
             # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
-            state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, 1, None, None, 0, None, None, 0, None, None, 0, None, None))
-            state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, 0, None, None, 1, None, None, 0, None, None, 0, None, None))
-            state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, 0, None, None, 0, None, None, 1, None, None, 0, None, None))
-            state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, 0, None, None, 0, None, None, 0, None, None, 1, None, None))
+            state_queue.append(
+                (
+                    new_state,
+                    abs_state_id,
+                    abs_state,
+                    prev_abs_state,
+                    None,
+                    None,
+                    None,
+                    1,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                )
+            )
+            state_queue.append(
+                (
+                    new_state,
+                    abs_state_id,
+                    abs_state,
+                    prev_abs_state,
+                    None,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    1,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                )
+            )
+            state_queue.append(
+                (
+                    new_state,
+                    abs_state_id,
+                    abs_state,
+                    prev_abs_state,
+                    None,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    1,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                )
+            )
+            state_queue.append(
+                (
+                    new_state,
+                    abs_state_id,
+                    abs_state,
+                    prev_abs_state,
+                    None,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    0,
+                    None,
+                    None,
+                    1,
+                    None,
+                    None,
+                )
+            )
 
-        '''
+        """
 
             if temp_delta_and_sources or time_delta_and_sources:
 
@@ -565,7 +716,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     self.state_graph.remove_node(state_node)
                     break   # TODO: this could be wrong if there is multiple nodes need to be divided
 
-        '''
+        """
 
     # def _discover_low_deltas(self, state: 'SimState') -> List[Tuple[int,claripy.ast.Base,Tuple[int,int]]]:
     #     """
@@ -761,8 +912,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     #     state.memory.store(btn1_addr, btn1_delta, endness=self.project.arch.memory_endness)
     #     return [btn1_delta]
 
-    def _set_btn1(self, state: 'SimState', delta) -> None:
-        (btn1_addr, btn1_sort, btn1_size) = self.btn1_info
+    def _set_btn1(self, state: "SimState", delta) -> None:
+        btn1_addr, btn1_sort, btn1_size = self.btn1_info
         if btn1_sort == "pin":
             state.globals[btn1_addr] = delta
 
@@ -781,8 +932,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     #     state.memory.store(btn2_addr, btn2_delta, endness=self.project.arch.memory_endness)
     #     return [btn2_delta]
 
-    def _set_btn2(self, state: 'SimState', delta) -> None:
-        (btn2_addr, btn2_sort, btn2_size) = self.btn2_info
+    def _set_btn2(self, state: "SimState", delta) -> None:
+        btn2_addr, btn2_sort, btn2_size = self.btn2_info
         if btn2_sort == "pin":
             state.globals[btn2_addr] = delta
 
@@ -801,8 +952,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     #     state.memory.store(btn3_addr, btn3_delta, endness=self.project.arch.memory_endness)
     #     return [btn3_delta]
 
-    def _set_btn3(self, state: 'SimState', delta) -> None:
-        (btn3_addr, btn3_sort, btn3_size) = self.btn3_info
+    def _set_btn3(self, state: "SimState", delta) -> None:
+        btn3_addr, btn3_sort, btn3_size = self.btn3_info
         if btn3_sort == "pin":
             state.globals[btn3_addr] = delta
 
@@ -821,14 +972,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     #     state.memory.store(btn4_addr, btn4_delta, endness=self.project.arch.memory_endness)
     #     return [btn4_delta]
 
-    def _set_btn4(self, state: 'SimState', delta) -> None:
-        (btn4_addr, btn4_sort, btn4_size) = self.btn4_info
+    def _set_btn4(self, state: "SimState", delta) -> None:
+        btn4_addr, btn4_sort, btn4_size = self.btn4_info
         if btn4_sort == "pin":
             state.globals[btn4_addr] = delta
 
-
-
-    def _traverse_one(self, state: 'SimState', discover: bool = False):
+    def _traverse_one(self, state: "SimState", discover: bool = False):
 
         simgr = self.project.factory.simgr(state)
 
@@ -838,19 +987,24 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             # print(s)
             if not discover:
                 if len(simgr.active) > 1:
-                    raise RuntimeError("scan cycle execution forked into multiple active states")
+                    raise RuntimeError(
+                        "scan cycle execution forked into multiple active states"
+                    )
 
-            if s.addr == 0x220d:
+            if s.addr == 0x220D:
                 print("button 4 pressed!!!!!!!!!!!!")
             if s.addr == 0x2259:
                 print("button 3 pressed!!!!!!!!!!!!")
-            if s.addr == 0x22f3:
+            if s.addr == 0x22F3:
                 print("button 2 pressed!!!!!!!!!!!!")
             if s.addr == 0x2393:
                 print("button 1 pressed!!!!!!!!!!!!")
 
-
-            simgr.stash(lambda x: x.addr == self._ret_trap, from_stash='active', to_stash='finished')
+            simgr.stash(
+                lambda x: x.addr == self._ret_trap,
+                from_stash="active",
+                to_stash="finished",
+            )
 
             simgr.step()
 
@@ -862,16 +1016,15 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             assert len(simgr.finished) == 1
             return simgr.finished[0]
 
-
-    def _initialize_state(self, init_state=None) -> 'SimState':
+    def _initialize_state(self, init_state=None) -> "SimState":
         if init_state is not None:
             s = init_state.copy()
             s.ip = self.func.addr
             s.globals[0x40] = 0
         else:
             s = self.project.factory.blank_state(addr=self.func.addr)
-            s.regs.rdi = 0xc0000000
-            s.memory.store(0xc0000000, b"\x00" * 0x1000)
+            s.regs.rdi = 0xC0000000
+            s.memory.store(0xC0000000, b"\x00" * 0x1000)
 
         # disable cross instruction optimization so that statement IDs in symbolic execution will match the ones used in
         # static analysis
@@ -885,7 +1038,9 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 sp = s.regs.sp - 2
                 s.regs.sp = sp
                 ret_addr = claripy.BVV(self._ret_trap, 16)
-                s.memory.store(sp, ret_addr, endness=self.project.arch.memory_endness, size=2)
+                s.memory.store(
+                    sp, ret_addr, endness=self.project.arch.memory_endness, size=2
+                )
             else:
                 s.stack_push(claripy.BVV(self._ret_trap, self.project.arch.bits))
         else:
@@ -895,4 +1050,4 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         return s
 
 
-AnalysesHub.register_default('StateGraphRecoveryElevator', StateGraphRecoveryAnalysis)
+AnalysesHub.register_default("StateGraphRecoveryElevator", StateGraphRecoveryAnalysis)

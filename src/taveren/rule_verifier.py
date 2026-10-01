@@ -9,7 +9,7 @@ _l = logging.getLogger(name=__name__)
 
 
 class BaseRule:
-    def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool,Any,Any]:
+    def eval(self, graph: "networkx.DiGraph") -> Tuple[bool, Any, Any]:
         raise NotImplementedError()
 
     def filter_root_causes(self, causes: List[CauseBase]) -> List[CauseBase]:
@@ -20,10 +20,11 @@ class IllegalNodeBaseRule(BaseRule):
     """
     Ensure all nodes comply with the defined requirements.
     """
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> bool:
+
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> bool:
         raise NotImplementedError()
 
-    def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool,Any,Any]:
+    def eval(self, graph: "networkx.DiGraph") -> Tuple[bool, Any, Any]:
         for node in graph.nodes():
             r = self.verify_node(graph, node)
             if not r:
@@ -36,10 +37,11 @@ class IllegalTransitionBaseRule(BaseRule):
     """
     Ensure transitions comply with defined requirements.
     """
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
+
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
         raise NotImplementedError()
 
-    def eval(self, graph: 'networkx.DiGraph') -> Tuple[bool,Any,Any]:
+    def eval(self, graph: "networkx.DiGraph") -> Tuple[bool, Any, Any]:
         for node in graph.nodes():
             safe, dst = self.verify_node(graph, node)
             if not safe:
@@ -52,25 +54,28 @@ class MinDelayBaseRule(BaseRule):
     """
     Ensure the delay between two states must be at least certain amount of time.
     """
+
     def __init__(self, min_delay):
         self.min_delay = min_delay
 
-    def node_a(self, graph: 'networkx.DiGraph') -> Iterable[Any]:
+    def node_a(self, graph: "networkx.DiGraph") -> Iterable[Any]:
         raise NotImplementedError()
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple) -> Iterable[Any]:
+    def node_b(self, graph: "networkx.DiGraph", start: tuple) -> Iterable[Any]:
         raise NotImplementedError()
 
-    def delay(self, graph: 'networkx.DiGraph', node_a, node_b) -> Generator[float,None,None]:
+    def delay(
+        self, graph: "networkx.DiGraph", node_a, node_b
+    ) -> Generator[float, None, None]:
         for path in networkx.all_simple_paths(graph, node_a, node_b):
             t = 0
             for src, dst in zip(path, path[1:]):
                 data = graph.get_edge_data(src, dst)
-                if 'time_delta' in data and data['time_delta'] is not None:
-                    t += data['time_delta']
+                if "time_delta" in data and data["time_delta"] is not None:
+                    t += data["time_delta"]
             yield t
 
-    def eval(self, graph) -> Tuple[bool,Any,Any]:
+    def eval(self, graph) -> Tuple[bool, Any, Any]:
         nodes_a = self.node_a(graph)
         for a in nodes_a:
             nodes_b = self.node_b(graph, a)
@@ -84,7 +89,7 @@ class MinDelayBaseRule(BaseRule):
 
     def filter_root_causes(self, causes: List[CauseBase]) -> List[CauseBase]:
         # we really do not care about InstrOpcodeCause...
-        return [ cause for cause in causes if not isinstance(cause, InstrOpcodeCause)]
+        return [cause for cause in causes if not isinstance(cause, InstrOpcodeCause)]
 
 
 # time is duration
@@ -96,20 +101,22 @@ class MaxDelayBaseRule(BaseRule):
     def __init__(self, max_delay):
         self.max_delay = max_delay
 
-    def node_a(self, graph: 'networkx.DiGraph') -> Iterable[Any]:
+    def node_a(self, graph: "networkx.DiGraph") -> Iterable[Any]:
         raise NotImplementedError()
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple) -> Iterable[Any]:
+    def node_b(self, graph: "networkx.DiGraph", start: tuple) -> Iterable[Any]:
         raise NotImplementedError()
 
-    def delay(self, graph: 'networkx.DiGraph', node_a, node_b) -> Generator[float, None, None]:
+    def delay(
+        self, graph: "networkx.DiGraph", node_a, node_b
+    ) -> Generator[float, None, None]:
         for path in networkx.all_simple_paths(graph, node_a, node_b):
             t = 0
             for src, dst in zip(path, path[1:]):
                 # print(path)
                 data = graph.get_edge_data(src, dst)
-                if 'time_delta' in data and data['time_delta'] is not None:
-                    t += data['time_delta']
+                if "time_delta" in data and data["time_delta"] is not None:
+                    t += data["time_delta"]
             yield t
 
     def eval(self, graph) -> Tuple[bool, Any, Any]:
@@ -129,7 +136,8 @@ class RuleVerifier:
     """
     Finding rule violations by traversing a state graph.
     """
-    def __init__(self, abs_state_graph: 'networkx.DiGraph'):
+
+    def __init__(self, abs_state_graph: "networkx.DiGraph"):
         self.abs_state_graph = abs_state_graph
 
     def verify(self, rule: BaseRule):
@@ -145,11 +153,11 @@ class RuleVerifier:
                 data = self.abs_state_graph.get_edge_data(a, b)
                 print(f"\n -> Condition: {data} \n\n -> {b}")
             if dst_node is not None:
-                path_b = networkx.shortest_path(self.abs_state_graph, src_node, dst_node)
+                path_b = networkx.shortest_path(
+                    self.abs_state_graph, src_node, dst_node
+                )
                 for a, b in zip(path_b, path_b[1:]):
                     data = self.abs_state_graph.get_edge_data(a, b)
                     print(f"\n -- Condition: {data} \n\n -> {b}")
 
-
         return safe, src_node, dst_node
-

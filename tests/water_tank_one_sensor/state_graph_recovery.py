@@ -5,7 +5,11 @@ import claripy
 import pprint
 from angr.state_plugins.inspect import BP_BEFORE, BP
 from angr.analyses.analysis import AnalysesHub
-from taveren.state_graph_recovery import ConstraintLogger, MultiDiGraph_DedupeEdge, StateGraphRecoveryBase
+from taveren.state_graph_recovery import (
+    ConstraintLogger,
+    MultiDiGraph_DedupeEdge,
+    StateGraphRecoveryBase,
+)
 
 if TYPE_CHECKING:
     from angr import SimState
@@ -17,15 +21,22 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     """
     Traverses a function and derive a state graph with respect to given variables.
     """
-    def __init__(self, func: 'Function', fields: 'AbstractStateFields', software: str,
-                 time_addr: int, temp_addr: int = None,
-                 init_state: Optional['SimState']=None,
-                 inputs:Dict=None,
-                 fields_input: Optional[Any]=None,
-                 switch_on: Optional[Callable]=None,
-                 printstate: Optional[Callable]=None,
-                 config_vars: Optional[Set[claripy.ast.Base]]=None,
-                 patch_callback: Optional[Callable]=None):
+
+    def __init__(
+        self,
+        func: "Function",
+        fields: "AbstractStateFields",
+        software: str,
+        time_addr: int,
+        temp_addr: int = None,
+        init_state: Optional["SimState"] = None,
+        inputs: Dict = None,
+        fields_input: Optional[Any] = None,
+        switch_on: Optional[Callable] = None,
+        printstate: Optional[Callable] = None,
+        config_vars: Optional[Set[claripy.ast.Base]] = None,
+        patch_callback: Optional[Callable] = None,
+    ):
         self.func = func
         self.fields = fields
         self.config_vars = config_vars if config_vars is not None else set()
@@ -34,7 +45,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         self.inputs = inputs
         self.fields_input = fields_input
         self._switch_on = switch_on
-        self._ret_trap: int = 0x1f37ff4a
+        self._ret_trap: int = 0x1F37FF4A
         self.printstate = printstate
         self.patch_callback = patch_callback
 
@@ -79,11 +90,26 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         abs_state = self.fields.generate_abstract_state(init_state)
         abs_state_id = next(abs_state_id_ctr)
-        self.state_graph.add_node((('NODE_CTR', abs_state_id),) + abs_state, outvars = dict(abs_state))
-        state_queue = [(init_state, abs_state_id, abs_state, None, None, None, None, None, None, None)]
+        self.state_graph.add_node(
+            (("NODE_CTR", abs_state_id),) + abs_state, outvars=dict(abs_state)
+        )
+        state_queue = [
+            (
+                init_state,
+                abs_state_id,
+                abs_state,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            )
+        ]
 
         switched_on = False if self._switch_on else True
-        '''
+        """
         if self._switch_on is None:
             countdown_timer = 0
             switched_on = True
@@ -242,13 +268,29 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         else:
             countdown_timer = 2  # how many iterations to execute before switching on
             switched_on = False
-        '''
+        """
         known_transitions = list()
         known_states = dict()
-        absstate_to_slice = { }
+        absstate_to_slice = {}
         while state_queue:
-            prev_state, prev_abs_state_id, prev_abs_state, prev_prev_abs, time_delta, time_delta_constraint, time_delta_src, water_level_delta, water_level_constraint, water_level_src = state_queue.pop(0)
-            print(prev_abs_state, water_level_delta, water_level_constraint, water_level_src)
+            (
+                prev_state,
+                prev_abs_state_id,
+                prev_abs_state,
+                prev_prev_abs,
+                time_delta,
+                time_delta_constraint,
+                time_delta_src,
+                water_level_delta,
+                water_level_constraint,
+                water_level_src,
+            ) = state_queue.pop(0)
+            print(
+                prev_abs_state,
+                water_level_delta,
+                water_level_constraint,
+                water_level_src,
+            )
             # if prev_abs_state[0][1] == 1 and low_delta == 0:
             if time_delta is None:
                 pass
@@ -300,19 +342,21 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 continue
 
             known_transitions.append(transition)
-            self.state_graph.add_node((('NODE_CTR', abs_state_id),) + abs_state, outvars=dict(abs_state))
-            self.state_graph.add_edge((('NODE_CTR', prev_abs_state_id),) + prev_abs_state,
-                                      (('NODE_CTR', abs_state_id),) + abs_state,
-                                      time_delta=time_delta,
-                                      time_delta_constraint=time_delta_constraint,
-                                      time_delta_src=time_delta_src,
-                                      water_level_delta=water_level_delta,
-                                      water_level_constraint=water_level_constraint,
-                                      water_level_src=water_level_src,
-
-                                      # label = f'time_delta_constraint={time_delta_constraint},\nlow_constraint={low_constraint}, \nhigh_constraint={high_constraint}'
-                                      label = f"water_level_delta={water_level_delta}"
-                                      )
+            self.state_graph.add_node(
+                (("NODE_CTR", abs_state_id),) + abs_state, outvars=dict(abs_state)
+            )
+            self.state_graph.add_edge(
+                (("NODE_CTR", prev_abs_state_id),) + prev_abs_state,
+                (("NODE_CTR", abs_state_id),) + abs_state,
+                time_delta=time_delta,
+                time_delta_constraint=time_delta_constraint,
+                time_delta_src=time_delta_src,
+                water_level_delta=water_level_delta,
+                water_level_constraint=water_level_constraint,
+                water_level_src=water_level_src,
+                # label = f'time_delta_constraint={time_delta_constraint},\nlow_constraint={low_constraint}, \nhigh_constraint={high_constraint}'
+                label=f"water_level_delta={water_level_delta}",
+            )
 
             # discover time deltas
             # also discover what other input fields are used in the constraints
@@ -323,10 +367,9 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     block_addr, stmt_idx = -1, -1
                 else:
                     block_addr, stmt_idx = source
-                print(f"[.] Discovered a new time interval {delta} defined at {block_addr:#x}:{stmt_idx}")
-
-
-
+                print(
+                    f"[.] Discovered a new time interval {delta} defined at {block_addr:#x}:{stmt_idx}"
+                )
 
             # low_delta_and_sources = self._discover_low_deltas(next_state)
             # for delta, constraint, source in low_delta_and_sources:
@@ -351,13 +394,18 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             # low_delta_and_sources = [(0, None, None), (1, None, None)]
             # high_delta_and_sources = [(0, None, None), (1, None, None)]
 
-
             # add new work states with deltas to queue
-            for water_level_delta, water_level_constraint, water_level_src in self._discover_water_level_deltas(next_state):
+            for (
+                water_level_delta,
+                water_level_constraint,
+                water_level_src,
+            ) in self._discover_water_level_deltas(next_state):
                 new_state = self._initialize_state(init_state=next_state)
 
                 # re-symbolize input fields, time counters, and update slice generator
-                symbolic_abstate_fields = self._symbolize_var_fields(new_state, self.fields)
+                symbolic_abstate_fields = self._symbolize_var_fields(
+                    new_state, self.fields
+                )
                 symbolic_time_counters = self._symbolize_timecounter(new_state)
                 symbolic_water_level = self._symbolize_water_level(new_state)
                 all_vars = set(symbolic_abstate_fields.values())
@@ -365,9 +413,22 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 all_vars |= set(symbolic_water_level.values())
                 all_vars |= self.config_vars
                 # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
-                state_queue.append((new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, water_level_delta, water_level_constraint, water_level_src))
+                state_queue.append(
+                    (
+                        new_state,
+                        abs_state_id,
+                        abs_state,
+                        prev_abs_state,
+                        None,
+                        None,
+                        None,
+                        water_level_delta,
+                        water_level_constraint,
+                        water_level_src,
+                    )
+                )
 
-        '''
+        """
 
             if temp_delta_and_sources or time_delta_and_sources:
 
@@ -553,9 +614,11 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     self.state_graph.remove_node(state_node)
                     break   # TODO: this could be wrong if there is multiple nodes need to be divided
 
-        '''
+        """
 
-    def _discover_water_level_deltas(self, state: 'SimState') -> List[Tuple[int,claripy.ast.Base,Tuple[int,int]]]:
+    def _discover_water_level_deltas(
+        self, state: "SimState"
+    ) -> List[Tuple[int, claripy.ast.Base, Tuple[int, int]]]:
         """
         Discover all possible water level that may be required to transition the current state to successor states.
 
@@ -567,15 +630,17 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         state = self._initialize_state(state)
         water_deltas = self._symbolically_advance_water_level(state)
         # setup inspection points to catch where comparison happens
-        constraint_source = { }
+        constraint_source = {}
         constraint_logger = ConstraintLogger(constraint_source)
-        bp_0 = BP(when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints)
-        state.inspect.add_breakpoint('constraints', bp_0)
+        bp_0 = BP(
+            when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints
+        )
+        state.inspect.add_breakpoint("constraints", bp_0)
 
         next_states = self._traverse_one(state, discover=True)
 
         # detect required water delta
-        steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
+        steps: List[Tuple[int, claripy.ast.Base, Tuple[int, int]]] = []
         for next_state in next_states:
             for delta in water_deltas:
                 for constraint in next_state.solver.constraints:
@@ -584,11 +649,13 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     if delta.args[0] in constraint.variables:
                         step = next_state.solver.min(delta)
 
-                        steps.append((
-                            step,
-                            constraint,
-                            constraint_source.get(original_constraint, None),
-                        ))
+                        steps.append(
+                            (
+                                step,
+                                constraint,
+                                constraint_source.get(original_constraint, None),
+                            )
+                        )
                         continue
 
                     else:
@@ -596,28 +663,56 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         return steps
 
-    def _symbolize_water_level(self, state: 'SimState') -> Dict[str, claripy.ast.Base]:
-        (water_level_addr, water_level_sort, water_level_size) = self.water_level_info
-        prev = state.memory.load(water_level_addr, size=water_level_size, endness=self.project.arch.memory_endness)
+    def _symbolize_water_level(self, state: "SimState") -> Dict[str, claripy.ast.Base]:
+        water_level_addr, water_level_sort, water_level_size = self.water_level_info
+        prev = state.memory.load(
+            water_level_addr,
+            size=water_level_size,
+            endness=self.project.arch.memory_endness,
+        )
         prev_water_level = state.solver.eval(prev)
-        self.water_level = claripy.BVS('water_level', water_level_size * self.project.arch.byte_width)
-        state.memory.store(water_level_addr, self.water_level, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.BVV(prev_water_level, water_level_size * self.project.arch.byte_width), self.water_level)
-        return {'water_level': self.water_level}
+        self.water_level = claripy.BVS(
+            "water_level", water_level_size * self.project.arch.byte_width
+        )
+        state.memory.store(
+            water_level_addr, self.water_level, endness=self.project.arch.memory_endness
+        )
+        state.preconstrainer.preconstrain(
+            claripy.BVV(
+                prev_water_level, water_level_size * self.project.arch.byte_width
+            ),
+            self.water_level,
+        )
+        return {"water_level": self.water_level}
 
-    def _symbolically_advance_water_level(self, state: 'SimState') -> List[claripy.ast.Bits]:
-        (water_level_addr, water_level_sort, water_level_size) = self.water_level_info
-        water_level_delta = claripy.BVS("water_level_delta", water_level_size * self.project.arch.byte_width)
-        state.memory.store(water_level_addr, water_level_delta, endness=self.project.arch.memory_endness)
+    def _symbolically_advance_water_level(
+        self, state: "SimState"
+    ) -> List[claripy.ast.Bits]:
+        water_level_addr, water_level_sort, water_level_size = self.water_level_info
+        water_level_delta = claripy.BVS(
+            "water_level_delta", water_level_size * self.project.arch.byte_width
+        )
+        state.memory.store(
+            water_level_addr,
+            water_level_delta,
+            endness=self.project.arch.memory_endness,
+        )
         return [water_level_delta]
 
-    def _advance_water_level(self, state: 'SimState', delta) -> None:
-        (water_level_addr, water_level_sort, water_level_size) = self.water_level_info
-        self.water_level = claripy.BVS('water_level', water_level_size * self.project.arch.byte_width)
-        state.memory.store(water_level_addr, self.water_level, endness=self.project.arch.memory_endness)
-        state.preconstrainer.preconstrain(claripy.BVV(delta, water_level_size * self.project.arch.byte_width), self.water_level)
+    def _advance_water_level(self, state: "SimState", delta) -> None:
+        water_level_addr, water_level_sort, water_level_size = self.water_level_info
+        self.water_level = claripy.BVS(
+            "water_level", water_level_size * self.project.arch.byte_width
+        )
+        state.memory.store(
+            water_level_addr, self.water_level, endness=self.project.arch.memory_endness
+        )
+        state.preconstrainer.preconstrain(
+            claripy.BVV(delta, water_level_size * self.project.arch.byte_width),
+            self.water_level,
+        )
 
-    def _traverse_one(self, state: 'SimState', discover: bool = False):
+    def _traverse_one(self, state: "SimState", discover: bool = False):
 
         simgr = self.project.factory.simgr(state)
 
@@ -627,14 +722,20 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             # print(s)
             if not discover:
                 if len(simgr.active) > 1:
-                    raise RuntimeError("scan cycle execution forked into multiple active states")
+                    raise RuntimeError(
+                        "scan cycle execution forked into multiple active states"
+                    )
 
             if s.addr == 0x423D67:
-                print("CMP LOW !!!!!!!!!!!!!!!!!!!" )
+                print("CMP LOW !!!!!!!!!!!!!!!!!!!")
             if s.addr == 0x423E3B:
-                print("CMP HIGH !!!!!!!!!!!!!!!!!!!" )
+                print("CMP HIGH !!!!!!!!!!!!!!!!!!!")
 
-            simgr.stash(lambda x: x.addr == self._ret_trap, from_stash='active', to_stash='finished')
+            simgr.stash(
+                lambda x: x.addr == self._ret_trap,
+                from_stash="active",
+                to_stash="finished",
+            )
 
             simgr.step()
 
@@ -647,4 +748,4 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             return simgr.finished[0]
 
 
-AnalysesHub.register_default('StateGraphRecoveryOneSensor', StateGraphRecoveryAnalysis)
+AnalysesHub.register_default("StateGraphRecoveryOneSensor", StateGraphRecoveryAnalysis)

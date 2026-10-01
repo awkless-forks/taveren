@@ -14,8 +14,9 @@ from taveren import (
     RuleVerifier,
     IllegalNodeBaseRule,
     MaxDelayBaseRule,
-    IllegalTransitionBaseRule
+    IllegalTransitionBaseRule,
 )
+
 # from angr.analyses.analysis import Analysis, AnalysesHub
 # AnalysesHub.register_default('StateGraphRecovery', StateGraphRecoveryAnalysis)
 # from state_graph_recovery.apis import generate_patch, apply_patch, apply_patch_on_state, EditDataPatch
@@ -26,31 +27,41 @@ from taveren.hooks import hook_py_extensions
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # state graph acquired. define a rule
 class MotorExclusionRule(IllegalNodeBaseRule):
     def verify_node(self, graph, node):
         n = dict(node)
         # The conveyor motor, lift up motor, and lift down motor cannot be on at the same time
-        if (int(bool(n.get("CONVEYOR_MOTOR", 0)))
+        if (
+            int(bool(n.get("CONVEYOR_MOTOR", 0)))
             + int(bool(n.get("LIFT_UP_MOTOR", 0)))
-            + int(bool(n.get("LIFT_DOWN_MOTOR", 0)))) > 1:
+            + int(bool(n.get("LIFT_DOWN_MOTOR", 0)))
+        ) > 1:
             return False
         return True
+
 
 class HignUpMotorOffRule(IllegalTransitionBaseRule):
     def verify_node(self, graph, src):
         # The lift up motor must be off when the rack is above assigned rack
         for dst in graph.successors(src):
-            if dict(dst)["LIFT_UP_MOTOR"] > 0:    # lift up motor is on, for int type
+            if dict(dst)["LIFT_UP_MOTOR"] > 0:  # lift up motor is on, for int type
                 edges = graph.get_edge_data(src, dst)
                 for edge_data in edges.values():
-                    if edge_data["current_rack_delta"] is not None and  edge_data["current_rack_delta"] >= 6 :
+                    if (
+                        edge_data["current_rack_delta"] is not None
+                        and edge_data["current_rack_delta"] >= 6
+                    ):
                         return False, dst
         return True, None
 
+
 def test_lifter():
-    binary_path = os.path.join(TEST_DIR, '../fixtures/warehouse_lift/build/warehouse_lift.so')
-    variable_path = os.path.join(TEST_DIR, 'lifter.json')
+    binary_path = os.path.join(
+        TEST_DIR, "../fixtures/warehouse_lift/build/warehouse_lift.so"
+    )
+    variable_path = os.path.join(TEST_DIR, "lifter.json")
     start_time = time.time()
 
     proj = angr.Project(binary_path, auto_load_libs=False)
@@ -69,17 +80,19 @@ def test_lifter():
     hook_py_extensions(proj, cfg)
 
     # run the state initializer
-    init = cfg.kb.functions['config_init__']
-    init_callable = proj.factory.callable(init.addr, perform_merge=False, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
+    init = cfg.kb.functions["config_init__"]
+    init_callable = proj.factory.callable(
+        init.addr, perform_merge=False, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY}
+    )
     init_callable.perform_call()
     initial_state = init_callable.result_state
     assert initial_state is not None
     init_time = time.time()
     print("------------init time: %s ----------" % (init_time - start_time))
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # def switch_on(state):
     #     # switch on
@@ -110,10 +123,16 @@ def test_lifter():
 
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
-    func = cfg.kb.functions['__run']
-    sgr = proj.analyses.StateGraphRecoveryLifter(func, fields_output, software, time_addr, init_state=initial_state,
-                                        inputs = inputs, fields_input=fields_input
-                                           )
+    func = cfg.kb.functions["__run"]
+    sgr = proj.analyses.StateGraphRecoveryLifter(
+        func,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
@@ -122,8 +141,9 @@ def test_lifter():
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
+
     variant_name = os.path.basename(variable_path).replace(".json", "")
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     write_dot(sgr.state_graph, os.path.join(graphs_dir, variant_name + ".dot"))
 

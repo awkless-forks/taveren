@@ -23,41 +23,48 @@ from taveren.env_model import generate_field_desc
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # state graph acquired. define a rule
 class NoUpOnTopFloorRule(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
         for succ in graph.successors(node):
-            if dict(node)['level'] == 4 and dict(succ)['dir'] == 1:
+            if dict(node)["level"] == 4 and dict(succ)["dir"] == 1:
                 return False, succ
         return True, None
+
 
 class NoDownOnGroundFloorRule(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
         for succ in graph.successors(node):
-            if dict(node)['level'] == 1 and dict(succ)['dir'] == -1:
+            if dict(node)["level"] == 1 and dict(succ)["dir"] == -1:
                 return False, succ
         return True, None
 
+
 class PressHighGoUpRule(IllegalTransitionBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: Any) -> Tuple[bool, Any]:
-        if dict(node)['level'] < 4:
+    def verify_node(self, graph: "networkx.DiGraph", node: Any) -> Tuple[bool, Any]:
+        if dict(node)["level"] < 4:
             for succ in graph.successors(node):
                 # if the elevator is lower than the 4th floor, and the floor 4 button is pressed, go up
                 for edge_data in graph.get_edge_data(node, succ).values():
-                    if edge_data['btn4_delta'] == 1 and (dict(succ)['dir'] < 1 or dict(succ)['level'] <= dict(node)['level']):
+                    if edge_data["btn4_delta"] == 1 and (
+                        dict(succ)["dir"] < 1
+                        or dict(succ)["level"] <= dict(node)["level"]
+                    ):
                         return False, succ
         return True, None
+
 
 class up(angr.SimProcedure):
     def run(self):
         print("in up")
         self.state.globals[0x40] = 1
 
+
 class down(angr.SimProcedure):
     def run(self):
         print("in down")
         self.state.globals[0x40] = -1
-
 
 
 @pytest.mark.parametrize("variant", ["ARM", "AVR"])
@@ -68,7 +75,9 @@ def test_elevator(variant: str):
     variable_path = os.path.join(TEST_DIR, "elevator.json")
 
     if variant == "AVR":
-        binary_path = os.path.join(TEST_DIR, "../fixtures/elevator/elevator_uno_O0.ino.elf")
+        binary_path = os.path.join(
+            TEST_DIR, "../fixtures/elevator/elevator_uno_O0.ino.elf"
+        )
         variable_path = os.path.join(TEST_DIR, "elevator_uno_O0.json")
 
         # import AVR platform support
@@ -81,7 +90,6 @@ def test_elevator(variant: str):
 
     else:
         main_opts = {}
-
 
     start_time = time.time()
 
@@ -112,7 +120,6 @@ def test_elevator(variant: str):
         case _:
             raise Exception("Unsupported variant")
 
-
     # nnode = len(list(cfg.kb.functions[0x42c034].blocks))
     # print(f"number of blocks: {nnode}")
 
@@ -126,10 +133,9 @@ def test_elevator(variant: str):
     init_time = time.time()
     print("------------init time: %s ----------" % (init_time - start_time))
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
-
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # define abstract fields
     outputs, inputs = generate_field_desc(data)
@@ -153,10 +159,16 @@ def test_elevator(variant: str):
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
     cfg = proj.analyses.CFG(show_progressbar=True, force_smart_scan=False)
-    func = cfg.kb.functions['loop']
-    sgr = proj.analyses.StateGraphRecoveryElevator(func, fields_output, software, time_addr, init_state=initial_state,
-                                        inputs = inputs, fields_input=fields_input
-                                           )
+    func = cfg.kb.functions["loop"]
+    sgr = proj.analyses.StateGraphRecoveryElevator(
+        func,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+    )
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
     state_graph = sgr.state_graph
@@ -166,7 +178,7 @@ def test_elevator(variant: str):
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
 
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
     dot_file = "elevator.dot" if variant == "ARM" else "elevator_avr.dot"
     dot_file = os.path.join(graphs_dir, dot_file)
@@ -174,7 +186,6 @@ def test_elevator(variant: str):
     write_dot(sgr.state_graph, dot_file)
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())
-
 
     finder = RuleVerifier(state_graph)
     rule_start_time = time.time()
@@ -185,7 +196,6 @@ def test_elevator(variant: str):
 
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
-
 
     rule2 = NoDownOnGroundFloorRule()
     r, src, dst = finder.verify(rule2)

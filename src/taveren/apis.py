@@ -1,4 +1,3 @@
-
 # This file defines APIs for altering a state graph inside a binary. Patches subclass Patcherex's Patch when Patcherex
 # is installed; Patcherex is optional, since applying a patch does not use it.
 
@@ -19,8 +18,8 @@ except ImportError:
         def __init__(self, name):
             self.name = name
 
-from .abstract_state import AbstractState
 
+from .abstract_state import AbstractState
 
 #
 # Patches
@@ -38,8 +37,14 @@ class AddStatePatch(Patch):
     :ivar succ_states:  Successor states of this new abstract state.
     :ivar asm_code:     The assembly code that implements the logic of this new abstract state.
     """
-    def __init__(self, pred_states: Iterable[AbstractState], succ_states: Optional[Iterable[AbstractState]]=None,
-                 asm_code: Optional[str]=None, name: Optional[str]=None):
+
+    def __init__(
+        self,
+        pred_states: Iterable[AbstractState],
+        succ_states: Optional[Iterable[AbstractState]] = None,
+        asm_code: Optional[str] = None,
+        name: Optional[str] = None,
+    ):
 
         super().__init__(name)
 
@@ -69,7 +74,14 @@ class EditDataPatch(Patch):
 
         0x83200    13 37 00 00
     """
-    def __init__(self, addr: int, data: bytes, old_data: Optional[bytes]=None, name: Optional[str]=None):
+
+    def __init__(
+        self,
+        addr: int,
+        data: bytes,
+        old_data: Optional[bytes] = None,
+        name: Optional[str] = None,
+    ):
         super().__init__(name)
         self.addr = addr
         self.data = data
@@ -86,7 +98,8 @@ class EditInstrPatch(Patch):
       equal to to greater than or equal to, etc.)
     - Nopping instructions.
     """
-    def __init__(self, addr: int, new_instr: str, name: Optional[str]=None):
+
+    def __init__(self, addr: int, new_instr: str, name: Optional[str] = None):
         super().__init__(name)
         self.addr = addr
         self.new_instr = new_instr
@@ -101,6 +114,7 @@ class CauseBase:
     """
     This is the base class for all possible root causes.
     """
+
     pass
 
 
@@ -117,26 +131,34 @@ class DataItemCause(CauseBase):
     architectures like ARM and MIPS, large integers are almost always directly loaded from memory. In these scenarios,
     it can be captured by a DataItemCause instance.
     """
-    def __init__(self, addr: int, data_type: str, data_size: int, name: Optional[str]=None):
+
+    def __init__(
+        self, addr: int, data_type: str, data_size: int, name: Optional[str] = None
+    ):
         self.addr = addr
         self.data_type = data_type
         self.data_size = data_size
         self.name = name
 
     def __repr__(self):
-        return f"<DataItemCause: {self.data_type}@{self.addr:#x}[{self.data_size} bytes]%s>" % (
-            self.name if self.name else "")
+        return (
+            f"<DataItemCause: {self.data_type}@{self.addr:#x}[{self.data_size} bytes]%s>"
+            % (self.name if self.name else "")
+        )
 
     def __eq__(self, other):
         if not isinstance(other, DataItemCause):
             return False
-        return self.addr == other.addr and \
-            self.data_type == other.data_type and \
-            self.data_size == other.data_size and \
-            self.name == other.name
+        return (
+            self.addr == other.addr
+            and self.data_type == other.data_type
+            and self.data_size == other.data_size
+            and self.name == other.name
+        )
 
     def __hash__(self):
         return hash((self.addr, self.data_type, self.data_size, self.name))
+
 
 class InstrOperandCause(CauseBase):
     """
@@ -150,6 +172,7 @@ class InstrOperandCause(CauseBase):
     The root cause of "sleeping for *2* seconds" is the integer 2 that is involved at line 1. If this integer is
     directly used in an instruction, the cause can be captured by an InstrOperandCause instance.
     """
+
     def __init__(self, addr: int, operand_idx: int, old_value: int):
         self.addr = addr
         self.operand_idx = operand_idx
@@ -161,7 +184,11 @@ class InstrOperandCause(CauseBase):
     def __eq__(self, other):
         if not isinstance(other, InstrOperandCause):
             return False
-        return self.addr == other.addr and self.operand_idx == other.operand_idx and self.old_value == other.old_value
+        return (
+            self.addr == other.addr
+            and self.operand_idx == other.operand_idx
+            and self.old_value == other.old_value
+        )
 
     def __hash__(self):
         return hash((self.addr, self.operand_idx, self.old_value))
@@ -179,6 +206,7 @@ class InstrOpcodeCause(CauseBase):
     The root cause of "sleeping for *b + 2* seconds" involves the add operator. If this addition operation is
     implemented as an instruction, such as _add r0, r0, 2_, then InstrOpcodeCause will be able to capture it.
     """
+
     def __init__(self, addr: int, operator):
         self.addr = addr
         self.operator = operator
@@ -194,13 +222,18 @@ class InstrOpcodeCause(CauseBase):
     def __hash__(self):
         return hash((self.addr, self.operator))
 
+
 #
 # Interaction
 #
 
+
 def generate_patch(arch, causes: List[CauseBase]) -> Optional[Patch]:
     # patches
-    idx = input("[?] Which root cause do you want to mitigate? (%d - %d) " % (0, len(causes) - 1))
+    idx = input(
+        "[?] Which root cause do you want to mitigate? (%d - %d) "
+        % (0, len(causes) - 1)
+    )
     try:
         idx = int(idx)
     except (ValueError, TypeError):
@@ -229,14 +262,20 @@ def generate_patch(arch, causes: List[CauseBase]) -> Optional[Patch]:
     return None
 
 
-def apply_patch_on_state(patch: Patch, state: 'angr.SimState'):
+def apply_patch_on_state(patch: Patch, state: "angr.SimState"):
     if isinstance(patch, EditDataPatch):
-        state.memory.store(patch.addr, patch.data, endness='Iend_BE')
+        state.memory.store(patch.addr, patch.data, endness="Iend_BE")
     else:
         raise NotImplementedError("Do not support other types of patches yet.")
 
 
-def apply_patch(patch: Patch, file_path: str, output_path: str, proj: 'angr.Project', start_addr: int) -> None:
+def apply_patch(
+    patch: Patch,
+    file_path: str,
+    output_path: str,
+    proj: "angr.Project",
+    start_addr: int,
+) -> None:
     if isinstance(patch, EditDataPatch):
         # create a patch that uses ptrace to overwrite the target address in memory
         prolog = """
@@ -265,7 +304,7 @@ process = debugger.addProcess(pid, False)
         epilog = """
 process.detach()
         """
-        overwrite_one_byte = "process.writeBytes(lib_base_addr + %#x, b\"\\x%02x\")"
+        overwrite_one_byte = 'process.writeBytes(lib_base_addr + %#x, b"\\x%02x")'
 
         py_code = prolog + "\n"
         for pos, byt in enumerate(patch.data):

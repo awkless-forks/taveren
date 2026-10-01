@@ -13,7 +13,7 @@ from taveren import (
     MinDelayBaseRule,
     RuleVerifier,
     IllegalNodeBaseRule,
-    MaxDelayBaseRule
+    MaxDelayBaseRule,
 )
 
 # from angr.analyses.analysis import Analysis, AnalysesHub
@@ -28,27 +28,29 @@ from taveren.hooks import hook_py_extensions, normalize_timespec
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 # state graph acquired. define a rule
 # conveyor belt and product valve cannot be true at the same time
 class NoBothOnRule(IllegalNodeBaseRule):
-    def verify_node(self, graph: 'networkx.DiGraph', node: 'networkx.Node') -> bool:
-        if dict(node)['CONVEYOR_MOTOR'] == 1 and dict(node)['PRODUCT_VALVE'] == 1:
+    def verify_node(self, graph: "networkx.DiGraph", node: "networkx.Node") -> bool:
+        if dict(node)["CONVEYOR_MOTOR"] == 1 and dict(node)["PRODUCT_VALVE"] == 1:
             return False
         return True
 
+
 # valve not activated more than 15 seconds
 class ValveMax15s(MaxDelayBaseRule):
-    def node_a(self, graph: 'networkx.DiGraph'):
+    def node_a(self, graph: "networkx.DiGraph"):
         for node in graph.nodes():
-            if dict(node)['PRODUCT_VALVE'] == 1:
+            if dict(node)["PRODUCT_VALVE"] == 1:
                 yield node
 
-    def node_b(self, graph: 'networkx.DiGraph', start: tuple) :
+    def node_b(self, graph: "networkx.DiGraph", start: tuple):
         visited = {start}
         queue = deque([start])
         while queue:
             node = queue.popleft()
-            if dict(node)['PRODUCT_VALVE'] == 0:
+            if dict(node)["PRODUCT_VALVE"] == 0:
                 yield node
                 continue
             for suc in graph.successors(node):
@@ -57,29 +59,38 @@ class ValveMax15s(MaxDelayBaseRule):
                     queue.append(suc)
 
 
-
 def switch_on(state):
     # switch on
-    base_addr = int(data['variable_base_addr'], 16)
-    switch = next(x for x in data['variables'] if x['name'] == "START_BUTTON")
-    switch_value_addr = base_addr + int(switch['address'], 16)
+    base_addr = int(data["variable_base_addr"], 16)
+    switch = next(x for x in data["variables"] if x["name"] == "START_BUTTON")
+    switch_value_addr = base_addr + int(switch["address"], 16)
     switch_flag_addr = switch_value_addr + 1
-    state.memory.store(switch_value_addr, claripy.BVV(0x1, 8), endness=state.memory.endness)  # value
-    state.memory.store(switch_flag_addr, claripy.BVV(0x2, 8), endness=state.memory.endness)  # flag
+    state.memory.store(
+        switch_value_addr, claripy.BVV(0x1, 8), endness=state.memory.endness
+    )  # value
+    state.memory.store(
+        switch_flag_addr, claripy.BVV(0x2, 8), endness=state.memory.endness
+    )  # flag
+
 
 @pytest.mark.parametrize("mode", ["x86", "mips", "ppc"])
-def test_packaging(mode:str):
+def test_packaging(mode: str):
     match mode:
         case "x86":
-            binary_path = os.path.join(TEST_DIR, '../fixtures/packaging_sfc/build/packaging_sfc.so')
-            variable_path = os.path.join(TEST_DIR, 'packaging.json')
+            binary_path = os.path.join(
+                TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc.so"
+            )
+            variable_path = os.path.join(TEST_DIR, "packaging.json")
         case "mips":
-            binary_path = os.path.join(TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_mips.so")
+            binary_path = os.path.join(
+                TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_mips.so"
+            )
             variable_path = os.path.join(TEST_DIR, "packaging_mips.json")
         case "ppc":
-            binary_path = os.path.join(TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_powerpc.so")
+            binary_path = os.path.join(
+                TEST_DIR, "../fixtures/packaging_sfc/build/packaging_sfc_powerpc.so"
+            )
             variable_path = os.path.join(TEST_DIR, "packaging_ppc.json")
-
 
     start_time = time.time()
 
@@ -99,10 +110,12 @@ def test_packaging(mode:str):
 
     # print(f"number of blocks: {nnode}, number of edges: {nedge}")
     hook_py_extensions(proj, cfg)
-    proj.hook_symbol('__normalize_timespec', normalize_timespec())
+    proj.hook_symbol("__normalize_timespec", normalize_timespec())
     # run the state initializer
-    init = cfg.kb.functions['RES0_init__']
-    init_callable = proj.factory.callable(init.addr, perform_merge=False, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
+    init = cfg.kb.functions["RES0_init__"]
+    init_callable = proj.factory.callable(
+        init.addr, perform_merge=False, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY}
+    )
     init_callable.perform_call()
     initial_state = init_callable.result_state
 
@@ -114,10 +127,9 @@ def test_packaging(mode:str):
     init_time = time.time()
     print("------------init time: %s ----------" % (init_time - start_time))
 
-    base_addr = int(data['variable_base_addr'], 16)
-    time_addr = int(data['time_addr'], 16)
-    software = data['software']
-
+    base_addr = int(data["variable_base_addr"], 16)
+    time_addr = int(data["time_addr"], 16)
+    software = data["software"]
 
     # define abstract fields
     outputs, inputs = generate_field_desc(data)
@@ -140,11 +152,18 @@ def test_packaging(mode:str):
 
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
-    func = cfg.kb.functions['RES0_run__']
+    func = cfg.kb.functions["RES0_run__"]
     # on start if start_button is on, it will skip START state
-    sgr = proj.analyses.StateGraphRecoveryPackaging(func, fields_output, software, time_addr, init_state=initial_state,
-                                           inputs=inputs, fields_input=fields_input, switch_on=switch_on
-                                           )
+    sgr = proj.analyses.StateGraphRecoveryPackaging(
+        func,
+        fields_output,
+        software,
+        time_addr,
+        init_state=initial_state,
+        inputs=inputs,
+        fields_input=fields_input,
+        switch_on=switch_on,
+    )
 
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
@@ -154,9 +173,14 @@ def test_packaging(mode:str):
 
     # output the graph to a dot file
     from networkx.drawing.nx_agraph import write_dot
-    graphs_dir = os.path.join(TEST_DIR, 'graphs')
+
+    graphs_dir = os.path.join(TEST_DIR, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
-    dot_names = {"x86": "package.dot", "mips": "package_mips.dot", "ppc": "package_ppc.dot"}
+    dot_names = {
+        "x86": "package.dot",
+        "mips": "package_mips.dot",
+        "ppc": "package_ppc.dot",
+    }
     write_dot(sgr.state_graph, os.path.join(graphs_dir, dot_names[mode]))
     print("Number of nodes: %d" % state_graph.number_of_nodes())
     print("Number of edges: %d" % state_graph.number_of_edges())
@@ -170,7 +194,6 @@ def test_packaging(mode:str):
 
     rule1_time = time.time()
     print("------------rule1 time: %s ----------" % (rule1_time - rule_start_time))
-
 
     rule = ValveMax15s(15)
     r, src, dst = finder.verify(rule)
