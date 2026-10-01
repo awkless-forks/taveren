@@ -10,6 +10,8 @@ __pycache__/
 .venv
 uv.lock
 
+/**/graphs/
+
 # Vim editor stuff.
 [._]*.s[a-v][a-z]
 !*.svg
