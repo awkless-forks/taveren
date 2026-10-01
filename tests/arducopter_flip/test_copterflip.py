@@ -311,7 +311,7 @@ def test_flip():
     #
     # fields = state_graph_recovery.AbstractStateFields(fields_desc)
 
-    # init_sgr = proj.analyses.StateGraphRecovery(init_func, fields, "arduino", time_addr=time_addr, rollsensor_addr = channel_pitch_addr+0xc,
+    # init_sgr = proj.analyses.StateGraphRecoveryCopterFlip(init_func, fields, "arduino", time_addr=time_addr, rollsensor_addr = channel_pitch_addr+0xc,
     #                                             init_state=init_state_init, init_variables=init_variables,
     #                                             state_id_addr = 0x8f9c15, state_graph = state_graph)
 
@@ -350,7 +350,7 @@ def test_flip():
             # func = proj.kb.functions['_ZN8ModeFlip3runEv']
             func = 0x47e1cc
             initial_state.regs.rdi = mode_flip_addr
-            sgr = proj.analyses.StateGraphRecovery(func, fields, "arduino", time_var, rollsensor_addr = ahrs_addr + 0x394,
+            sgr = proj.analyses.StateGraphRecoveryCopterFlip(func, fields, "arduino", time_var, rollsensor_addr = ahrs_addr + 0x394,
                                                    init_state=initial_state, init_variables=init_variables, func_args=func_args, state_id_addr = mode_flip_addr+0x84)
             sgr_time = time.time()
             print("------------sgr time: %s ----------" % (sgr_time - init_time))

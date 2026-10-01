@@ -195,7 +195,7 @@ def test_elevator(variant: str):
     fields_input = AbstractStateFields(inputs)
     cfg = proj.analyses.CFG(show_progressbar=True, force_smart_scan=False)
     func = cfg.kb.functions['loop']
-    sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryElevator(func, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input
                                            )
     sgr_time = time.time()

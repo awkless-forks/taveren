@@ -185,7 +185,7 @@ def test_carwash(mode:str):
     fields_output = AbstractStateFields(outputs)
     fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['RES0_run__']
-    sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryCarWash(func, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input
                                            )
     sgr_time = time.time()

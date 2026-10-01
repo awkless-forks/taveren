@@ -244,7 +244,7 @@ def test_find_violations(mode: str):
 
     fields = AbstractStateFields(fields_desc)
     func = cfg.kb.functions['TRAFFIC_LIGHT_SEQUENCE_body__']
-    sgr = proj.analyses.StateGraphRecovery(func, fields, software, time_addr, init_state=initial_state, switch_on=switch_on,
+    sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, software, time_addr, init_state=initial_state, switch_on=switch_on,
                                            config_vars=set(config_vars.values()), printstate=printstate, arg0_addr=base_addr)
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))

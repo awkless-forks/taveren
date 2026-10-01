@@ -180,7 +180,7 @@ def test_vending_machine():
     fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['loop']
     initial_state = proj.factory.blank_state(addr = func.addr)
-    sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryVendingMachine(func, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input
                                            )
     sgr_time = time.time()

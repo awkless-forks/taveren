@@ -339,8 +339,8 @@ def test_oven():
 
     fields = AbstractStateFields(fields_desc)
     func = cfg.kb.functions['loop']
-    sgr = proj.analyses.StateGraphRecovery(func, fields, "arduino", time_addr, temp_addr, init_state=initial_state)
-    # sgr = proj.analyses.StateGraphRecovery(func, fields, time_addr, temp_addr, init_state=initial_state)
+    sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, "arduino", time_addr, temp_addr, init_state=initial_state)
+    # sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, time_addr, temp_addr, init_state=initial_state)
 
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))

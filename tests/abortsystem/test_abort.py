@@ -160,7 +160,7 @@ def test_abort(mode: str):
     fields_input = AbstractStateFields(inputs)
     LaunchAbortController_addr = 0x401EBC
     # func = cfg.kb.functions[LaunchAbortController_addr]
-    sgr = proj.analyses.StateGraphRecovery(LaunchAbortController_addr, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryAbort(LaunchAbortController_addr, fields_output, software, time_addr, init_state=initial_state,
                                         inputs = inputs, fields_input=fields_input, mode=mode
                                            )
     sgr_time = time.time()

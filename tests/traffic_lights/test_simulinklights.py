@@ -157,7 +157,7 @@ def test_blinky():
     initial_state = proj.factory.blank_state(addr=func.addr, add_options={ZERO_FILL_UNCONSTRAINED_MEMORY})
     initial_state.globals[4] = 0
     time_addr = 0x200009c2
-    sgr = proj.analyses.StateGraphRecovery(func, fields, 'simulink', time_addr, init_state=initial_state, switch_on=switch_on,)
+    sgr = proj.analyses.StateGraphRecoveryTrafficLight(func, fields, 'simulink', time_addr, init_state=initial_state, switch_on=switch_on,)
     sgr_time = time.time()
     print("------------sgr time: %s ----------" % (sgr_time - init_time))
 

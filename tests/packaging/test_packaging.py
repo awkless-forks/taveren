@@ -196,7 +196,7 @@ def test_packaging(mode:str):
     fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions['RES0_run__']
     # on start if start_button is on, it will skip START state
-    sgr = proj.analyses.StateGraphRecovery(func, fields_output, software, time_addr, init_state=initial_state,
+    sgr = proj.analyses.StateGraphRecoveryPackaging(func, fields_output, software, time_addr, init_state=initial_state,
                                            inputs=inputs, fields_input=fields_input, switch_on=switch_on
                                            )
 
