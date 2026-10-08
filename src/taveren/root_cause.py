@@ -1,7 +1,7 @@
 from typing import List, Dict, Tuple, Union, Optional
 
 import pyvex
-import claripy
+from angr import claripy
 
 from angr.analyses.analysis import Analysis, AnalysesHub
 from .apis import CauseBase, InstrOperandCause, InstrOpcodeCause, DataItemCause

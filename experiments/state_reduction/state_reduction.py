@@ -5,7 +5,7 @@ This script is to evaluate the reduction of state space during FSM recovery (App
 import os
 
 import angr
-import claripy
+from angr import claripy
 import logging
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))

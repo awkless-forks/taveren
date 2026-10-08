@@ -2,7 +2,7 @@ import os
 from typing import Generator, Any, Tuple
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 
 from . import state_graph_recovery

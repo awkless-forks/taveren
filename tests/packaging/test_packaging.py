@@ -3,7 +3,7 @@ from collections import deque
 
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 import pytest
 

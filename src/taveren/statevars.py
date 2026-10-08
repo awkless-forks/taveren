@@ -11,13 +11,15 @@ from typing import Any, DefaultDict, Dict, List, Optional, Union
 from collections import defaultdict
 
 from angr.ailment import Block
-from angr.ailment.block_walker import AILBlockWalkerBase
-from angr.ailment.statement import ConditionalJump, Statement, Store, Call, Assignment
+from angr.ailment.block_walker import AILBlockViewer
+from angr.ailment.statement import ConditionalJump, Statement, Store, Assignment
 from angr.ailment.expression import (
+    Call,
     Expression,
     Load,
     Const,
     VirtualVariable,
+    VirtualVariableCategory,
     Convert,
     BinaryOp,
     Register,
@@ -30,7 +32,7 @@ from angr.code_location import ExternalCodeLocation
 base_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../")
 
 
-class ExprDependsOnExternal(AILBlockWalkerBase):
+class ExprDependsOnExternal(AILBlockViewer):
     def __init__(self, nodes_dict: dict[tuple[int, int | None], Block], srda):
         super().__init__()
         self.depends_on_external: bool = False
@@ -49,7 +51,7 @@ class ExprDependsOnExternal(AILBlockWalkerBase):
         stmt: Statement,
         block: Block | None,
     ):
-        if expr.category == 1:  # stack
+        if expr.category == VirtualVariableCategory.STACK:
             self.depends_on_stack = True
         if expr.varid in self.srda.all_vvar_definitions:
             def_loc = self.srda.all_vvar_definitions[expr.varid]
@@ -93,7 +95,7 @@ def _expand(
     return expanded
 
 
-class ConditionWalker(AILBlockWalkerBase):
+class ConditionWalker(AILBlockViewer):
     def __init__(
         self,
         nodes_dict: dict[tuple[int, int | None], Block],
@@ -187,7 +189,7 @@ class ConditionWalker(AILBlockWalkerBase):
             self.load_vars.append(expr)
 
 
-class OperandExtractor(AILBlockWalkerBase):
+class OperandExtractor(AILBlockViewer):
     def __init__(self, expr: Expression):
         super().__init__()
         self.expr = expr
@@ -348,7 +350,7 @@ def trace_global_vars(
                         continue
                     if isinstance(expr.addr, Const):
                         gv = GlobalVar(expr.addr.value, expr.size, GlobalVarType.GLOBAL)
-                        gv_dict[gv].append(("read", last_stmt.ins_addr))
+                        gv_dict[gv].append(("read", last_stmt.tags.get("ins_addr")))
                     elif isinstance(expr.addr, VirtualVariable):
                         # vvar_0
                         gv = GlobalVar(
@@ -357,7 +359,7 @@ def trace_global_vars(
                             var_type=GlobalVarType.VVAR,
                             vvar_base=expr.addr,
                         )
-                        gv_dict[gv].append(("read", last_stmt.ins_addr))
+                        gv_dict[gv].append(("read", last_stmt.tags.get("ins_addr")))
                     elif isinstance(expr.addr, Load):
                         # [vvar_0 + 0x8]+x
                         continue
@@ -372,7 +374,7 @@ def trace_global_vars(
                                 GlobalVarType.VVAR,
                                 vvar_base,
                             )
-                            gv_dict[gv].append(("read", last_stmt.ins_addr))
+                            gv_dict[gv].append(("read", last_stmt.tags.get("ins_addr")))
                         else:
                             print(vvar_offset)
                     elif expr.addr.op == "Sub" and expr.addr.operands[1].sign_bit == 1:
@@ -388,7 +390,7 @@ def trace_global_vars(
                                 GlobalVarType.VVAR,
                                 vvar_base,
                             )
-                            gv_dict[gv].append(("read", stmt.ins_addr))
+                            gv_dict[gv].append(("read", stmt.tags.get("ins_addr")))
                         else:
                             print(vvar_offset)
                     else:
@@ -407,7 +409,7 @@ def trace_global_vars(
                             gv = GlobalVar(
                                 stmt.addr.value, stmt.size, GlobalVarType.GLOBAL
                             )
-                            gv_dict[gv].append(("write", stmt.ins_addr))
+                            gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
                         elif isinstance(expr.addr, VirtualVariable):
                             # vvar_0
                             gv = GlobalVar(
@@ -416,7 +418,7 @@ def trace_global_vars(
                                 var_type=GlobalVarType.VVAR,
                                 vvar_base=expr.addr,
                             )
-                            gv_dict[gv].append(("write", stmt.ins_addr))
+                            gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
                         elif expr.addr.op == "Add":
                             vvar_base = expr.addr.operands[0]
                             vvar_offset = expr.addr.operands[1]
@@ -426,7 +428,7 @@ def trace_global_vars(
                                 GlobalVarType.VVAR,
                                 vvar_base,
                             )
-                            gv_dict[gv].append(("write", stmt.ins_addr))
+                            gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
                         elif (
                             expr.addr.op == "Sub"
                             and expr.addr.operands[1].sign_bit == 1
@@ -442,7 +444,7 @@ def trace_global_vars(
                                 GlobalVarType.VVAR,
                                 vvar_base,
                             )
-                            gv_dict[gv].append(("write", stmt.ins_addr))
+                            gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
                         else:
                             raise NotImplementedError(
                                 f"unsupported store address expression: {expr.addr}"
@@ -454,25 +456,25 @@ def trace_global_vars(
                 if isinstance(expr, Load):
                     if isinstance(expr.addr, Const):   # fixme: need better way to check if global
                         gv = GlobalVar(expr.addr.value, expr.size, GlobalVarType.GLOBAL)
-                        gv_dict[gv].append(("read", last_stmt.ins_addr))
+                        gv_dict[gv].append(("read", last_stmt.tags.get("ins_addr")))
                     else:
                         # Check if variable depends on function argument
                         for virtual_var in func_virtual_vars:
                             if expr.addr.likes(virtual_var):
                                 gv = GlobalVar(expr.addr.varid, expr.size, GlobalVarType.VVAR)
-                                gv_dict[gv].append(("read", last_stmt.ins_addr))
+                                gv_dict[gv].append(("read", last_stmt.tags.get("ins_addr")))
 
         for stmt in node.statements:
             if isinstance(stmt, Store):
                 if isinstance(stmt.addr, Const):
                     gv = GlobalVar(stmt.addr.value, stmt.size, GlobalVarType.GLOBAL)
-                    gv_dict[gv].append(("write", stmt.ins_addr))
+                    gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
                 else:
                     # Check if variable depends on function argument
                         for virtual_var in func_virtual_vars:
                             if stmt.addr.likes(virtual_var):
                                 gv = GlobalVar(stmt.addr.varid, stmt.size, GlobalVarType.VVAR)
-                                gv_dict[gv].append(("write", stmt.ins_addr))
+                                gv_dict[gv].append(("write", stmt.tags.get("ins_addr")))
     """
 
 
@@ -831,31 +833,34 @@ def analyse_statevars(binary_path: str = None, funcs: List[Union[int, str]] = No
         touched_insn_addrs = set()
         for idx, stmt in reversed(list(enumerate(converted.statements))):
             if (
-                stmt.ins_addr not in touched_insn_addrs
-                and stmt.ins_addr in initial_arg_values
+                stmt.tags.get("ins_addr") not in touched_insn_addrs
+                and stmt.tags.get("ins_addr") in initial_arg_values
             ):
-                for reg_name, reg_value in initial_arg_values[stmt.ins_addr].items():
+                for reg_name, reg_value in initial_arg_values[
+                    stmt.tags.get("ins_addr")
+                ].items():
                     reg_offset, reg_size = proj.arch.registers[reg_name]
                     reg_bits = reg_size * 8
                     reg = Register(
                         o._ail_manager.next_atom(),
-                        None,
                         reg_offset,
                         reg_bits,
-                        ins_addr=stmt.ins_addr,
+                        ins_addr=stmt.tags.get("ins_addr"),
                     )
                     val = Const(
                         o._ail_manager.next_atom(),
-                        None,
                         reg_value,
                         reg_bits,
-                        ins_addr=stmt.ins_addr,
+                        ins_addr=stmt.tags.get("ins_addr"),
                     )
                     set_reg_stmt = Assignment(
-                        o._ail_manager.next_atom(), reg, val, ins_addr=stmt.ins_addr
+                        o._ail_manager.next_atom(),
+                        reg,
+                        val,
+                        ins_addr=stmt.tags.get("ins_addr"),
                     )
                     converted.statements.insert(idx + 1, set_reg_stmt)
-                    touched_insn_addrs.add(stmt.ins_addr)
+                    touched_insn_addrs.add(stmt.tags.get("ins_addr"))
         return converted
 
     if initial_arg_values:

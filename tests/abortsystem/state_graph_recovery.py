@@ -2,7 +2,7 @@ from itertools import count
 from typing import Optional, List, Dict, Tuple, Set, Callable, Any, TYPE_CHECKING
 
 
-import claripy
+from angr import claripy
 import pprint
 from angr.sim_options import (
     NO_CROSS_INSN_OPT,
@@ -11,6 +11,7 @@ from angr.sim_options import (
 )
 from angr.state_plugins.inspect import BP_BEFORE, BP
 from angr.analyses.analysis import AnalysesHub
+from taveren.angr_compat import leaf_asts
 from taveren.state_graph_recovery import (
     ConstraintLogger,
     MultiDiGraph_DedupeEdge,
@@ -433,7 +434,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             constraint = simplified_constraint
                     if delta.args[0] in constraint.variables:
                         if constraint.op in ["Not", "ULE"]:
-                            leaf_ast = list(constraint.leaf_asts())
+                            leaf_ast = list(leaf_asts(constraint))
                             if len(leaf_ast) == 2:
                                 concrete_leaf = [
                                     leaf
@@ -590,7 +591,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         # fixme: hack
                         constraint = constraint.args[0]
                         if constraint.op in ["Not", "fpLT"]:
-                            leaf_ast = list(constraint.leaf_asts())
+                            leaf_ast = list(leaf_asts(constraint))
                             if len(leaf_ast) == 2:
                                 concrete_leaf = [
                                     leaf for leaf in leaf_ast if leaf.op == "FPV"

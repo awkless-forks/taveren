@@ -4,7 +4,7 @@ from collections import deque
 
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 import pytest
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY
@@ -154,7 +154,9 @@ def test_flip():
 
     start_time = time.time()
 
-    proj = angr.Project(binary_path)
+    # load the real libm: the flip logic branches on fabsf()/sqrtf() results, which
+    # would be unconstrained if stubbed (cle stopped loading libraries by default in 10.x)
+    proj = angr.Project(binary_path, auto_load_libs=True)
     # cfg = None
     # if os.path.exists(cfg_path):
     #     with open(cfg_path, "rb") as f:

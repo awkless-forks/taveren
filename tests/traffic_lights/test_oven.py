@@ -3,7 +3,7 @@ from collections import deque
 
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 import pytest
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY

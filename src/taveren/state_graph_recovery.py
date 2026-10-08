@@ -8,7 +8,7 @@ discovery methods), then register themselves with ``AnalysesHub``.
 from typing import Optional, List, Dict, Tuple, Set, Any, TYPE_CHECKING
 
 import networkx
-import claripy
+from angr import claripy
 
 from angr.sim_options import (
     NO_CROSS_INSN_OPT,
@@ -17,6 +17,8 @@ from angr.sim_options import (
 )
 from angr.state_plugins.inspect import BP_BEFORE, BP_AFTER, BP
 from angr.analyses.analysis import Analysis
+
+from .angr_compat import make_like
 
 if TYPE_CHECKING:
     from angr import SimState
@@ -373,7 +375,7 @@ class StateGraphRecoveryBase(Analysis):
                     arg for arg in constraint.args[0].args if arg not in same_args
                 )
                 left = (
-                    constraint.args[0].make_like("__add__", left_new_args)
+                    make_like("__add__", left_new_args)
                     if len(left_new_args) > 1
                     else left_new_args[0]
                 )
@@ -384,14 +386,14 @@ class StateGraphRecoveryBase(Analysis):
                     arg for arg in constraint.args[1].args if arg not in same_args
                 )
                 right = (
-                    constraint.args[1].make_like("__add__", right_new_args)
+                    make_like("__add__", right_new_args)
                     if len(right_new_args) > 1
                     else right_new_args[0]
                 )
                 if constraint.args[1] in source:
                     source[right] = source[constraint.args[1]]
 
-                simplified = constraint.make_like(constraint.op, (left, right))
+                simplified = make_like(constraint.op, (left, right))
                 if constraint in source:
                     source[simplified] = source[constraint]
                 return self._simplify_constraint(simplified, source)
@@ -437,7 +439,7 @@ class StateGraphRecoveryBase(Analysis):
                 left = constraint.args[0]
             if right is None:
                 right = constraint.args[1]
-            simplified = constraint.make_like(constraint.op, (left, right))
+            simplified = make_like(constraint.op, (left, right))
             if constraint in source:
                 source[simplified] = source[constraint]
             return simplified, source
@@ -454,44 +456,41 @@ class StateGraphRecoveryBase(Analysis):
                     new_args.append(arg)
             if not simplified:
                 return None, source
-            simplified = constraint.make_like(constraint.op, tuple(new_args))
+            simplified = make_like(constraint.op, tuple(new_args))
             if constraint in source:
                 source[simplified] = source[constraint]
             return simplified, source
 
-        elif constraint.op in ("fpToSBV", "fpToFP"):
-            arg1, source = self._simplify_constraint(constraint.args[1], source)
-            if arg1 is None:
+        elif constraint.op in ("fpToSBV", "fpToFp", "fpToFPSigned", "bvToFP"):
+            arg, source = self._simplify_constraint(constraint.args[0], source)
+            if arg is None:
                 return None, source
-            simplified = constraint.make_like(
-                constraint.op, (constraint.args[0], arg1, constraint.args[2])
-            )
+            simplified = constraint.replace(constraint.args[0], arg)
             if constraint in source:
                 source[simplified] = source[constraint]
             return simplified, source
 
         elif constraint.op in ("fpMul",):
+            # clarirs: fpMul(lhs, rhs, rm)
             if (
+                constraint.args[0].op == "FPV"
+                and constraint.args[0].concrete_value == 0.0
+            ):
+                return constraint.args[0], source
+            elif (
                 constraint.args[1].op == "FPV"
                 and constraint.args[1].concrete_value == 0.0
             ):
                 return constraint.args[1], source
-            elif (
-                constraint.args[2].op == "FPV"
-                and constraint.args[2].concrete_value == 0.0
-            ):
-                return constraint.args[2], source
+            arg0, source = self._simplify_constraint(constraint.args[0], source)
             arg1, source = self._simplify_constraint(constraint.args[1], source)
-            arg2, source = self._simplify_constraint(constraint.args[2], source)
-            if arg1 is None and arg2 is None:
+            if arg0 is None and arg1 is None:
                 return None, source
+            if arg0 is None:
+                arg0 = constraint.args[0]
             if arg1 is None:
                 arg1 = constraint.args[1]
-            if arg2 is None:
-                arg2 = constraint.args[2]
-            simplified = constraint.make_like(
-                constraint.op, (constraint.args[0], arg1, arg2)
-            )
+            simplified = make_like(constraint.op, (arg0, arg1, constraint.args[2]))
             if constraint in source:
                 source[simplified] = source[constraint]
             return simplified, source

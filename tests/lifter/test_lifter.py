@@ -2,7 +2,7 @@ import os
 
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 
 from angr.sim_options import ZERO_FILL_UNCONSTRAINED_MEMORY

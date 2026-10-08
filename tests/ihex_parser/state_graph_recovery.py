@@ -1,7 +1,7 @@
 from itertools import count
 from typing import Optional, List, Dict, Tuple, Set, Callable, Any, TYPE_CHECKING
 
-import claripy
+from angr import claripy
 import pprint
 from angr.sim_options import (
     NO_CROSS_INSN_OPT,

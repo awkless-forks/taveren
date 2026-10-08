@@ -3,7 +3,7 @@ from typing import Any, Tuple
 
 import networkx
 import json
-import claripy
+from angr import claripy
 import angr
 import pytest
 

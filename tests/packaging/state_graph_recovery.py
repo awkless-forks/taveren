@@ -3,7 +3,7 @@ from typing import Optional, List, Dict, Tuple, Set, Callable, Any, TYPE_CHECKIN
 
 import networkx
 import pprint
-import claripy
+from angr import claripy
 
 from angr.sim_options import (
     NO_CROSS_INSN_OPT,

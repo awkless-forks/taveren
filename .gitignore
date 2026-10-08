@@ -12,6 +12,9 @@ uv.lock
 
 /**/graphs/
 
+# angr runtime databases (angr 10+) written next to analyzed binaries.
+*_angr_rtdb/
+
 # Vim editor stuff.
 [._]*.s[a-v][a-z]
 !*.svg

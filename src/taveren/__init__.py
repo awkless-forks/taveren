@@ -1,3 +1,5 @@
+# Re-apply the patches from our former angr/claripy forks before anything else.
+from . import angr_compat
 from .abstract_state import AbstractStateFields
 from .rule_verifier import (
     MinDelayBaseRule,

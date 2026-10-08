@@ -57,12 +57,21 @@ An example verification result for a violated safety policy:
 
 ## Prerequisites
 * Python 3.12
-* [angr](https://github.com/angr/angr) 9.2.189.dev0 with modifications. We highly recommend installing angr inside virtualenv.
-    > mkvirtualenv -p python3.12 taveren  
-  > workon taveren  
-  > ./extremely-simple-setup.sh    
+* [graphviz](https://pygraphviz.github.io/documentation/stable/install.html) headers, needed to build pygraphviz
+    > sudo apt-get install graphviz graphviz-dev
 
+## Installation
+All Python dependencies, including [angr](https://github.com/angr/angr) 10, are installed from PyPI.
+Ta'veren used to rely on modified forks of angr and claripy; those modifications now live in
+[`src/taveren/angr_compat.py`](src/taveren/angr_compat.py) and are applied when `taveren` is imported.
 
-* [pygraphviz](https://pygraphviz.github.io/documentation/stable/install.html) for visualization
-    > sudo apt-get install graphviz graphviz-dev  
-  > pip install pygraphviz
+With [uv](https://docs.astral.sh/uv/):
+> uv sync --extra test  
+> uv run pytest
+
+Or with pip inside a virtualenv:
+> python3.12 -m venv .venv  
+> . .venv/bin/activate  
+> pip install -e '.[test]'
+
+Install the `gui` extra to also get [angr management](https://github.com/angr/angr-management).
