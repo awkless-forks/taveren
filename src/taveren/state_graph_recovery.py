@@ -249,20 +249,28 @@ class StateGraphRecoveryBase(Analysis):
                     if constraint.op == "__eq__" and constraint.args[0] is delta:
                         continue
                     elif constraint.op in ("ULE"):  # arduino arm32
-                        if constraint.args[0].args[1] is delta:
-                            if constraint.args[1].args[0].op == "BVV":
+                        if constraint.args[0].args[1] is delta or (
+                            constraint.args[0].op == "__add__"
+                            and any(arg is delta for arg in constraint.args[0].args)
+                        ):
+                            if constraint.args[1].op == "BVV":
+                                # amd64 with angr 10: tv_sec + delta <= c
+                                step = constraint.args[1].concrete_value
+                            elif constraint.args[1].args[0].op == "BVV":
                                 step = constraint.args[1].args[0].args[0]
-                                if step != 0:
-                                    steps.append(
-                                        (
-                                            step,
-                                            constraint,
-                                            constraint_source.get(
-                                                original_constraint, None
-                                            ),
-                                        )
+                            else:
+                                step = 0
+                            if step != 0:
+                                steps.append(
+                                    (
+                                        step,
+                                        constraint,
+                                        constraint_source.get(
+                                            original_constraint, None
+                                        ),
                                     )
-                                    continue
+                                )
+                                continue
                     elif constraint.op in ("__le__",):  # simulink arm32
                         if constraint.args[0].args[1] is delta:
                             if constraint.args[1].op == "BVV":

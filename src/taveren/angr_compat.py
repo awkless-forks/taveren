@@ -15,6 +15,11 @@ release so that the forks are no longer needed:
   extended from Python, so the rules are applied to every constraint that is
   added to a state's solver instead.
 
+It also restores pure-Python claripy behavior that angr 10 changed:
+
+* ``SimSolver.min()``/``max()`` with ``signed=True`` return negative values
+  instead of unsigned bit patterns.
+
 It also provides ``make_like()``, which replaces ``claripy.ast.Base.make_like()``
 that no longer exists.
 
@@ -99,10 +104,27 @@ def _children(expr):
 
 def _canonicalize_node(expr):
     """
-    Rules ported from Ta'veren's claripy fork. Returns None if no rule applies.
+    Rules ported from Ta'veren's claripy fork, plus simplifications that
+    pure-Python claripy did but angr 10's claripy does not. Returns None if no
+    rule applies.
     """
     op = expr.op
-    if op == "__ne__":
+    if op in ("__add__", "__sub__"):
+        # expr + 0 -> expr, expr - 0 -> expr
+        args = [
+            arg
+            for i, arg in enumerate(expr.args)
+            if not (
+                arg.op == "BVV"
+                and arg.concrete_value == 0
+                and (op == "__add__" or i > 0)
+            )
+        ]
+        if len(args) == 1:
+            return args[0]
+        if len(args) < len(expr.args):
+            return make_like(op, args)
+    elif op == "__ne__":
         # c1 - expr != c2  ->  expr != c1 - c2
         a, b = expr.args
         if (
@@ -176,6 +198,31 @@ def _solver_simplify(self, e=None):
     if e is None:
         return r
     return canonicalize(r)
+
+
+def _to_signed(value, bits):
+    if value >= 1 << (bits - 1):
+        return value - (1 << bits)
+    return value
+
+
+_orig_solver_min = SimSolver.min
+_orig_solver_max = SimSolver.max
+
+
+# angr 10's claripy solves min/max with signed=True correctly but returns the
+# result as an unsigned bit pattern; pure-Python claripy returned a Python int
+# with the sign applied.
+@functools.wraps(_orig_solver_min)
+def _solver_min(self, e, *args, signed=False, **kwargs):
+    r = _orig_solver_min(self, e, *args, signed=signed, **kwargs)
+    return _to_signed(r, e.size()) if signed else r
+
+
+@functools.wraps(_orig_solver_max)
+def _solver_max(self, e, *args, signed=False, **kwargs):
+    r = _orig_solver_max(self, e, *args, signed=signed, **kwargs)
+    return _to_signed(r, e.size()) if signed else r
 
 
 #
@@ -335,6 +382,8 @@ def _apply():
     VEXLifter._load_bytes = _load_bytes
     SimSolver.add = _solver_add
     SimSolver.simplify = _solver_simplify
+    SimSolver.min = _solver_min
+    SimSolver.max = _solver_max
 
 
 _apply()
