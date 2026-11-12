@@ -1,3 +1,17 @@
+"""Detect the scan cycle function of a PLC binary.
+
+A PLC program runs its logic in a *scan cycle*: an endless loop that reads the inputs, runs the
+program once and writes the outputs. The function called from that loop, which holds the program's
+state machine, is the one Ta'veren recovers an FSM from. :func:`analyze` finds it with decompiler
+heuristics; it is also available as the ``taveren-scan-cycle`` command.
+
+Examples:
+    >>> from taveren.scan_cycle import analyze
+    >>> analyze("tests/fixtures/water_tank/build/water_tank.so")  # doctest: +SKIP
+    ...
+    Potential cycle detection pattern found (by if-count heuristic): - PLC_thread_proc@0x40395a -> SR_body__@0x41c24a
+"""
+
 from __future__ import annotations
 from functools import wraps
 from collections import defaultdict
@@ -20,6 +34,30 @@ FAIL_FAST = False
 
 
 def cache_this(cache_dict: dict):
+    """
+    Memoize a ``func(proj, func_addr, ...)`` function on ``func_addr``.
+
+    Results are stored in ``cache_dict``, so they are shared by every caller and every project; clear it before
+    analyzing another binary. Other arguments are not part of the key.
+
+    Args:
+        cache_dict: The dict to store results in.
+
+    Examples:
+        >>> cache = {}
+        >>> @cache_this(cache)
+        ... def decompile(proj, func_addr):
+        ...     print(f"decompiling {func_addr:#x}")
+        ...     return func_addr * 2
+        >>> decompile(None, 0x10)
+        decompiling 0x10
+        32
+        >>> decompile(None, 0x10)
+        32
+        >>> cache
+        {16: 32}
+    """
+
     def decorator(func):
         @wraps(func)
         def wrapper(proj, func_addr, *args, **kwargs):
@@ -40,6 +78,19 @@ def cache_this(cache_dict: dict):
 
 
 class FunctionCallWithinALoopFinder(CStructuredCodeWalker):
+    """
+    Collect the functions called inside ``while`` and ``do``-``while`` loops of decompiled code.
+
+    Attributes:
+        func_addrs_in_loop: Addresses of the functions called inside a loop.
+
+    Examples:
+        >>> dec = proj.analyses.Decompiler(proj.kb.functions["PLC_thread_proc"])  # doctest: +SKIP
+        >>> finder = FunctionCallWithinALoopFinder()  # doctest: +SKIP
+        >>> finder.handle(dec.codegen.cfunc)  # doctest: +SKIP
+        >>> [proj.kb.functions[a].name for a in sorted(finder.func_addrs_in_loop)]  # doctest: +SKIP
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.in_loop: bool = False
@@ -85,6 +136,26 @@ CACHE_STATE_TRANS: dict[int, bool] = {}
 def has_while_loop(
     proj: angr.Project, func_addr: int, funcs_within_loop: list[int]
 ) -> bool:
+    """
+    Tell whether a function contains a ``while`` loop, and collect the functions called inside it.
+
+    A scan cycle is driven by a loop such as ``while (running) { read_inputs(); run(); write_outputs(); }``. Only
+    functions whose CFG has a cycle are decompiled. Results are cached in ``CACHE_WHILE_LOOP``; on a cache hit
+    ``funcs_within_loop`` is not filled again.
+
+    Args:
+        proj: The angr project, with functions recovered.
+        func_addr: The function to check.
+        funcs_within_loop: A list that the addresses of functions called inside a loop are appended to.
+
+    Returns:
+        ``True`` if the decompiled function has a ``while`` loop.
+
+    Examples:
+        >>> callees = []  # doctest: +SKIP
+        >>> has_while_loop(proj, proj.kb.functions["PLC_thread_proc"].addr, callees)  # doctest: +SKIP
+        True
+    """
     func = proj.kb.functions.get_by_addr(func_addr)
     if func is None:
         return False
@@ -115,6 +186,22 @@ def has_while_loop(
 
 @cache_this(CACHE_STATE_TRANS)
 def likely_state_transition_function(proj: angr.Project, func_addr: int) -> bool:
+    """
+    Tell whether a function looks like it implements state transitions.
+
+    A function qualifies if its decompiled code has a ``switch`` with at least 5 cases, or at least 8 ``if``
+    statements. Results are cached in ``CACHE_STATE_TRANS``.
+
+    Args:
+        proj: The angr project, with functions recovered.
+        func_addr: The function to check.
+
+    Returns:
+        ``True`` if the function is a likely state transition function.
+
+    Examples:
+        >>> likely_state_transition_function(proj, 0x41C24A)  # doctest: +SKIP
+    """
     func = proj.kb.functions.get_by_addr(func_addr)
     if func is None:
         return False
@@ -142,6 +229,17 @@ def likely_state_transition_function(proj: angr.Project, func_addr: int) -> bool
 
 
 def count_ifs(proj: angr.Project, func_addr: int) -> int:
+    """
+    Count the ``if`` statements in a decompiled function.
+
+    Used as a fallback ranking when no function passes :func:`likely_state_transition_function`.
+
+    Returns:
+        The number of ``if`` statements, or ``0`` if the function cannot be decompiled.
+
+    Examples:
+        >>> count_ifs(proj, 0x41C24A)  # doctest: +SKIP
+    """
     func = proj.kb.functions.get_by_addr(func_addr)
     if func is None:
         return 0
@@ -159,6 +257,28 @@ def count_ifs(proj: angr.Project, func_addr: int) -> int:
 
 
 def analyze(binary_path: str) -> None:
+    """
+    Find and print the scan cycle function of a PLC binary.
+
+    Walks each call tree of the binary looking for a function with a ``while`` loop whose callees (direct or
+    indirect) include a likely state transition function; each such pair is printed. If there is none, the callee
+    with the most ``if`` statements (more than 3) under each looping function is printed instead. The second
+    function of a pair is the scan cycle function to pass to :mod:`taveren.init_finder` and
+    :mod:`taveren.statevars`.
+
+    This is the ``taveren-scan-cycle`` command.
+
+    Args:
+        binary_path: The path of the PLC binary.
+
+    Examples:
+        Find the scan cycle of the water tank (output from ``experiments/scan_cycle/outputs``, progress omitted):
+
+        >>> analyze("tests/fixtures/water_tank/build/water_tank.so")  # doctest: +SKIP
+        Analyzing binary for cycle detection: tests/fixtures/water_tank/build/water_tank.so
+        ...
+        Potential cycle detection pattern found (by if-count heuristic): - PLC_thread_proc@0x40395a -> SR_body__@0x41c24a
+    """
     print(f"Analyzing binary for cycle detection: {binary_path}")
 
     proj = angr.Project(binary_path, auto_load_libs=False)
@@ -244,6 +364,19 @@ def analyze(binary_path: str) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
+    """
+    Entry point of ``taveren-scan-cycle``.
+
+    Args:
+        argv: The command-line arguments, without the program name. Defaults to ``sys.argv[1:]``.
+
+    Examples:
+        >>> main(["tests/fixtures/water_tank/build/water_tank.so"])  # doctest: +SKIP
+
+        is the same as running::
+
+            taveren-scan-cycle tests/fixtures/water_tank/build/water_tank.so
+    """
     parser = argparse.ArgumentParser(
         prog="taveren-scan-cycle",
         description="Detect the scan cycle function of a PLC binary.",

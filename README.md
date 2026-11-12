@@ -42,6 +42,7 @@ Functions are given as a hex address (`0x42C034`) or a symbol name (`loop`).
 * [`src/taveren/`](src/taveren/): the Ta'veren library and the command-line tools above
 * [`tests/`](tests/): FSM recovery and policy verification for each target program, run with `pytest`
 * [`tests/fixtures/`](tests/fixtures/): target programs' source code, binaries and reference FSMs used in the paper
+* [`docs/`](docs/): Sphinx sources for the API documentation (see [Documentation](#documentation))
 * [`experiments/`](experiments/): scripts that reproduce the paper's pre-processing results and the state reduction evaluation (Appendix F)
 
 ## Example outputs
@@ -78,16 +79,103 @@ Install the `gui` extra to also get [angr management](https://github.com/angr/an
 
 ### Docker
 
-The [`Dockerfile`](Dockerfile) installs Ta'veren and its dependencies with uv, along with `tests/` and `experiments/`, so graphviz and Python 3.12 are not needed on the host.
-> docker build -t taveren .  
+The [`Dockerfile`](Dockerfile) installs Ta'veren and its dependencies with uv,
+along with `tests/` and `experiments/`, so graphviz and Python 3.12 are not
+needed on the host.
+
+> docker build -t taveren .
 > docker run --rm taveren pytest
 
-The working directory inside the container is `/app`, so the bundled fixtures can be analyzed directly, e.g. water tank 1:
-> docker run --rm taveren taveren-scan-cycle tests/fixtures/water_tank/build/water_tank.so  
+The working directory inside the container is `/app`, so the bundled fixtures
+can be analyzed directly, e.g. water tank 1:
+
+> docker run --rm taveren taveren-scan-cycle tests/fixtures/water_tank/build/water_tank.so
 > docker run --rm taveren taveren-init-finder tests/fixtures/water_tank/build/water_tank.so 0x41C24A
 
 To analyze your own binaries or keep output files, mount a host directory:
+
 > docker run --rm -v "$PWD/data:/data" taveren taveren-statevars /data/&lt;binary&gt; &lt;scan-cycle-func&gt; -o /data/statevars.log
 
-Files written elsewhere in the container are discarded when it exits.
-Pass `--build-arg UV_EXTRAS="--extra test --extra gui"` to `docker build` to change the installed extras.
+Files written elsewhere in the container are discarded when it exits.  Pass
+`--build-arg UV_EXTRAS="--extra test --extra gui"` to `docker build` to change
+the installed extras.
+
+## Documentation
+
+The API reference for `src/taveren` is built with
+[Sphinx](https://www.sphinx-doc.org/) from the sources in [`docs/`](docs/).
+Every public module, class and function is documented from its docstring, with
+examples.
+
+### Building
+
+Sphinx imports `taveren` to read its docstrings, so building needs the same
+[prerequisites](#prerequisites) as installing the package (Python 3.12 and the
+graphviz headers), plus the `docs` extra.
+
+With [uv](https://docs.astral.sh/uv/):
+
+```
+uv sync --extra docs
+uv run sphinx-build -M html docs docs/_build
+```
+
+`uv sync` removes extras that are not listed, so include the others you use,
+e.g. `uv sync --extra test --extra docs`.
+
+Or with pip inside a virtualenv:
+
+```
+pip install -e '.[docs]'
+sphinx-build -M html docs docs/_build
+```
+
+[`docs/Makefile`](docs/Makefile) wraps the same commands: `make -C docs html`
+(prefix with `uv run` when using uv).
+
+### Viewing
+
+Open `docs/_build/html/index.html` in a browser, or serve it locally and visit
+<http://localhost:8000>:
+
+```
+python3 -m http.server -d docs/_build/html
+```
+
+### Rebuilding from scratch
+
+Sphinx only rebuilds pages whose sources changed. After adding, removing or
+renaming modules, clean the build output and the generated API pages first:
+
+```
+make -C docs clean
+```
+
+`docs/_build/` and `docs/api/generated/` are generated and ignored by git.
+
+### Layout
+
+* [`docs/conf.py`](docs/conf.py): Sphinx configuration; the version is read from `pyproject.toml`
+* [`docs/index.rst`](docs/index.rst): the landing page
+* [`docs/usage.rst`](docs/usage.rst): installation, command-line tools and documentation workflow
+* [`docs/api/index.rst`](docs/api/index.rst): the API reference, generated recursively from `src/taveren`
+
+### Writing documentation
+
+Docstrings use the [Google style](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html): a one-line summary, a description, then `Args:`, `Returns:`, `Raises:` and `Examples:` sections.
+As in Rust, the examples are tests. Run them with:
+
+```
+uv run pytest --doctest-modules src/taveren
+```
+
+Mark examples that need a PLC binary or a long analysis with `# doctest: +SKIP`
+so they are shown but not run.
+Shared example data used across docstrings lives in [`conftest.py`](conftest.py).
+
+Before submitting changes, check that the build has no warnings (`-W` turns them
+into errors):
+
+```
+uv run sphinx-build -M html docs docs/_build -W --keep-going
+```

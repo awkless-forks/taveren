@@ -1,3 +1,5 @@
+"""Root cause analysis: trace a policy violation back to the bytes and instructions that decide it."""
+
 from typing import List, Dict, Tuple, Union, Optional
 
 import pyvex
@@ -10,6 +12,66 @@ OP_TYPE_IMM = 2  # from capstone
 
 
 class RootCauseAnalysis(Analysis):
+    """
+    Find the root causes of a constraint that leads to a policy violation.
+
+    Given the VEX statement where a transition constraint was added, this analysis reports the locations in the
+    binary that decide the constraint:
+
+    * for ``==``/``!=`` comparisons against a constant, the instruction operand that holds the constant
+      (:class:`taveren.apis.InstrOperandCause`) and, on x86, the comparison or jump instruction
+      (:class:`taveren.apis.InstrOpcodeCause`);
+    * configuration variables in the constraint (:class:`taveren.apis.DataItemCause`);
+    * the instructions that built each sub-expression of the constraint, when ``expression_source`` knows them.
+
+    The analysis runs on construction and is registered with angr as ``RootCause``.
+
+    Args:
+        arch: The architecture of the binary.
+        block_addr: The address of the block where the constraint was added.
+        stmt_idx: The index of the VEX statement in that block.
+        constraint: The constraint to root cause.
+        cross_insn_opt: Whether VEX optimizations across instructions were enabled when the block was executed.
+            Must match the execution, or statement indices will not line up.
+        expression_source: Where each expression was created, as ``(block address, statement index)``, or the
+            address it was loaded from. Collected during recovery by
+            :class:`taveren.state_graph_recovery.ExpressionLogger`.
+        config_vars: Symbolic configuration variables, mapped to ``(name, address, type, size)``. Pass ``{}`` if
+            there are none: with the default ``None``, constraints over symbolic variables raise ``TypeError``.
+
+    Attributes:
+        causes: The deduplicated root causes.
+
+    Examples:
+        Root cause the ``rdi == 5`` branch of the program from :mod:`taveren.state_graph_recovery`, using
+        :class:`taveren.state_graph_recovery.ConstraintLogger` to find where the constraint was added:
+
+        >>> import angr, taveren
+        >>> from angr import claripy
+        >>> from angr.state_plugins.inspect import BP, BP_BEFORE
+        >>> from taveren.state_graph_recovery import ConstraintLogger
+        >>> proj = angr.load_shellcode(b"\\x48\\x83\\xff\\x05\\x74\\x00\\xc3", arch="amd64")
+        >>> state = proj.factory.blank_state()
+        >>> state.regs.rdi = claripy.BVS("x", 64, explicit_name=True)
+        >>> sources = {}
+        >>> state.inspect.add_breakpoint(
+        ...     "constraints", BP(when=BP_BEFORE, action=ConstraintLogger(sources).on_adding_constraints))
+        >>> _ = proj.factory.successors(state)
+        >>> constraint, (block_addr, stmt_idx) = next(iter(sources.items()))
+        >>> constraint
+        <Bool x == 0x5>
+        >>> rca = proj.analyses.RootCause(proj.arch, block_addr, stmt_idx,
+        ...                               constraint=constraint, config_vars={})
+        >>> sorted(rca.causes, key=repr)
+        [<InstrOpcodeCause 0x0 opcode cmp>, <InstrOpcodeCause 0x4 opcode je>, <InstrOperandCause 0x0 operand 1:5>]
+
+        A timing rule keeps only the constant:
+
+        >>> from taveren import MinDelayBaseRule
+        >>> MinDelayBaseRule(15).filter_root_causes(rca.causes)
+        [<InstrOperandCause 0x0 operand 1:5>]
+    """
+
     def __init__(
         self,
         arch,
@@ -33,6 +95,12 @@ class RootCauseAnalysis(Analysis):
         self.causes = self.analyze()
 
     def analyze(self):
+        """
+        Compute the root causes. Called by ``__init__``; the result is stored in :attr:`causes`.
+
+        Returns:
+            The deduplicated root causes, in no particular order.
+        """
         block = self.project.factory.block(
             self.block_addr, cross_insn_opt=self.cross_insn_opt
         )

@@ -1,3 +1,17 @@
+"""Rank the candidate initialization functions of a PLC binary.
+
+State graph recovery starts from the state the PLC program is in after initialization, so the
+initialization function must be run first. :func:`find_init` ranks the functions that write to
+many global variables outside the scan cycle; it is also available as the
+``taveren-init-finder`` command.
+
+Examples:
+    >>> from taveren.init_finder import find_init
+    >>> find_init("tests/fixtures/water_tank/build/water_tank.so", 0x41C24A, None, only_reachable_from_ep=True)  # doctest: +SKIP
+    ...
+    Reachable from EP: Function WATER_TANK_init__ writes to 14 global locations
+"""
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -17,6 +31,26 @@ THRESHOLD = 10
 def get_global_writes(
     proj: angr.Project, func: angr.knowledge_plugins.Function
 ) -> list:
+    """
+    List the writes to global memory in a function.
+
+    The function is decompiled, and every store to a constant address, or to a constant offset from a pointer that
+    does not come from the stack, is collected.
+
+    Args:
+        proj: The angr project.
+        func: The function to inspect.
+
+    Returns:
+        A list of ``(address, size, data)`` tuples. ``address`` is an int for stores to constant addresses, and the
+        address expression otherwise; ``data`` is the stored AIL expression.
+
+    Examples:
+        >>> writes = get_global_writes(proj, proj.kb.functions["WATER_TANK_init__"])  # doctest: +SKIP
+        [.] Decompiling function WATER_TANK_init__...
+        [+] Decompiled!
+        >>> len(writes)  # doctest: +SKIP
+    """
     # again, we decompile these functions to find global writes!
     # we really don't have to, but this is fun
 
@@ -53,6 +87,25 @@ def get_init_function_candidates(
     entry_point: int,
     only_reachable_from_ep: bool,
 ) -> list[tuple[int, int, bool]]:
+    """
+    Find functions that may initialize the PLC program's state.
+
+    A candidate is a function that is neither the scan cycle function, nor one of its callers or callees, and that
+    (together with its callees) writes to at least ``THRESHOLD`` global locations.
+
+    Args:
+        proj: The angr project, with a CFG and calling conventions recovered.
+        scan_cycle_func_addr: The address of the scan cycle function.
+        entry_point: The address of the program's entry function (``startPLC`` or ``main``).
+        only_reachable_from_ep: Only consider functions reachable from ``entry_point``.
+
+    Returns:
+        A list of ``(function address, global write count, reachable from entry point)`` tuples, unsorted.
+
+    Examples:
+        >>> candidates = get_init_function_candidates(
+        ...     proj, 0x41C24A, proj.kb.functions["startPLC"].addr, True)  # doctest: +SKIP
+    """
     # build a call tree and then report functions that write to global data sections
 
     call_trees = call_tree_from_call_graph(proj.kb.functions.callgraph)
@@ -134,6 +187,33 @@ def find_init(
     entry_point: str | int,
     only_reachable_from_ep: bool = False,
 ):
+    """
+    Rank and print the candidate initialization functions of a PLC binary.
+
+    Candidates from :func:`get_init_function_candidates` are printed with those reachable from the entry function
+    first, then by decreasing number of global writes. The best candidate is the function to run before recovering
+    the state graph (e.g. with ``proj.factory.callable``).
+
+    This is the ``taveren-init-finder`` command.
+
+    Args:
+        bin_path: The path of the PLC binary.
+        scan_cycle_func_addr: The scan cycle function, as an address or a symbol name.
+        entry_point: Unused; the entry function is always ``startPLC`` or, failing that, ``main``.
+        only_reachable_from_ep: Only report functions reachable from the entry function.
+
+    Raises:
+        ValueError: If the binary has neither ``startPLC`` nor ``main``.
+
+    Examples:
+        Rank the initialization functions of the water tank (output from ``experiments/init_finder/outputs``,
+        progress omitted):
+
+        >>> find_init("tests/fixtures/water_tank/build/water_tank.so", 0x41C24A, None,
+        ...           only_reachable_from_ep=True)  # doctest: +SKIP
+        ...
+        Reachable from EP: Function WATER_TANK_init__ writes to 14 global locations
+    """
     proj = angr.Project(bin_path, auto_load_libs=False)
     cfg = proj.analyses.CFG(normalize=True, show_progressbar=True)
 
@@ -181,6 +261,19 @@ def find_init(
 
 
 def main(argv: list[str] | None = None) -> None:
+    """
+    Entry point of ``taveren-init-finder``.
+
+    Args:
+        argv: The command-line arguments, without the program name. Defaults to ``sys.argv[1:]``.
+
+    Examples:
+        >>> main(["tests/fixtures/water_tank/build/water_tank.so", "0x41C24A"])  # doctest: +SKIP
+
+        is the same as running::
+
+            taveren-init-finder tests/fixtures/water_tank/build/water_tank.so 0x41C24A
+    """
     parser = argparse.ArgumentParser(
         prog="taveren-init-finder",
         description="Rank candidate initialization functions of a PLC binary.",

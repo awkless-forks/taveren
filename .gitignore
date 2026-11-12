@@ -28,3 +28,7 @@ Sessionx.vim
 *~
 tags
 [._]*.un~
+
+# Sphinx build output and generated API stubs.
+docs/_build/
+docs/api/generated/

@@ -23,6 +23,7 @@ taveren-statevars = "taveren.statevars:main"
 [project.optional-dependencies]
 test = ["pytest"]
 gui = ["angr-management>=10.0.1,<11"]
+docs = ["sphinx>=8", "furo"]
 
 [build-system]
 requires = ["hatchling"]
@@ -36,3 +37,4 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]

@@ -3,6 +3,25 @@
 Target-specific analyses subclass :class:`StateGraphRecoveryBase` and provide their own
 ``__init__`` and ``traverse`` (plus any input-specific symbolization and delta
 discovery methods), then register themselves with ``AnalysesHub``.
+
+The other classes here are instrumentation for symbolic execution: they record where
+constraints and expressions are created, so that :class:`taveren.RootCauseAnalysis` can map a
+policy violation back to instructions.
+
+Examples:
+    The examples in this module run on this tiny x86-64 program, which compares its first
+    argument (``rdi``) with 5::
+
+        0x0:  cmp rdi, 5
+        0x4:  je  0x6
+        0x6:  ret
+
+    >>> import angr, taveren
+    >>> from angr import claripy
+    >>> proj = angr.load_shellcode(b"\\x48\\x83\\xff\\x05\\x74\\x00\\xc3", arch="amd64")
+    >>> x = claripy.BVS("x", 64, explicit_name=True)
+    >>> state = proj.factory.blank_state()
+    >>> state.regs.rdi = x
 """
 
 from typing import Optional, List, Dict, Tuple, Set, Any, TYPE_CHECKING
@@ -27,12 +46,38 @@ if TYPE_CHECKING:
 class ConstraintLogger:
     """
     Logs constraints and where they are created via the on_adding_constraints callback.
+
+    Install :meth:`on_adding_constraints` as a ``"constraints"`` breakpoint. Every constraint added to the state is
+    then recorded in ``mapping`` with the ``(block address, VEX statement index)`` where it was added.
+
+    Args:
+        mapping: The dict to record constraint sources in.
+
+    Examples:
+        Using the program from the module documentation:
+
+        >>> import angr, taveren
+        >>> from angr import claripy
+        >>> from angr.state_plugins.inspect import BP, BP_BEFORE
+        >>> proj = angr.load_shellcode(b"\\x48\\x83\\xff\\x05\\x74\\x00\\xc3", arch="amd64")
+        >>> state = proj.factory.blank_state()
+        >>> state.regs.rdi = claripy.BVS("x", 64, explicit_name=True)
+        >>> sources = {}
+        >>> logger = ConstraintLogger(sources)
+        >>> state.inspect.add_breakpoint(
+        ...     "constraints", BP(when=BP_BEFORE, action=logger.on_adding_constraints))
+        >>> _ = proj.factory.successors(state)
+        >>> for constraint, (block_addr, stmt_idx) in sources.items():
+        ...     print(constraint, hex(block_addr), stmt_idx)
+        <Bool x == 0x5> 0x0 13
+        <Bool x != 0x5> 0x0 13
     """
 
     def __init__(self, mapping: Dict[claripy.ast.Base, Tuple[int, int]]):
         self.mapping = mapping
 
     def on_adding_constraints(self, state: "SimState"):
+        """Breakpoint action: record the constraints being added. Trivially true or false constraints are skipped."""
         added_constraints = state._inspect_getattr("added_constraints", None)
         if not (
             len(added_constraints) == 1
@@ -51,6 +96,33 @@ class ConstraintLogger:
 class ExpressionLogger:
     """
     Logs symbolic expressions and where they are created via the on_register_write callback.
+
+    Only expressions over the given ``variables`` are recorded. Install :meth:`on_register_write` as a
+    ``"reg_write"`` breakpoint (before) to record the ``(block address, VEX statement index)`` where each expression
+    is first written to a register, and :meth:`on_memory_read` as a ``"mem_read"`` breakpoint (after) to record the
+    address each expression was loaded from. The resulting mapping is the ``expression_source`` of
+    :class:`taveren.RootCauseAnalysis`.
+
+    Args:
+        mapping: The dict to record expression sources in.
+        variables: Names of the symbolic variables to track.
+
+    Examples:
+        Using the program from the module documentation:
+
+        >>> import angr, taveren
+        >>> from angr import claripy
+        >>> from angr.state_plugins.inspect import BP, BP_BEFORE
+        >>> proj = angr.load_shellcode(b"\\x48\\x83\\xff\\x05\\x74\\x00\\xc3", arch="amd64")
+        >>> state = proj.factory.blank_state()
+        >>> state.regs.rdi = claripy.BVS("x", 64, explicit_name=True)
+        >>> sources = {}
+        >>> logger = ExpressionLogger(sources, {"x"})
+        >>> state.inspect.add_breakpoint(
+        ...     "reg_write", BP(when=BP_BEFORE, action=logger.on_register_write))
+        >>> _ = proj.factory.successors(state)
+        >>> sources
+        {<BV64 x>: (0, 3)}
     """
 
     def __init__(
@@ -60,6 +132,7 @@ class ExpressionLogger:
         self.variables: Set[str] = variables if variables else set()
 
     def on_memory_read(self, state: "SimState"):
+        """Breakpoint action: record the concrete address a tracked expression is read from."""
         expr = state._inspect_getattr("mem_read_expr", None)
         if (
             expr is not None
@@ -74,6 +147,7 @@ class ExpressionLogger:
                     self.mapping[expr] = mem_read_addr.concrete_value
 
     def on_register_write(self, state: "SimState"):
+        """Breakpoint action: record where a tracked expression is written to a register, unless already known."""
         expr = state._inspect_getattr("reg_write_expr", None)
         if (
             expr is not None
@@ -86,6 +160,19 @@ class ExpressionLogger:
 
 
 class DefinitionNode:
+    """
+    A definition of a symbolic variable at a program location; a node of :attr:`SliceGenerator.slice`.
+
+    Args:
+        variable: The name of the symbolic variable.
+        block_addr: The address of the block.
+        stmt_idx: The VEX statement index within the block.
+
+    Examples:
+        >>> DefinitionNode("x", 0x401000, 3)
+        x@0x401000:3
+    """
+
     def __init__(self, variable: str, block_addr: int, stmt_idx: int):
         self.variable = variable
         self.block_addr = block_addr
@@ -106,6 +193,36 @@ class DefinitionNode:
 
 
 class SliceGenerator:
+    """
+    Build a data-flow slice of symbolic variables during execution.
+
+    Every time an expression over the tracked variables is computed, an edge is added to :attr:`slice` from the
+    previous location of each variable to the current one. The algorithm is approximate.
+
+    Args:
+        symbolic_exprs: The expressions whose variables are tracked.
+        bp: An existing breakpoint to use, instead of calling :meth:`install_expr_hook`.
+
+    Attributes:
+        slice: A ``networkx.MultiDiGraph`` of :class:`DefinitionNode`.
+
+    Examples:
+        Using the program from the module documentation:
+
+        >>> import angr, taveren
+        >>> from angr import claripy
+        >>> proj = angr.load_shellcode(b"\\x48\\x83\\xff\\x05\\x74\\x00\\xc3", arch="amd64")
+        >>> x = claripy.BVS("x", 64, explicit_name=True)
+        >>> state = proj.factory.blank_state()
+        >>> state.regs.rdi = x
+        >>> slicer = SliceGenerator({x})
+        >>> bp = slicer.install_expr_hook(state)
+        >>> bp.enabled = True
+        >>> _ = proj.factory.successors(state)
+        >>> next(iter(slicer.slice.edges()))
+        (x@0x0:1, x@0x0:3)
+    """
+
     def __init__(self, symbolic_exprs: Set[claripy.ast.Base], bp: Optional[BP] = None):
         self.bp: Optional[BP] = bp
         self.symbolic_exprs = symbolic_exprs
@@ -122,6 +239,11 @@ class SliceGenerator:
             self.bp.action = self._examine_expr
 
     def install_expr_hook(self, state: "SimState") -> BP:
+        """
+        Add an ``"expr"`` breakpoint to ``state`` that feeds the slice.
+
+        The breakpoint is created disabled; set ``enabled = True`` on the returned breakpoint to start slicing.
+        """
         bp = BP(when=BP_AFTER, enabled=False, action=self._examine_expr)
         state.inspect.add_breakpoint("expr", bp)
         self.bp = bp
@@ -146,6 +268,25 @@ class SliceGenerator:
 
 
 class MultiDiGraph_DedupeEdge(networkx.MultiDiGraph):
+    """
+    A ``networkx.MultiDiGraph`` that skips duplicate parallel edges.
+
+    An edge is a duplicate if an edge between the same nodes already has the same value for every attribute being
+    added. Attributes whose name contains ``"constraint"`` are not compared, since equivalent constraints are rarely
+    identical ASTs. A message is printed for every skipped edge.
+
+    Examples:
+        >>> g = MultiDiGraph_DedupeEdge()
+        >>> g.add_edge("idle", "fill", time_delta=5, time_delta_constraint="c1")
+        0
+        >>> g.add_edge("idle", "fill", time_delta=5, time_delta_constraint="c2")
+        Edge (idle, fill, {'time_delta': 5, 'time_delta_constraint': 'c2'}) already exists. Skipping addition.
+        >>> g.add_edge("idle", "fill", time_delta=6)
+        1
+        >>> g.number_of_edges()
+        2
+    """
+
     def add_edge(self, u_for_edge, v_for_edge, key=None, **attr):
         u, v = u_for_edge, v_for_edge
 
@@ -203,6 +344,101 @@ class MultiDiGraph_DedupeEdge(networkx.MultiDiGraph):
 class StateGraphRecoveryBase(Analysis):
     """
     Methods shared by the target-specific state graph recovery analyses.
+
+    A state graph recovery analysis symbolically executes the scan cycle function of a PLC program, one cycle at a
+    time, starting from the state left by the initialization function. After each cycle the abstract state (the
+    values of the output and state variable fields) is read; new abstract states become nodes of the state graph.
+    To find the successors of a state, the inputs that the program reads (the clock, sensors, ...) are made
+    symbolic, and the constraints that the program puts on them reveal the input changes (*deltas*) that trigger a
+    transition, e.g. "15 seconds pass". Each delta is then applied concretely to step into the successor state.
+
+    This class provides that machinery; it has no ``__init__`` or ``traverse`` of its own, since the inputs to
+    symbolize and the order to explore them in depend on the program. A subclass sets the attributes below in
+    ``__init__``, builds ``self.state_graph`` in ``traverse``, and is registered with angr's ``AnalysesHub``.
+
+    Attributes expected by the helpers:
+
+    * ``func``: the scan cycle function (an angr ``Function``).
+    * ``fields``: the output fields, an :class:`taveren.AbstractStateFields`.
+    * ``software``: the PLC runtime, ``"beremiz"``, ``"arduino"`` or ``"simulink"``; decides how the clock is
+      stored.
+    * ``init_state``: the state after initialization, or ``None``.
+    * ``config_vars``: symbolic configuration variables, for constraint simplification.
+    * ``_time_addr``: the address of the clock (``tv_sec`` for Beremiz).
+    * ``_ret_trap``: a fake return address that ends a scan cycle.
+    * ``_expression_source``: a dict, filled with expression sources during recovery.
+    * ``_temp_addr``, ``low_sensor_info`` / ``high_sensor_info`` (``(address, sort, size)``): only for the
+      temperature and level sensor helpers.
+
+    Helpers for subclasses:
+
+    * ``_initialize_state(init_state)``: copy ``init_state`` (or make a blank state) at the start of ``func``, with
+      the return trap set up.
+    * ``_traverse_one(state, discover=False)``: execute one scan cycle; returns the final state, or all final
+      states when ``discover`` is set. Raises ``RuntimeError`` if execution forks when ``discover`` is not set.
+    * ``_symbolize_var_fields(state, fields)``: replace concrete field values with symbolic variables,
+      preconstrained to the concrete values.
+    * ``_symbolize_timecounter(state)``, ``_advance_timecounter(state, delta)``: make the clock symbolic, or advance
+      it by ``delta`` seconds.
+    * ``_discover_time_deltas(state)``: run one cycle with a symbolic clock advance and return the
+      ``(seconds, constraint, (block address, statement index))`` triples of clock advances that change the
+      control flow.
+    * ``_discover_temp_deltas``, ``_discover_low_deltas``, ``_discover_high_deltas``,
+      ``_discover_low_and_high_deltas``: the same for a temperature reading and low/high level sensors, with their
+      ``_symbolize_*`` and ``_advance_*`` counterparts.
+
+    Examples:
+        The skeleton of an analysis for a Beremiz program that only reacts to time. It shows how the helpers fit
+        together; the complete analyses in ``tests/*/state_graph_recovery.py`` also symbolize inputs, handle
+        switches and sensors, and number the states.
+
+        >>> import networkx
+        >>> from angr.analyses.analysis import AnalysesHub
+        >>> class TimerStateGraphRecovery(StateGraphRecoveryBase):
+        ...     def __init__(self, func, fields, time_addr, arg0, init_state=None):
+        ...         self.func, self.fields, self.init_state = func, fields, init_state
+        ...         self.arg0 = arg0
+        ...         self.software = "beremiz"
+        ...         self.config_vars = set()
+        ...         self._time_addr = time_addr
+        ...         self._ret_trap = 0x1F37FF4C
+        ...         self._expression_source = {}
+        ...         self.traverse()
+        ...
+        ...     def _initialize_state(self, init_state=None):
+        ...         # the scan cycle function takes a pointer to the program's variables
+        ...         s = super()._initialize_state(init_state)
+        ...         s.regs.rdi = self.arg0
+        ...         return s
+        ...
+        ...     def traverse(self):
+        ...         self.state_graph = networkx.DiGraph()
+        ...         state = self._initialize_state(self.init_state)
+        ...         self._symbolize_timecounter(state)
+        ...         state = self._traverse_one(state)
+        ...         start = self.fields.generate_abstract_state(state)
+        ...         self.state_graph.add_node(start)
+        ...         queue = [(start, state)]
+        ...         while queue:
+        ...             node, state = queue.pop(0)
+        ...             for delta, constraint, src in self._discover_time_deltas(state):
+        ...                 succ_state = self._initialize_state(state)
+        ...                 self._advance_timecounter(succ_state, delta)
+        ...                 succ_state = self._traverse_one(succ_state)
+        ...                 succ = self.fields.generate_abstract_state(succ_state)
+        ...                 if succ not in self.state_graph:
+        ...                     queue.append((succ, succ_state))
+        ...                 self.state_graph.add_edge(node, succ, time_delta=delta,
+        ...                                           time_delta_constraint=constraint,
+        ...                                           time_delta_src=src)
+        >>> AnalysesHub.register_default("TimerStateGraphRecovery", TimerStateGraphRecovery)
+
+        Run it like any other angr analysis, from the state left by the program's initialization function:
+
+        >>> sgr = proj.analyses.TimerStateGraphRecovery(
+        ...     cfg.kb.functions["RES0_run__"], fields, time_addr, base_addr,
+        ...     init_state=initial_state)  # doctest: +SKIP
+        >>> RuleVerifier(sgr.state_graph).verify(rule)  # doctest: +SKIP
     """
 
     def _discover_time_deltas(
@@ -211,8 +447,13 @@ class StateGraphRecoveryBase(Analysis):
         """
         Discover all possible time intervals that may be required to transition the current state to successor states.
 
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
+        Args:
+            state: The current initial state.
+
+        Returns:
+            A list of ``(seconds, constraint, source)`` triples, where ``seconds`` is a required interval,
+            ``constraint`` the constraint it was derived from and ``source`` the ``(block address, statement index)``
+            where that constraint was added (or ``None``).
         """
 
         state = self._initialize_state(state)
@@ -364,9 +605,12 @@ class StateGraphRecoveryBase(Analysis):
 
         Note that this simplification focuses on readability and is not always sound!
 
-        :param constraint:
-        :param source:
-        :return:
+        Args:
+            constraint: The constraint to simplify.
+            source: The expression source mapping for ``constraint``'s sub-expressions.
+
+        Returns:
+            The simplified constraint (or ``None`` if it could not be simplified) and the updated source mapping.
         """
 
         if (
@@ -742,8 +986,11 @@ class StateGraphRecoveryBase(Analysis):
         """
         Discover all possible temperature that may be required to transition the current state to successor states.
 
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
+        Args:
+            state: The current initial state.
+
+        Returns:
+            A list of ``(value, constraint, source)`` triples, as for ``_discover_time_deltas``.
         """
         if self._temp_addr is None:
             return []
@@ -856,8 +1103,11 @@ class StateGraphRecoveryBase(Analysis):
         """
         Discover all possible low sensor that may be required to transition the current state to successor states.
 
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
+        Args:
+            state: The current initial state.
+
+        Returns:
+            A list of ``(value, constraint, source)`` triples, as for ``_discover_time_deltas``.
         """
         if self.low_sensor is None:
             return []
@@ -903,8 +1153,11 @@ class StateGraphRecoveryBase(Analysis):
         """
         Discover all possible high sensor that may be required to transition the current state to successor states.
 
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
+        Args:
+            state: The current initial state.
+
+        Returns:
+            A list of ``(value, constraint, source)`` triples, as for ``_discover_time_deltas``.
         """
         if self.high_sensor is None:
             return []
@@ -948,8 +1201,11 @@ class StateGraphRecoveryBase(Analysis):
         """
         Discover all possible low and high sensor that may be required to transition the current state to successor states.
 
-        :param state:   The current initial state.
-        :return:        A list of ints where each int represents the required interval in number of seconds.
+        Args:
+            state: The current initial state.
+
+        Returns:
+            A list of ``(value, constraint, source)`` triples, as for ``_discover_time_deltas``.
         """
         state = self._initialize_state(state)
         low_delta = self._symbolically_advance_low_sensor(state)[0]

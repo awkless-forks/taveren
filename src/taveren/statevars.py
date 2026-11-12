@@ -1,3 +1,20 @@
+"""Identify the state variables of a PLC program.
+
+State variables hold the current state of the program's state machine from one scan cycle to the
+next. Ta'veren uses them, together with the outputs, to tell abstract states apart; they go in the
+environment model with type ``statevar`` (see :mod:`taveren.env_model`).
+
+:func:`analyse_statevars` finds candidates in the decompiled scan cycle; :func:`run_one` wraps it
+for the ``taveren-statevars`` command.
+
+Examples:
+    >>> from taveren.statevars import run_one
+    >>> run_one("tests/fixtures/water_tank/build/water_tank.so", [0x41C24A])  # doctest: +SKIP
+    ...
+    State variable candidate <Global 0x43a598:1 bytes>,  offset = 0x8
+    True
+"""
+
 from __future__ import annotations
 from enum import Enum
 import argparse
@@ -33,6 +50,17 @@ base_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../")
 
 
 class ExprDependsOnExternal(AILBlockViewer):
+    """
+    Tell whether an AIL expression depends on data from outside the function.
+
+    After walking an expression, ``depends_on_external`` is set if it uses a value defined outside the function
+    (a function argument or global memory), and ``depends_on_stack`` if it uses the stack pointer.
+
+    Args:
+        nodes_dict: The decompiled function's AIL blocks, keyed by ``(address, index)``.
+        srda: The SSA reaching definitions model of the function.
+    """
+
     def __init__(self, nodes_dict: dict[tuple[int, int | None], Block], srda):
         super().__init__()
         self.depends_on_external: bool = False
@@ -96,6 +124,18 @@ def _expand(
 
 
 class ConditionWalker(AILBlockViewer):
+    """
+    Collect the global variables loaded and stored by an AIL expression or statement.
+
+    Loads from global variables that only hold copies of other globals (``intermediate_global_vars``) are expanded
+    to the original globals.
+
+    Attributes:
+        load_vars: The ``Load`` expressions of global variables.
+        store_vars: The ``Store`` statements to global variables.
+        depends_on_external: Whether the walked code depends on data from outside the function.
+    """
+
     def __init__(
         self,
         nodes_dict: dict[tuple[int, int | None], Block],
@@ -190,6 +230,10 @@ class ConditionWalker(AILBlockViewer):
 
 
 class OperandExtractor(AILBlockViewer):
+    """
+    Collect the sub-expressions of an AIL expression, in ``operands``.
+    """
+
     def __init__(self, expr: Expression):
         super().__init__()
         self.expr = expr
@@ -210,11 +254,34 @@ class OperandExtractor(AILBlockViewer):
 
 
 class GlobalVarType(Enum):
+    """
+    How a :class:`GlobalVar` is addressed.
+    """
+
+    #: An absolute address.
     GLOBAL = 1
+    #: An offset from a pointer held in a virtual variable (e.g. the program's data pointer argument).
     VVAR = 2
 
 
 class GlobalVar:
+    """
+    A global variable accessed by the scan cycle.
+
+    Args:
+        addr: The absolute address (:attr:`GlobalVarType.GLOBAL`) or the offset from ``vvar_base``
+            (:attr:`GlobalVarType.VVAR`).
+        size: The size in bytes.
+        var_type: How the variable is addressed.
+        vvar_base: The virtual variable holding the base pointer, for :attr:`GlobalVarType.VVAR`.
+
+    Examples:
+        >>> GlobalVar(0x43A598, 1, GlobalVarType.GLOBAL)
+        <Global 0x43a598:1 bytes>
+        >>> GlobalVar(0x43A598, 1, GlobalVarType.GLOBAL) == GlobalVar(0x43A598, 1, GlobalVarType.GLOBAL)
+        True
+    """
+
     def __init__(
         self,
         addr: int,
@@ -252,6 +319,13 @@ def extract_variable_from_expr(
     srda: SRDAModel,
     intermediate_global_vars: dict[int, set[Load]],
 ) -> ConditionWalker:
+    """
+    Walk an AIL expression with a :class:`ConditionWalker` and return the walker.
+
+    Examples:
+        >>> walker = extract_variable_from_expr(cond, nodes_dict, srda.model, {})  # doctest: +SKIP
+        >>> walker.load_vars  # doctest: +SKIP
+    """
     cond_parser = ConditionWalker(nodes_dict, srda, intermediate_global_vars)
     cond_parser.walk_expression(expr, None, None, None)
 
@@ -268,6 +342,13 @@ def extract_addr_from_stmt(
     srda: SRDAModel,
     intermediate_global_vars,
 ):
+    """
+    Walk an AIL statement with a :class:`ConditionWalker` and return the walker.
+
+    Examples:
+        >>> walker = extract_addr_from_stmt(stmt, nodes_dict, srda.model, {})  # doctest: +SKIP
+        >>> walker.store_vars  # doctest: +SKIP
+    """
     cond_parser = ConditionWalker(nodes_dict, srda, intermediate_global_vars)
     cond_parser.walk_statement(stmt, None)
 
@@ -277,6 +358,27 @@ def extract_addr_from_stmt(
 def trace_global_vars(
     nodes: list, dec, srda, gv_dict: DefaultDict[GlobalVar, list], proj
 ):
+    """
+    Record the reads and writes of global variables in one decompiled scan cycle function.
+
+    Reads are taken from the conditions of conditional jumps (the variables that decide control flow), and writes
+    from stores to global memory. Each access is appended to ``gv_dict[variable]`` as ``("read", instruction
+    address)`` or ``("write", instruction address)``.
+
+    Args:
+        nodes: The function's AIL blocks, in quasi-topological order.
+        dec: The decompiler result of the function.
+        srda: The SSA reaching definitions model of the function.
+        gv_dict: The accesses recorded so far, updated in place.
+        proj: The angr project.
+
+    Examples:
+        >>> from collections import defaultdict
+        >>> from angr.utils.graph import GraphUtils
+        >>> gv_dict = defaultdict(list)  # doctest: +SKIP
+        >>> nodes = GraphUtils.quasi_topological_sort_nodes(dec.clinic.cc_graph)  # doctest: +SKIP
+        >>> trace_global_vars(nodes, dec, srda.model, gv_dict, proj)  # doctest: +SKIP
+    """
     func_virtual_vars = [var[0] for var in dec.clinic.arg_vvars.values()]
 
     # parse all conditions from each conditional jump statement
@@ -479,6 +581,33 @@ def trace_global_vars(
 
 
 def analyse_statevars(binary_path: str = None, funcs: List[Union[int, str]] = None):
+    """
+    Find and print the state variable candidates of a PLC program.
+
+    A state variable stores the current state of the program's state machine across scan cycles, so the scan cycle
+    reads it (to decide what to do) before it writes it (to move to the next state). For every global variable that
+    the scan cycle functions access, accesses are ordered by instruction address; the variable is a candidate if
+    the first access is a read and it is also written somewhere.
+
+    When the scan cycle takes a pointer to the program's data as its first argument, the pointer's value is found
+    from the binary's symbols and injected into the decompiled code, so accesses through it are resolved to global
+    addresses. Offsets are printed relative to that data block: they are the ``address`` values to put in the
+    environment model (see :mod:`taveren.env_model`).
+
+    Prints the decompiled code, the recorded accesses and one line per candidate.
+
+    Args:
+        binary_path: The path of the PLC binary.
+        funcs: Addresses of the scan cycle function(s).
+
+    Examples:
+        Find the state variables of the water tank (output from ``experiments/statevars/logs``, decompiled code and
+        access lists omitted):
+
+        >>> analyse_statevars("tests/fixtures/water_tank/build/water_tank.so", [0x41C24A])  # doctest: +SKIP
+        ...
+        State variable candidate <Global 0x43a598:1 bytes>,  offset = 0x8
+    """
 
     proj = angr.Project(binary_path)
     cfg = proj.analyses.CFGFast(
@@ -939,6 +1068,31 @@ def run_one(
     binary_opts: Optional[Dict[str, Any]] = None,
     out_file: Optional[str] = None,
 ) -> bool:
+    """
+    Run :func:`analyse_statevars`, resolving function names and optionally logging to a file.
+
+    This is the ``taveren-statevars`` command.
+
+    Args:
+        binary_path: The path of the PLC binary.
+        funcs: The scan cycle function(s), as addresses or symbol names. Names are replaced with addresses in
+            place.
+        binary_opts: Loader options for the main binary (``main_opts`` of ``angr.Project``), e.g. for raw firmware.
+        out_file: Write all output (stdout and stderr) to this file instead.
+
+    Returns:
+        ``True`` on success, ``False`` if the analysis raised an exception (the traceback is printed), or ``None``
+        if a function name is not found.
+
+    Examples:
+        >>> run_one("tests/fixtures/water_tank/build/water_tank.so", [0x41C24A], out_file="statevars.log")  # doctest: +SKIP
+        True
+
+        Raw firmware needs loader options:
+
+        >>> run_one("firmware.bin", ["loop"],
+        ...         binary_opts={"backend": "blob", "arch": "ARMCortexM", "entry_point": 0x1F35})  # doctest: +SKIP
+    """
     saved_stdout = None
     saved_stderr = None
     success = True
@@ -1008,6 +1162,19 @@ def run_one(
 
 
 def main(argv: list[str] | None = None) -> None:
+    """
+    Entry point of ``taveren-statevars``. Exits with status 1 if the analysis fails.
+
+    Args:
+        argv: The command-line arguments, without the program name. Defaults to ``sys.argv[1:]``.
+
+    Examples:
+        >>> main(["tests/fixtures/water_tank/build/water_tank.so", "0x41C24A", "-o", "statevars.log"])  # doctest: +SKIP
+
+        is the same as running::
+
+            taveren-statevars tests/fixtures/water_tank/build/water_tank.so 0x41C24A -o statevars.log
+    """
     parser = argparse.ArgumentParser(
         prog="taveren-statevars",
         description="Identify state variable candidates in the scan cycle of a PLC binary.",

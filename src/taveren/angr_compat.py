@@ -25,6 +25,25 @@ that no longer exists.
 
 The patches are applied when this module is imported (``taveren/__init__.py``
 does that).
+
+Examples:
+    Importing :mod:`taveren` is enough; constraints added to any solver are
+    canonicalized from then on:
+
+    >>> import angr, taveren
+    >>> from angr import claripy
+    >>> x = claripy.BVS("x", 32, explicit_name=True)
+    >>> state = angr.load_shellcode(b"\\xc3", arch="amd64").factory.blank_state()
+    >>> state.solver.add(claripy.BVV(10, 32) - x != 3)
+    >>> state.solver.constraints[-1]
+    <Bool x != 0x7>
+
+    Signed ``min()``/``max()`` behave like pure-Python claripy again:
+
+    >>> y = claripy.BVS("y", 8, explicit_name=True)
+    >>> state.solver.add(claripy.SGE(y, -3), claripy.SLE(y, 3))
+    >>> state.solver.min(y, signed=True), state.solver.max(y, signed=True)
+    (-3, 3)
 """
 
 from __future__ import annotations
@@ -70,6 +89,28 @@ def make_like(op: str, args) -> claripy.ast.Base:
     Note that the argument layout of some operations differs from pure-Python
     claripy (e.g., ``fpMul`` takes ``(lhs, rhs, rm)``), so ``args`` must follow
     the layout of ``ast.args`` in the current claripy.
+
+    Args:
+        op: The operation name, as found in ``ast.op`` (e.g. ``"__add__"``, ``"ULE"``, ``"fpMul"``).
+        args: The operands, as found in ``ast.args``. Binary Python operators accept more than two operands and are
+            folded from the left.
+
+    Returns:
+        The new AST.
+
+    Examples:
+        >>> from angr import claripy
+        >>> x = claripy.BVS("x", 32, explicit_name=True)
+        >>> make_like("__eq__", [x, claripy.BVV(5, 32)])
+        <Bool x == 0x5>
+        >>> make_like("__add__", [x, claripy.BVV(1, 32), claripy.BVV(2, 32)])
+        <BV32 x + 0x3>
+
+        Rebuild an expression with new operands:
+
+        >>> e = x + 1
+        >>> make_like(e.op, [claripy.BVS("y", 32, explicit_name=True), *e.args[1:]])
+        <BV32 y + 0x1>
     """
     if op in _OPERATORS:
         return functools.reduce(_OPERATORS[op], args)
@@ -84,6 +125,14 @@ def leaf_asts(expr):
     Yield the unique leaf ASTs of ``expr``.
 
     Replacement for ``claripy.ast.Base.leaf_asts()`` from pure-Python claripy.
+
+    Leaves are yielded in depth-first, left-to-right order, each only once.
+
+    Examples:
+        >>> from angr import claripy
+        >>> x = claripy.BVS("x", 32, explicit_name=True)
+        >>> list(leaf_asts((x + 1) * 3 + x))
+        [<BV32 x>, <BV32 0x1>, <BV32 0x3>]
     """
     seen = set()
     stack = [expr]
@@ -155,6 +204,27 @@ def canonicalize(expr, _max_rounds: int = 8):
     """
     Apply the canonicalization rules of Ta'veren's claripy fork to every node
     of ``expr``.
+
+    The rules are:
+
+    * ``e + 0`` and ``e - 0`` become ``e``;
+    * ``c1 - e != c2`` becomes ``e != c1 - c2``;
+    * ``c >= e`` (unsigned) becomes ``e <= c``;
+    * ``If(cond, a, b) & c`` becomes ``If(cond, a & c, b & c)`` when ``a`` or ``b`` is constant.
+
+    Rewriting repeats until no rule applies, at most ``_max_rounds`` times. Non-AST values are returned as is.
+    Every constraint added to a solver goes through this function once :mod:`taveren` is imported, so time delta
+    discovery sees constraints in the shapes it expects.
+
+    Examples:
+        >>> from angr import claripy
+        >>> x = claripy.BVS("x", 32, explicit_name=True)
+        >>> canonicalize(x + 0)
+        <BV32 x>
+        >>> canonicalize(claripy.BVV(10, 32) - x != 3)
+        <Bool x != 0x7>
+        >>> canonicalize(claripy.UGE(claripy.BVV(10, 32), x))
+        <Bool x <= 0xa>
     """
     if not isinstance(expr, claripy.ast.Base) or expr.is_leaf():
         return expr
@@ -231,6 +301,19 @@ def _solver_max(self, e, *args, signed=False, **kwargs):
 
 
 class div(angr.SimProcedure):
+    """
+    libc ``div(x, y)``: 32-bit quotient and remainder as a ``div_t``.
+
+    Registered in ``angr.SIM_PROCEDURES["libc"]`` and in ``libc.so.6``, so binaries that call ``div`` get it
+    automatically. On ARM, where ``div_t`` is returned through a pointer in ``r0``, the result is stored to memory
+    instead of being returned in registers.
+
+    Examples:
+        >>> import angr, taveren
+        >>> angr.SIM_PROCEDURES["libc"]["div"] is div
+        True
+    """
+
     # pylint:disable=arguments-differ
 
     def run(self, x, y):
@@ -259,6 +342,17 @@ class div(angr.SimProcedure):
 
 
 class fmod(angr.SimProcedure):
+    """
+    libc ``fmod(x, y)``: floating-point remainder of ``x / y``, rounded toward zero.
+
+    Registered in ``angr.SIM_PROCEDURES["libc"]`` and in ``libc.so.6``, like :class:`div`.
+
+    Examples:
+        >>> import angr, taveren
+        >>> angr.SIM_PROCEDURES["libc"]["fmod"] is fmod
+        True
+    """
+
     # pylint:disable=arguments-differ
 
     def run(self, x, y):
