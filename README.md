@@ -75,3 +75,19 @@ Or with pip inside a virtualenv:
 > pip install -e '.[test]'
 
 Install the `gui` extra to also get [angr management](https://github.com/angr/angr-management).
+
+### Docker
+
+The [`Dockerfile`](Dockerfile) installs Ta'veren and its dependencies with uv, along with `tests/` and `experiments/`, so graphviz and Python 3.12 are not needed on the host.
+> docker build -t taveren .  
+> docker run --rm taveren pytest
+
+The working directory inside the container is `/app`, so the bundled fixtures can be analyzed directly, e.g. water tank 1:
+> docker run --rm taveren taveren-scan-cycle tests/fixtures/water_tank/build/water_tank.so  
+> docker run --rm taveren taveren-init-finder tests/fixtures/water_tank/build/water_tank.so 0x41C24A
+
+To analyze your own binaries or keep output files, mount a host directory:
+> docker run --rm -v "$PWD/data:/data" taveren taveren-statevars /data/&lt;binary&gt; &lt;scan-cycle-func&gt; -o /data/statevars.log
+
+Files written elsewhere in the container are discarded when it exits.
+Pass `--build-arg UV_EXTRAS="--extra test --extra gui"` to `docker build` to change the installed extras.
