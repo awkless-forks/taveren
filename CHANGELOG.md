@@ -124,9 +124,10 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
   instead of 18). One roll-sensor step changed from −17998 to −8998: old
   claripy's expression shape caused a bound to be skipped, and −8998 is the
   value consistent with that branch.
-- car_wash is slow. `test_carwash[x86]` passes in about an hour;
-  `test_carwash[arm]` and `test_policy` have not yet completed a run on
-  angr 10.
+- car_wash is slow. `test_carwash[x86]` passes in about 63 minutes and
+  `test_carwash[arm]` in about 77; both recover 6 nodes and 48 edges. The ARM
+  build has about 1.7 times as many instructions (Thumb-1 on a Cortex-M0+).
+  `test_policy` has not yet completed a run on angr 10.
 - Only `arducopter_flip` has been run on angr 10. On angr 10 it recovers the
   same 12 nodes as on the old deps (16 edges instead of 18). One roll-sensor
   step changed from −17998 to −8998: old claripy's expression shape caused a
