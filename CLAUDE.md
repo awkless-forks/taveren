@@ -74,8 +74,9 @@ package or test suite.
   or a long analysis with `# doctest: +SKIP`. Shared doctest fixtures live in the root `conftest.py`.
 - ArduCopter needs `auto_load_libs=True` (real `libm`). cle 10 no longer loads shared libraries by default,
   and without libm execution forks on unconstrained `fabsf`/`sqrtf`.
-- Only `arducopter_flip` has been validated on angr 10 so far, and `test_oven` is skipped (no variable JSON).
-  See `CHANGELOG.md` "Known issues".
+- Every target except car_wash has been checked on angr 10. All pass except `test_elevator[AVR]` (needs
+  angr-platforms, not on PyPI), and `test_oven` is skipped (no variable JSON). car_wash takes about an hour per
+  variant. See `CHANGELOG.md` "Known issues".
 - Licensing is BSD-2-Clause. New source files need SPDX headers (`reuse annotate`). Data, binaries and
   third-party fixtures are covered in `REUSE.toml`; add an annotation there when adding fixtures.
 - The sdist includes only `src/taveren` plus top-level metadata (see `[tool.hatch.build.targets.sdist]`).

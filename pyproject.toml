@@ -3,7 +3,7 @@
 
 [project]
 name = "taveren"
-version = "0.1.0"
+version = "1.0.0"
 description = "Find blind-trust vulnerabilities in PLC binaries via state machine recovery"
 readme = "README.md"
 license = "BSD-2-Clause"
@@ -83,13 +83,13 @@ packages = ["src/taveren"]
 # the git repository.
 [tool.hatch.build.targets.sdist]
 include = [
-    "src/taveren",
-    "README.md",
-    "LICENSE",
-    "LICENSES/BSD-2-Clause.txt",
-    "REUSE.toml",
-    "CHANGELOG.md",
-    "pyproject.toml",
+    "/src/taveren",
+    "/README.md",
+    "/LICENSE",
+    "/LICENSES/BSD-2-Clause.txt",
+    "/REUSE.toml",
+    "/CHANGELOG.md",
+    "/pyproject.toml",
 ]
 
 [tool.pytest.ini_options]

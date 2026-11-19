@@ -2,7 +2,7 @@
 
 All notable changes since the upstream Ta'veren release (`31539fe`).
 
-## [Unreleased]
+## [1.0.0] - 2026-11-19
 
 ### Added
 - `StateGraphRecovery` (`proj.analyses.StateGraphRecovery`): a ready-made state
@@ -11,6 +11,10 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
   programs no longer need a target-specific `StateGraphRecoveryBase` subclass.
   It explores clock advances and each input on its own; float, double and pin
   inputs are rejected with `NotImplementedError`.
+- PyPI packaging metadata: README as the long description, `BSD-2-Clause`
+  license expression, authors, maintainers, project URLs, keywords and
+  classifiers.
+- `graphviz` extra for `pygraphviz`.
 
 ### Changed
 - Removed commented-out and quoted-out code from the ten remaining
@@ -22,16 +26,6 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 - `water_tank_one_sensor` uses `StateGraphRecovery` instead of its own
   751-line analysis, which is removed. The recovered graph is identical: the
   same 4 nodes and 7 edges, with the same deltas, sources and labels.
-
-## [0.1.0] - 2026-11-19
-
-### Added
-- PyPI packaging metadata: README as the long description, `BSD-2-Clause`
-  license expression, authors, maintainers, project URLs, keywords and
-  classifiers.
-- `graphviz` extra for `pygraphviz`.
-
-### Changed
 - **pygraphviz is no longer a core dependency.** The library never imports it;
   it is only needed to write `.dot` files. It moved to the new `graphviz` extra
   and the `test` extra, so `pip install taveren` no longer needs the graphviz
@@ -112,9 +106,18 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
   longer O(n²). (`d5cbc0e`)
 
 ### Known issues
-- Only `arducopter_flip` has been run on angr 10. On angr 10 it recovers the
-  same 12 nodes as on the old deps (16 edges instead of 18). One roll-sensor
-  step changed from −17998 to −8998: old claripy's expression shape caused a
-  bound to be skipped, and −8998 is the value consistent with that branch.
-- `test_oven` is skipped: no variable-description JSON ships for it.
-  (`d5cbc0e`)
+- Every target except car_wash has been run on angr 10 before and after the
+  dead-code removal and recovers identical graphs both times. All tests pass
+  except:
+  - `test_elevator[AVR]` fails with `ModuleNotFoundError: angr_platforms`.
+    AVR support lives in angr-platforms, which is not on PyPI and is no longer
+    vendored as a submodule. `test_elevator[ARM]` passes.
+  - `test_oven` is skipped: no variable-description JSON ships for it.
+    (`d5cbc0e`)
+- arducopter_flip recovers the same 12 nodes as on the old deps (16 edges
+  instead of 18). One roll-sensor step changed from −17998 to −8998: old
+  claripy's expression shape caused a bound to be skipped, and −8998 is the
+  value consistent with that branch.
+- car_wash is slow. `test_carwash[x86]` passes in about an hour;
+  `test_carwash[arm]` and `test_policy` have not yet completed a run on
+  angr 10.
