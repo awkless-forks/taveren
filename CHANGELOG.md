@@ -5,6 +5,7 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 ## [1.0.0] - 2026-11-19
 
 ### Added
+
 - `StateGraphRecovery` (`proj.analyses.StateGraphRecovery`): a ready-made state
   graph recovery analysis for programs whose inputs are integer variables. It
   reads the inputs from the environment model, so typical Beremiz/OpenPLC
@@ -17,6 +18,7 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 - `graphviz` extra for `pygraphviz`.
 
 ### Changed
+
 - Removed commented-out and quoted-out code from the ten remaining
   per-target analyses in `tests/*/state_graph_recovery.py` (10,319 to 7,276
   lines). Each file's syntax tree is unchanged apart from the removed string
@@ -70,6 +72,7 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 - Formatted the codebase with black. (`ac50b57`)
 
 ### Fixed
+
 - **arducopter_flip on angr 10:** load the real `libm`
   (`auto_load_libs=True`), since cle 10 no longer loads shared libraries by
   default. Without it, `fabsf`/`sqrtf` returned unconstrained values and
@@ -94,6 +97,7 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
   (`150204f`)
 
 ### Removed
+
 - The git submodules under `external/` and `.gitmodules`. They were added in
   `6b34628` and removed in `2e68325`.
 - Unreachable Patcherex/raw-binary code in `apply_patch`, and its misleading
@@ -102,10 +106,12 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 - Outdated screenshots in `figs/`. (`c46a20c`)
 
 ### Performance
+
 - BFS rule helpers use a `set` and `deque` instead of lists, so traversal is no
   longer O(n²). (`d5cbc0e`)
 
 ### Known issues
+
 - Every target except car_wash has been run on angr 10 before and after the
   dead-code removal and recovers identical graphs both times. All tests pass
   except:
@@ -121,3 +127,9 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 - car_wash is slow. `test_carwash[x86]` passes in about an hour;
   `test_carwash[arm]` and `test_policy` have not yet completed a run on
   angr 10.
+- Only `arducopter_flip` has been run on angr 10. On angr 10 it recovers the
+  same 12 nodes as on the old deps (16 edges instead of 18). One roll-sensor
+  step changed from −17998 to −8998: old claripy's expression shape caused a
+  bound to be skipped, and −8998 is the value consistent with that branch.
+- `test_oven` is skipped: no variable-description JSON ships for it.
+  (`d5cbc0e`)
