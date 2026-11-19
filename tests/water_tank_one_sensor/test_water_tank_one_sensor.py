@@ -8,7 +8,6 @@ import angr
 import time
 import pytest
 
-from . import state_graph_recovery
 from taveren import (
     AbstractStateFields,
     MinDelayBaseRule,
@@ -85,16 +84,14 @@ def test_water_tank():
     outputs, inputs = generate_field_desc(data)
 
     fields_output = AbstractStateFields(outputs)
-    fields_input = AbstractStateFields(inputs)
     func = cfg.kb.functions["__run"]
-    sgr = proj.analyses.StateGraphRecoveryOneSensor(
+    sgr = proj.analyses.StateGraphRecovery(
         func,
         fields_output,
         software,
         time_addr,
         init_state=initial_state,
         inputs=inputs,
-        fields_input=fields_input,
     )
     sgr_time = time.time()
     print(f"sgr time: {sgr_time - init_time:.2f}s")

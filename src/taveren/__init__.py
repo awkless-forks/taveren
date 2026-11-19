@@ -14,8 +14,8 @@ checks safety policies against it. The workflow is:
    commands.
 2. Describe the program's inputs, outputs and state variables in an environment model, and turn
    it into :class:`AbstractStateFields` (:mod:`taveren.env_model`).
-3. Recover the state graph with an analysis built on :class:`StateGraphRecoveryBase`
-   (:mod:`taveren.state_graph_recovery`).
+3. Recover the state graph with :class:`StateGraphRecovery`, or, for programs it does not cover,
+   an analysis built on :class:`StateGraphRecoveryBase` (:mod:`taveren.state_graph_recovery`).
 4. Write safety policies as rules (:mod:`taveren.rule_verifier`) and check them with
    :class:`RuleVerifier`.
 5. Trace violations to their root causes with :class:`RootCauseAnalysis` and patch them
@@ -40,7 +40,7 @@ Examples:
 
     The full pipeline on the one-sensor water tank, as in
     ``tests/water_tank_one_sensor/test_water_tank_one_sensor.py`` (which defines the
-    ``StateGraphRecoveryOneSensor`` analysis and the ``SensorExclusionRule`` policy):
+    ``SensorExclusionRule`` policy):
 
     >>> import angr, json
     >>> from taveren import AbstractStateFields, generate_field_desc, hook_py_extensions
@@ -53,10 +53,10 @@ Examples:
     >>> init.perform_call()  # doctest: +SKIP
     >>> env = json.load(open("tests/water_tank_one_sensor/water_tank.json"))  # doctest: +SKIP
     >>> outputs, inputs = generate_field_desc(env)  # doctest: +SKIP
-    >>> sgr = proj.analyses.StateGraphRecoveryOneSensor(
+    >>> sgr = proj.analyses.StateGraphRecovery(
     ...     cfg.kb.functions["__run"], AbstractStateFields(outputs), env["software"],
     ...     int(env["time_addr"], 16), init_state=init.result_state,
-    ...     inputs=inputs, fields_input=AbstractStateFields(inputs))  # doctest: +SKIP
+    ...     inputs=inputs)  # doctest: +SKIP
     >>> safe, src, dst = RuleVerifier(sgr.state_graph).verify(SensorExclusionRule())  # doctest: +SKIP
 """
 
@@ -72,6 +72,6 @@ from .rule_verifier import (
     BaseRule,
 )
 from .root_cause import RootCauseAnalysis
-from .state_graph_recovery import StateGraphRecoveryBase
+from .state_graph_recovery import StateGraphRecovery, StateGraphRecoveryBase
 from .env_model import generate_field_desc, generate_output_config_desc
 from .hooks import hook_py_extensions, normalize_timespec

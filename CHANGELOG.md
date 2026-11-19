@@ -4,6 +4,19 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 
 ## [Unreleased]
 
+### Added
+- `StateGraphRecovery` (`proj.analyses.StateGraphRecovery`): a ready-made state
+  graph recovery analysis for programs whose inputs are integer variables. It
+  reads the inputs from the environment model, so typical Beremiz/OpenPLC
+  programs no longer need a target-specific `StateGraphRecoveryBase` subclass.
+  It explores clock advances and each input on its own; float, double and pin
+  inputs are rejected with `NotImplementedError`.
+
+### Changed
+- `water_tank_one_sensor` uses `StateGraphRecovery` instead of its own
+  751-line analysis, which is removed. The recovered graph is identical: the
+  same 4 nodes and 7 edges, with the same deltas, sources and labels.
+
 ## [0.1.0] - 2026-11-19
 
 ### Added

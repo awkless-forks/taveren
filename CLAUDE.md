@@ -39,14 +39,21 @@ monkey-patches stock angr/claripy with what the old angr/claripy forks used to c
 SimProcedures, a PPC64 `r12` fix, THUMB look-back bytes, extra claripy simplifications). Use
 `from angr import claripy`, not the standalone `claripy` package.
 
-**State graph recovery is subclassed per target.** `StateGraphRecoveryBase` (an angr `Analysis` in
-`state_graph_recovery.py`) holds the shared machinery: symbolizing the time counter for each runtime
-flavour (Beremiz, Arduino, Simulink), discovering time/sensor deltas that trigger transitions, abstract-state
-deduplication and the dedup-edge `MultiDiGraph`. Each `tests/<target>/state_graph_recovery.py` subclasses it
-and overrides only `traverse`/`_traverse_one` and the target-specific symbolize/advance helpers. It then
-registers the subclass with `AnalysesHub.register_default("<UniqueName>", ...)` and the test calls
-`proj.analyses.<UniqueName>(...)`. **Every target must use a unique registration name.** A shared name lets
-one suite silently run another suite's analysis.
+**State graph recovery.** `StateGraphRecoveryBase` (an angr `Analysis` in `state_graph_recovery.py`) holds
+the shared machinery: symbolizing the time counter for each runtime flavour (Beremiz, Arduino, Simulink),
+discovering time deltas, running one scan cycle (`_traverse_one`) and the dedup-edge `MultiDiGraph`.
+`StateGraphRecovery` in the same file is the generic analysis built on it: a breadth-first `traverse()` that
+explores clock advances and each integer input from the env model on its own, with edge attributes
+`time_delta*` and `<input lowercased>_delta/_constraint/_src`. `water_tank_one_sensor` uses it.
+
+The other targets still have their own `tests/<target>/state_graph_recovery.py` subclass, a copy of the same
+loop with inputs hard-coded and much dead code. Six of them (water_tank_two_sensors, packaging, car_wash,
+lifter, abortsystem, vending_machine) differ only in how inputs are combined (jointly or as a Cartesian
+product) and in float step extraction, so they are candidates for `StateGraphRecovery`. traffic_lights,
+arducopter_flip, elevator and ihex_parser genuinely need custom code. When migrating one, record the old
+graph first and check the new one is identical. Subclasses register with
+`AnalysesHub.register_default("<UniqueName>", ...)`. **Every target must use a unique registration name.**
+A shared name lets one suite silently run another suite's analysis.
 
 **Rules** (`rule_verifier.py`): subclass `IllegalNodeBaseRule`, `IllegalTransitionBaseRule`,
 `MinDelayBaseRule`/`MaxDelayBaseRule`, or `BaseRule.eval` for a custom check over the graph. Nodes are

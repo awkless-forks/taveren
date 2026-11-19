@@ -5,9 +5,13 @@
 
 """Shared machinery for state graph recovery analyses.
 
-Target-specific analyses subclass :class:`StateGraphRecoveryBase` and provide their own
-``__init__`` and ``traverse`` (plus any input-specific symbolization and delta
-discovery methods), then register themselves with ``AnalysesHub``.
+:class:`StateGraphRecovery` (registered as ``proj.analyses.StateGraphRecovery``) recovers the
+state graph of a program whose inputs are integer variables listed in its environment model,
+which covers typical Beremiz/OpenPLC programs. Programs that need something else (float or pin
+inputs, inputs that must change together, warm-up phases) subclass
+:class:`StateGraphRecoveryBase` and provide their own ``__init__`` and ``traverse`` (plus any
+input-specific symbolization and delta discovery methods), then register themselves with
+``AnalysesHub``.
 
 The other classes here are instrumentation for symbolic execution: they record where
 constraints and expressions are created, so that :class:`taveren.RootCauseAnalysis` can map a
@@ -29,10 +33,13 @@ Examples:
     >>> state.regs.rdi = x
 """
 
-from typing import Optional, List, Dict, Tuple, Set, Any, TYPE_CHECKING
+import logging
+from itertools import count
+from typing import Optional, List, Dict, Tuple, Set, Any, Callable, TYPE_CHECKING
 
 import networkx
 from angr import claripy
+from angr.analyses.analysis import AnalysesHub
 
 from angr.sim_options import (
     NO_CROSS_INSN_OPT,
@@ -46,6 +53,8 @@ from .angr_compat import make_like
 
 if TYPE_CHECKING:
     from angr import SimState
+
+logger = logging.getLogger(__name__)
 
 
 class ConstraintLogger:
@@ -358,8 +367,9 @@ class StateGraphRecoveryBase(Analysis):
     transition, e.g. "15 seconds pass". Each delta is then applied concretely to step into the successor state.
 
     This class provides that machinery; it has no ``__init__`` or ``traverse`` of its own, since the inputs to
-    symbolize and the order to explore them in depend on the program. A subclass sets the attributes below in
-    ``__init__``, builds ``self.state_graph`` in ``traverse``, and is registered with angr's ``AnalysesHub``.
+    symbolize and the order to explore them in depend on the program. :class:`StateGraphRecovery` is the
+    ready-made analysis for programs with integer inputs; for anything else, a subclass sets the attributes below
+    in ``__init__``, builds ``self.state_graph`` in ``traverse``, and is registered with angr's ``AnalysesHub``.
 
     Attributes expected by the helpers:
 
@@ -1359,3 +1369,283 @@ class StateGraphRecoveryBase(Analysis):
             claripy.BVV(delta, high_sensor_size * self.project.arch.byte_width),
             self.high_sensor,
         )
+
+
+class StateGraphRecovery(StateGraphRecoveryBase):
+    """
+    Recover the state graph of a PLC program from its environment model.
+
+    The ready-made analysis for programs whose inputs are integer variables (``bool``, ``int``, ``sint``, ...): the
+    inputs to symbolize come from the environment model, so no target-specific subclass is needed. Run it as
+    ``proj.analyses.StateGraphRecovery(...)``; the result is in :attr:`state_graph`.
+
+    Starting from ``init_state``, it runs the scan cycle function once per step. After each cycle it reads the
+    abstract state (the output and state variable fields) and looks for the input changes that lead elsewhere:
+
+    * **Time**: clock advances that change the control flow (:meth:`_discover_time_deltas`).
+    * **Each input on its own**: the input is made symbolic, one cycle is run, and every constraint the program
+      puts on it gives a value to try (the smallest value that satisfies it).
+
+    Each discovered change is applied to a copy of the state and run, giving a successor. Successors with a new
+    abstract state become new nodes; a transition already seen from the same predecessor is not explored again.
+    The search is breadth-first and ends when no new transitions appear.
+
+    Nodes are ``(("NODE_CTR", n),) + abstract_state``, where ``abstract_state`` is the tuple of ``(field, value)``
+    pairs and ``n`` numbers the abstract states in discovery order. Each node has an ``outvars`` attribute with the
+    field values as a dict. Edges carry:
+
+    * ``time_delta``, ``time_delta_constraint``, ``time_delta_src``: the clock advance in seconds that triggered
+      the transition, the constraint it came from and where that constraint was added, as a
+      ``(block address, statement index)`` pair; all ``None`` if the transition was not triggered by time.
+    * ``<input>_delta``, ``<input>_constraint``, ``<input>_src`` for every input, with ``<input>`` its name in
+      lower case (``water_level_delta`` for ``WATER_LEVEL``): the value the input was set to, and the same
+      provenance; all ``None`` for inputs that did not change.
+    * ``label``: a short summary of the input deltas, for drawing the graph.
+
+    Programs this analysis does not cover subclass :class:`StateGraphRecoveryBase` instead: inputs that are
+    floats, Arduino pins or must change together, or programs that need a warm-up (switch-on) phase. See
+    ``tests/*/state_graph_recovery.py`` for examples.
+
+    Args:
+        func: The scan cycle function, an angr ``Function``.
+        fields: The output and state variable fields, an :class:`taveren.AbstractStateFields`.
+        software: The PLC runtime that stores the clock: ``"beremiz"``, ``"arduino"`` or ``"simulink"``.
+        time_addr: The address of the clock (``tv_sec`` for Beremiz).
+        init_state: The state after the program's initialization function, or ``None`` to start from a blank
+            state.
+        inputs: The inputs to explore, as the second dict returned by :func:`taveren.generate_field_desc`
+            (name to ``(address, sort, size)``). ``None`` or empty explores time only.
+        explore_time: Whether to explore clock advances. Turn it off for programs without timers to save one
+            symbolic scan cycle per step.
+        config_vars: Symbolic configuration variables, used to simplify time constraints.
+        printstate: Called with each newly reached abstract state, e.g. to print it. By default states are
+            logged at ``DEBUG`` level.
+
+    Raises:
+        NotImplementedError: An input has a sort this analysis cannot symbolize (``float``, ``double``, ``pin``).
+
+    Examples:
+        The water tank from ``tests/water_tank_one_sensor``. Its environment model lists three state variables,
+        the ``MOTOR`` output and the ``WATER_LEVEL`` input:
+
+        >>> import angr, json
+        >>> from taveren import (AbstractStateFields, RuleVerifier, StateGraphRecovery, generate_field_desc,
+        ...                      hook_py_extensions)
+        >>> proj = angr.Project("tests/fixtures/water_tank_sfc_one_sensor/build/water_tank_sfc_one_sensor.so",
+        ...                     auto_load_libs=False)  # doctest: +SKIP
+        >>> cfg = proj.analyses.CFG()  # doctest: +SKIP
+        >>> hook_py_extensions(proj, cfg)  # doctest: +SKIP
+        >>> init = proj.factory.callable(cfg.kb.functions["config_init__"].addr,
+        ...                              perform_merge=False)  # doctest: +SKIP
+        >>> init.perform_call()  # doctest: +SKIP
+        >>> env = json.load(open("tests/water_tank_one_sensor/water_tank.json"))  # doctest: +SKIP
+        >>> outputs, inputs = generate_field_desc(env)  # doctest: +SKIP
+        >>> sgr = proj.analyses.StateGraphRecovery(
+        ...     cfg.kb.functions["__run"], AbstractStateFields(outputs), env["software"],
+        ...     int(env["time_addr"], 16), init_state=init.result_state, inputs=inputs)  # doctest: +SKIP
+        >>> sgr.state_graph.number_of_nodes(), sgr.state_graph.number_of_edges()  # doctest: +SKIP
+        (4, 7)
+        >>> sorted({d["water_level_delta"] for _, _, d in sgr.state_graph.edges(data=True)},
+        ...        key=str)  # doctest: +SKIP
+        [0, 15, 86, None]
+    """
+
+    #: Input sorts that cannot be symbolized as a bit-vector of the input's size, so are rejected.
+    UNSUPPORTED_SORTS = frozenset({"float", "double", "pin"})
+
+    def __init__(
+        self,
+        func: "Function",
+        fields: "AbstractStateFields",
+        software: str,
+        time_addr: int,
+        init_state: Optional["SimState"] = None,
+        inputs: Optional[Dict[str, Tuple[int, str, int]]] = None,
+        explore_time: bool = True,
+        config_vars: Optional[Set[claripy.ast.Base]] = None,
+        printstate: Optional[Callable] = None,
+    ):
+        self.func = func
+        self.fields = fields
+        self.software = software
+        self.init_state = init_state
+        self.inputs = dict(inputs) if inputs else {}
+        self.explore_time = explore_time
+        self.config_vars = config_vars if config_vars is not None else set()
+        self.printstate = printstate
+
+        for name, (_, sort, _) in self.inputs.items():
+            if sort in self.UNSUPPORTED_SORTS:
+                raise NotImplementedError(
+                    f"input {name} has sort {sort!r}, which StateGraphRecovery cannot symbolize; "
+                    "subclass StateGraphRecoveryBase for this program instead"
+                )
+
+        self._time_addr = time_addr
+        self._ret_trap: int = 0x1F37FF4A
+        self._tv_sec_var = None
+        self._expression_source = {}
+        self.state_graph: Optional[MultiDiGraph_DedupeEdge] = None
+        self.traverse()
+
+    @staticmethod
+    def _attr(name: str) -> str:
+        """The prefix of an input's edge attributes and symbolic variables: its name in lower case."""
+        return name.lower()
+
+    def _symbolize_input(self, state: "SimState", name: str) -> claripy.ast.Base:
+        """Make input ``name`` symbolic, preconstrained to its current concrete value."""
+        addr, _, size = self.inputs[name]
+        endness = self.project.arch.memory_endness
+        bits = size * self.project.arch.byte_width
+        prev = state.solver.eval(state.memory.load(addr, size=size, endness=endness))
+        var = claripy.BVS(self._attr(name), bits)
+        state.memory.store(addr, var, endness=endness)
+        state.preconstrainer.preconstrain(claripy.BVV(prev, bits), var)
+        return var
+
+    def _symbolize_inputs(self, state: "SimState") -> Dict[str, claripy.ast.Base]:
+        return {name: self._symbolize_input(state, name) for name in self.inputs}
+
+    def _advance_input(self, state: "SimState", name: str, value: int) -> None:
+        """Set input ``name`` to ``value`` for the next cycle (as a symbolic variable preconstrained to it)."""
+        addr, _, size = self.inputs[name]
+        endness = self.project.arch.memory_endness
+        bits = size * self.project.arch.byte_width
+        var = claripy.BVS(self._attr(name), bits)
+        state.memory.store(addr, var, endness=endness)
+        state.preconstrainer.preconstrain(claripy.BVV(value, bits), var)
+
+    def _discover_input_deltas(
+        self, state: "SimState", name: str
+    ) -> List[Tuple[int, claripy.ast.Base, Optional[Tuple[int, int]]]]:
+        """
+        Find the values of input ``name`` that the next scan cycle branches on.
+
+        Runs one cycle with the input set to a fresh unconstrained symbolic variable, following every branch, and
+        returns a ``(value, constraint, source)`` triple for each constraint that mentions the variable: the
+        smallest value satisfying the constraints on that path, the constraint, and where it was added.
+        """
+        addr, _, size = self.inputs[name]
+        state = self._initialize_state(state)
+        delta = claripy.BVS(f"{self._attr(name)}_delta", size * self.project.arch.byte_width)
+        state.memory.store(addr, delta, endness=self.project.arch.memory_endness)
+
+        constraint_source = {}
+        constraint_logger = ConstraintLogger(constraint_source)
+        state.inspect.add_breakpoint(
+            "constraints",
+            BP(when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints),
+        )
+
+        steps = []
+        for next_state in self._traverse_one(state, discover=True):
+            for constraint in next_state.solver.constraints:
+                if delta.args[0] in constraint.variables:
+                    steps.append(
+                        (
+                            next_state.solver.min(delta),
+                            constraint,
+                            constraint_source.get(constraint, None),
+                        )
+                    )
+        return steps
+
+    def _fresh_successor(self, state: "SimState") -> "SimState":
+        """A copy of ``state`` at the start of the scan cycle, with fields, clock and inputs symbolic."""
+        new_state = self._initialize_state(init_state=state)
+        self._symbolize_var_fields(new_state, self.fields)
+        self._symbolize_timecounter(new_state)
+        self._symbolize_inputs(new_state)
+        return new_state
+
+    def traverse(self) -> None:
+        """Explore the program breadth-first from ``init_state`` and build :attr:`state_graph`."""
+        self.state_graph = MultiDiGraph_DedupeEdge()
+        no_inputs = {name: (None, None, None) for name in self.inputs}
+
+        def node(state_id, abs_state):
+            return (("NODE_CTR", state_id),) + abs_state
+
+        init_state = self._initialize_state(init_state=self.init_state)
+        self._symbolize_var_fields(init_state, self.fields)
+        self._symbolize_timecounter(init_state)
+        self._symbolize_inputs(init_state)
+
+        state_ids = count(0)
+        abs_state = self.fields.generate_abstract_state(init_state)
+        abs_state_id = next(state_ids)
+        self.state_graph.add_node(node(abs_state_id, abs_state), outvars=dict(abs_state))
+
+        # (state, predecessor id, predecessor abstract state, its predecessor's abstract state,
+        #  (time delta, constraint, source), {input: (delta, constraint, source)})
+        queue = [(init_state, abs_state_id, abs_state, None, (None, None, None), no_inputs)]
+        known_states: Dict[Tuple, int] = {}
+        known_transitions = set()
+
+        while queue:
+            prev_state, prev_id, prev_abs, prev_prev_abs, time_change, input_changes = queue.pop(0)
+
+            time_delta = time_change[0]
+            if time_delta is not None:
+                self._advance_timecounter(prev_state, time_delta)
+            for name, (value, _, _) in input_changes.items():
+                if value is not None:
+                    self._advance_input(prev_state, name, value)
+
+            next_state = self._traverse_one(prev_state)
+            abs_state = self.fields.generate_abstract_state(next_state)
+            if abs_state in known_states:
+                abs_state_id = known_states[abs_state]
+            else:
+                abs_state_id = known_states[abs_state] = next(state_ids)
+                if self.printstate is not None:
+                    self.printstate(abs_state)
+                else:
+                    logger.debug("Discovered abstract state %d: %s", abs_state_id, abs_state)
+
+            # A transition is identified by where it came from, so the same state reached along different paths is
+            # still expanded once per distinct predecessor pair.
+            transition = (prev_prev_abs, prev_abs, abs_state)
+            if transition in known_transitions:
+                continue
+            known_transitions.add(transition)
+
+            edge_attrs = {
+                "time_delta": time_change[0],
+                "time_delta_constraint": time_change[1],
+                "time_delta_src": time_change[2],
+            }
+            for name, (value, constraint, src) in input_changes.items():
+                attr = self._attr(name)
+                edge_attrs[f"{attr}_delta"] = value
+                edge_attrs[f"{attr}_constraint"] = constraint
+                edge_attrs[f"{attr}_src"] = src
+            edge_attrs["label"] = ", ".join(
+                [f"time_delta={time_delta}"] * (time_delta is not None)
+                + [f"{self._attr(name)}_delta={value}" for name, (value, _, _) in input_changes.items()]
+            )
+            self.state_graph.add_node(node(abs_state_id, abs_state), outvars=dict(abs_state))
+            self.state_graph.add_edge(node(prev_id, prev_abs), node(abs_state_id, abs_state), **edge_attrs)
+
+            successor = (abs_state_id, abs_state, prev_abs)
+            if self.explore_time:
+                for change in self._discover_time_deltas(next_state):
+                    logger.debug("Discovered time delta %s", change[0])
+                    queue.append(
+                        (self._fresh_successor(next_state), *successor, change, no_inputs)
+                    )
+            for name in self.inputs:
+                for change in self._discover_input_deltas(next_state, name):
+                    logger.debug("Discovered %s delta %s", name, change[0])
+                    queue.append(
+                        (
+                            self._fresh_successor(next_state),
+                            *successor,
+                            (None, None, None),
+                            {**no_inputs, name: change},
+                        )
+                    )
+
+
+AnalysesHub.register_default("StateGraphRecovery", StateGraphRecovery)
