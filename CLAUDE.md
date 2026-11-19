@@ -46,12 +46,14 @@ discovering time deltas, running one scan cycle (`_traverse_one`) and the dedup-
 explores clock advances and each integer input from the env model on its own, with edge attributes
 `time_delta*` and `<input lowercased>_delta/_constraint/_src`. `water_tank_one_sensor` uses it.
 
-The other targets still have their own `tests/<target>/state_graph_recovery.py` subclass, a copy of the same
-loop with inputs hard-coded and much dead code. Six of them (water_tank_two_sensors, packaging, car_wash,
-lifter, abortsystem, vending_machine) differ only in how inputs are combined (jointly or as a Cartesian
-product) and in float step extraction, so they are candidates for `StateGraphRecovery`. traffic_lights,
-arducopter_flip, elevator and ihex_parser genuinely need custom code. When migrating one, record the old
-graph first and check the new one is identical. Subclasses register with
+The other targets keep their own `tests/<target>/state_graph_recovery.py` subclass on purpose. Beyond input
+handling, they differ in ways that change the recovered graph, so moving them to `StateGraphRecovery` would
+either change the paper's graphs or need many options that encode copy-paste drift:
+whether the last clock advance is part of the state (car_wash, packaging), which deltas make a transition new
+(none / inputs / time and inputs / one input), how input values are chosen (`solver.min` per constraint,
+`solver.eval`, negating the current path, reading float literals), two scan cycles per step (lifter) and a
+switch-on warm-up (packaging). Leave them as they are unless you are deliberately changing their models.
+Subclasses register with
 `AnalysesHub.register_default("<UniqueName>", ...)`. **Every target must use a unique registration name.**
 A shared name lets one suite silently run another suite's analysis.
 

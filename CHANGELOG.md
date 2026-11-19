@@ -13,6 +13,12 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
   inputs are rejected with `NotImplementedError`.
 
 ### Changed
+- Removed commented-out and quoted-out code from the ten remaining
+  per-target analyses in `tests/*/state_graph_recovery.py` (10,319 to 7,276
+  lines). Each file's syntax tree is unchanged apart from the removed string
+  blocks, so they run exactly as before. These targets keep their own
+  analyses: they model states and transitions differently from
+  `StateGraphRecovery`, so migrating them would change their graphs.
 - `water_tank_one_sensor` uses `StateGraphRecovery` instead of its own
   751-line analysis, which is removed. The recovered graph is identical: the
   same 4 nodes and 7 edges, with the same deltas, sources and labels.

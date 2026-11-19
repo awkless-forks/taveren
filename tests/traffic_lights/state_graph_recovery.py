@@ -63,7 +63,6 @@ class SliceGenerator:
                         DefinitionNode(v, curr_loc[0], curr_loc[1]),
                     )
                 self._last_statements[v] = curr_loc
-            # print(expr, state.scratch.irsb.statements[state.scratch.stmt_idx])
 
 
 class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
@@ -124,15 +123,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         if self._temp_addr is not None:
             all_vars |= set(symbolic_temperature.values())
         all_vars |= self.config_vars
-        # slice_gen = SliceGenerator(all_vars, bp=None)
-        # expression_bp = slice_gen.install_expr_hook(init_state)
-
-        # # setup inspection points to catch where expressions are written to registers
-        # expression_logger = ExpressionLogger(self._expression_source, { v.args[0] for v in all_vars })
-        # regwrite_bp = BP(when=BP_BEFORE, enabled=True, action=expression_logger.on_register_write)
-        # init_state.inspect.add_breakpoint('reg_write', regwrite_bp)
-        # memread_bp = BP(when=BP_AFTER, enabled=True, action=expression_logger.on_memory_read)
-        # init_state.inspect.add_breakpoint('mem_read', memread_bp)
 
         # Abstract state ID counter
         abs_state_id_ctr = count(0)
@@ -216,7 +206,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -255,7 +244,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -290,7 +278,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             all_vars |= set(symbolic_time_counters.values())
                             all_vars |= set(symbolic_temperature.values())
                             all_vars |= self.config_vars
-                            # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                             state_queue.append(
                                 (
                                     new_state,
@@ -308,7 +295,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             continue
 
                         if time_delta_and_sources:
-                            # print(time_delta_constraint)
                             for (
                                 time_delta,
                                 time_constraint,
@@ -331,7 +317,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -364,7 +349,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -394,7 +378,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             symbolic_temperature = self._symbolize_temp(new_state)
                             all_vars |= set(symbolic_temperature.values())
                         all_vars |= self.config_vars
-                        # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                         state_queue.append(
                             (
                                 new_state,
@@ -411,8 +394,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         )
 
             else:
-                # if time_delta is None and prev_abs_state == abs_state:
-                #     continue
                 new_state = self._initialize_state(init_state=init_state)
 
                 # re-symbolize input fields, time counters, and update slice generator
@@ -425,7 +406,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     symbolic_temperature = self._symbolize_temp(new_state)
                     all_vars |= set(symbolic_temperature.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
 
                 state_queue.append(
                     (
@@ -475,7 +455,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 self._advance_temp(prev_state, temp_delta)
 
             # symbolically trace the state
-            # expression_bp.enabled = True
             next_state = self._traverse_one(prev_state)
             print(
                 next_state.solver.eval(
@@ -485,15 +464,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 )
             )
 
-            # expression_bp.enabled = False
-
             abs_state = self.fields.generate_abstract_state(next_state)
-            # abs_state += (('time_delta', time_delta),
-            #               # ('tdc', time_delta_constraint),
-            #               ('td_src', time_delta_src),
-            #               ('temp_delta', temp_delta),
-            #               ('temp_src', temp_delta_src)
-            #               )
             if switched_on:
                 if abs_state in known_states.keys():
                     abs_state_id = known_states[abs_state]
@@ -509,8 +480,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 pprint.pprint(abs_state)
             else:
                 self.printstate(abs_state)
-            # absstate_to_slice[abs_state] = slice_gen.slice
-            # print("[.] There are %d nodes in the slice." % len(slice_gen.slice))
 
             transition = (
                 (prev_prev_abs, prev_abs_state, abs_state, time_delta)
@@ -567,7 +536,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     time_delta_and_sources = {}
                     temp_delta_and_sources = {}
                     prev_abs_state = None
-                    # state_queue.append((new_state, abs_state_id, abs_state, None, None, None, None, None, None))
             else:
                 time_delta_and_sources = self._discover_time_deltas(next_state)
 
@@ -626,7 +594,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -665,7 +632,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -700,7 +666,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             all_vars |= set(symbolic_time_counters.values())
                             all_vars |= set(symbolic_temperature.values())
                             all_vars |= self.config_vars
-                            # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                             state_queue.append(
                                 (
                                     new_state,
@@ -718,8 +683,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             continue
 
                         if time_delta_and_sources:
-                            # # TODO: need debug, this one is not showing in the graph
-                            # print(time_delta_constraint)
                             for (
                                 time_delta,
                                 time_constraint,
@@ -742,7 +705,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -775,7 +737,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_temperature.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -805,7 +766,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             symbolic_temperature = self._symbolize_temp(new_state)
                             all_vars |= set(symbolic_temperature.values())
                         all_vars |= self.config_vars
-                        # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                         state_queue.append(
                             (
                                 new_state,
@@ -822,9 +782,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         )
 
             else:
-                # if time_delta is None and prev_abs_state == abs_state:
-                #     continue
-                # if self._temp_addr:
                 new_state = self._initialize_state(init_state=next_state)
 
                 # re-symbolize input fields, time counters, and update slice generator
@@ -837,7 +794,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     symbolic_temperature = self._symbolize_temp(new_state)
                     all_vars |= set(symbolic_temperature.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
 
                 state_queue.append(
                     (
@@ -855,57 +811,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 )
 
         print("traverse counter:", self.traverse_counter)
-        # # ------------- remove divide node --------------
-        # # test
-        # # from networkx.drawing.nx_agraph import write_dot
-        # # write_dot(self.state_graph, "testbothg.dot")
-        # # check if any nodes need to be divided
-        # for state_node in list(self.state_graph):
-        #     predecessors = list(self.state_graph.predecessors(state_node))
-        #     successors = list(self.state_graph.successors(state_node))
-        #     if len(predecessors) > 1:
-        #         nin = len(predecessors)
-        #         nout = len(successors)
-        #         state_edge = list()
-        #         for edge in known_transitions:
-        #             if state_node[1:] == edge[1]:
-        #                 state_edge.append(edge)
-        #         ntrans = len(state_edge)
-        #         if ntrans == nin * nout:
-        #             continue
-        #         else:
-        #             for pre_node in predecessors:
-        #                 new_id = next(abs_state_id_ctr)
-        #                 print(f"new_id:{new_id}")
-        #                 pre_edge_data = self.state_graph.get_edge_data(pre_node, state_node)
-        #                 self.state_graph.add_node((('NODE_CTR', new_id),) + state_node[1:], outvars=dict(state_node[1:]))
-        #                 self.state_graph.add_edge(pre_node,
-        #                                           (('NODE_CTR', new_id),) + state_node[1:],
-        #                                           time_delta=pre_edge_data['time_delta'],
-        #                                           time_delta_constraint=pre_edge_data['time_delta_constraint'],
-        #                                           time_delta_src=pre_edge_data['time_delta_src'],
-        #                                           temp_delta=pre_edge_data['temp_delta'],
-        #                                           temp_delta_constraint=pre_edge_data['temp_delta_constraint'],
-        #                                           temp_delta_src=pre_edge_data['temp_delta_src'],
-        #                                           label=f'time_delta_constraint={pre_edge_data["time_delta_constraint"]}'
-        #                                           )
-        #                 suc_nodes = [edge[2] for edge in state_edge if edge[0] == pre_node[1:] ]
-        #                 for suc_node in suc_nodes:
-        #                     suc_id = known_states[suc_node]
-        #                     suc_edge_data = self.state_graph.get_edge_data(state_node, ((('NODE_CTR',suc_id),) + suc_node))
-        #                     if suc_edge_data is None:
-        #                     self.state_graph.add_edge((('NODE_CTR', new_id),) + state_node[1:],
-        #                                               (('NODE_CTR', suc_id),) + suc_node,
-        #                                               time_delta=suc_edge_data['time_delta'],
-        #                                               time_delta_constraint=suc_edge_data['time_delta_constraint'],
-        #                                               time_delta_src=suc_edge_data['time_delta_src'],
-        #                                               temp_delta=suc_edge_data['temp_delta'],
-        #                                               temp_delta_constraint=suc_edge_data['temp_delta_constraint'],
-        #                                               temp_delta_src=suc_edge_data['temp_delta_src'],
-        #                                               label=f'time_delta_constraint={suc_edge_data["time_delta_constraint"]}'
-        #                                               )
-        #             self.state_graph.remove_node(state_node)
-        #             break   # TODO: this could be wrong if there is multiple nodes need to be divided
 
     def _discover_time_deltas(
         self, state: "SimState"
@@ -1189,28 +1094,10 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         while simgr.active:
             s = simgr.active[0]
-            # print(s)
             if len(simgr.active) > 1:
                 raise RuntimeError(
                     "scan cycle execution forked into multiple active states"
                 )
-
-            # if s.addr == 0x21d5:
-            #     print("IN READ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2245:
-            #     print("IN CHECk!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2315:
-            #     print("IN IDLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2349:
-            #     print("IN PREHEAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2377:
-            #     print("IN COOK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x23e3:
-            #     print("IN COOL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2405:
-            #     print("IN COMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # if s.addr == 0x2415:
-            #     print("IN TOOHOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
             simgr.stash(
                 lambda x: x.addr == self._ret_trap,
@@ -1220,8 +1107,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
             simgr.step()
 
-        # import sys
-        # sys.stdout.write('\n')
         assert len(simgr.finished) == 1
         return simgr.finished[0]
 

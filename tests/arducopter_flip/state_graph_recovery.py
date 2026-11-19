@@ -65,7 +65,6 @@ class SliceGenerator:
                         DefinitionNode(v, curr_loc[0], curr_loc[1]),
                     )
                 self._last_statements[v] = curr_loc
-            # print(expr, state.scratch.irsb.statements[state.scratch.stmt_idx])
 
 
 class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
@@ -107,15 +106,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         self.func_args = func_args
 
         self._time_addr = time_var["address"]
-        # self._temp_addr = temp_addr
-        # self._rollsensor_addr = rollsensor_addr  # FIXME
         self._rollsensor_addr = (
             rollsensor_addr
             if rollsensor_addr is not None
             else self.input_fields["roll_sensor"][0]
         )
         self._tv_sec_var = None
-        # self._temperature = None
         self._rollsensor = None
         self.state_graph = state_graph
         self._expression_source = {}
@@ -140,8 +136,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             self.constraint_sources = []
             self.new_value = None
 
-            # self.same_range = False
-
         def is_changed(self) -> bool:
             return self.curr_id == self.next_id
 
@@ -157,25 +151,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         symbolic_input_fields = self._symbolize_input_fields(init_state)
         symbolic_time_counters = self._symbolize_timecounter(init_state)
         symbolic_rollsensor = self._symbolize_rollsensor(init_state)
-        # if self._temp_addr is not None:
-        #     symbolic_temperature = self._symbolize_temp(init_state)
 
         # setup inspection points to catch where expressions are created
         all_vars = set(symbolic_input_fields.values())
         all_vars |= set(symbolic_time_counters.values())
         all_vars |= set(symbolic_rollsensor.values())
-        # if self._temp_addr is not None:
-        #     all_vars |= set(symbolic_temperature.values())
         all_vars |= self.config_vars
-        # slice_gen = SliceGenerator(all_vars, bp=None)
-        # expression_bp = slice_gen.install_expr_hook(init_state)
-
-        # # setup inspection points to catch where expressions are written to registers
-        # expression_logger = ExpressionLogger(self._expression_source, { v.args[0] for v in all_vars })
-        # regwrite_bp = BP(when=BP_BEFORE, enabled=True, action=expression_logger.on_register_write)
-        # init_state.inspect.add_breakpoint('reg_write', regwrite_bp)
-        # memread_bp = BP(when=BP_AFTER, enabled=True, action=expression_logger.on_memory_read)
-        # init_state.inspect.add_breakpoint('mem_read', memread_bp)
 
         # Abstract state ID counter
         abs_state_id_ctr = count(0)
@@ -210,10 +191,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         known_transitions = list()
         known_states = dict()
         time_delta_and_sources = {}
-        # temp_delta_and_sources = {}
         rollsensor_delta_and_sources = {}
 
-        # absstate_to_slice = { }
         while state_queue:
             (
                 prev_state,
@@ -240,22 +219,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 self._advance_rollsensor(prev_state, rollsensor_delta)
 
             # symbolically trace the state
-            # expression_bp.enabled = True
             next_state = self._traverse_one(prev_state)
-
-            # print(f"motor throttle in {next_state.memory.load(0xc00042f0 + 0x28, 4, endness=self.project.arch.memory_endness).raw_to_fp()}")
-            # print(f"motor throttle out {next_state.memory.load(0xc00042f0+0x2c,4, endness=self.project.arch.memory_endness).raw_to_fp()}")
-            # expression_bp.enabled = False
 
             abs_state = self.fields.generate_abstract_state(next_state)
             abs_state += (
                 ("time_delta", time_delta),
-                # ('tdc', time_delta_constraint),
-                # ('td_src', time_delta_src),
-                # ('temp_delta', temp_delta),
-                # ('temp_src', temp_delta_src)
                 ("rollsensor_delta", rollsensor_delta),
-                # ('rollsensor_src', rollsensor_delta_src)
             )
             # TODO: remove values in nodes, Now keep them for debug purpose
             # TODO: should we add source back?
@@ -275,8 +244,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 pprint.pprint(abs_state)
             else:
                 self.printstate(abs_state)
-            # absstate_to_slice[abs_state] = slice_gen.slice
-            # print("[.] There are %d nodes in the slice." % len(slice_gen.slice))
 
             transition = (prev_prev_abs, prev_abs_state, abs_state)
             if switched_on and transition in known_transitions:
@@ -293,9 +260,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 time_delta=time_delta,
                 time_delta_constraint=time_delta_constraint,
                 time_delta_src=time_delta_src,
-                # temp_delta=temp_delta,
-                # temp_delta_constraint=temp_delta_constraint,
-                # temp_delta_src=temp_delta_src,
                 rollsensor_delta=rollsensor_delta,
                 rollsensor_delta_constraint=rollsensor_delta_constraint,
                 rollsensor_delta_src=rollsensor_delta_src,
@@ -331,10 +295,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         self.patch_callback(next_state)
                     switched_on = True
                     time_delta_and_sources = {}
-                    # temp_delta_and_sources = {}
                     rollsensor_delta_and_sources = {}
                     prev_abs_state = None
-                    # state_queue.append((new_state, abs_state_id, abs_state, None, None, None, None, None, None))
             else:
                 time_delta_and_sources = self._discover_time_deltas(next_state)
 
@@ -369,7 +331,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         all_vars |= set(symbolic_time_counters.values())
                         all_vars |= set(symbolic_rollsensor.values())
                         all_vars |= self.config_vars
-                        # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                         state_queue.append(
                             (
                                 new_state,
@@ -387,7 +348,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
                         # fixme: using new Delta objects
                         if time_delta_and_sources:
-                            # print(time_delta_constraint)
                             for (
                                 time_delta,
                                 time_constraint,
@@ -412,7 +372,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_rollsensor.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -447,7 +406,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 all_vars |= set(symbolic_time_counters.values())
                                 all_vars |= set(symbolic_rollsensor.values())
                                 all_vars |= self.config_vars
-                                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                                 state_queue.append(
                                     (
                                         new_state,
@@ -475,11 +433,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         all_vars = set(symbolic_input_fields.values())
                         all_vars |= set(symbolic_time_counters.values())
                         all_vars |= set(symbolic_rollsensor.values())
-                        # if self._temp_addr is not None:
-                        #     symbolic_temperature = self._symbolize_temp(new_state)
-                        #     all_vars |= set(symbolic_temperature.values())
                         all_vars |= self.config_vars
-                        # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                         state_queue.append(
                             (
                                 new_state,
@@ -496,8 +450,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         )
 
             else:
-                # if time_delta is None and prev_abs_state == abs_state:
-                #     continue
                 new_state = self._initialize_state(init_state=next_state)
 
                 # re-symbolize input fields, time counters, and update slice generator
@@ -507,11 +459,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 all_vars = set(symbolic_input_fields.values())
                 all_vars |= set(symbolic_time_counters.values())
                 all_vars |= set(symbolic_rollsensor.values())
-                # if self._temp_addr is not None:
-                #     symbolic_temperature = self._symbolize_temp(new_state)
-                #     all_vars |= set(symbolic_temperature.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
 
                 state_queue.append(
                     (
@@ -556,9 +504,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 "time_delta_constraint"
                             ],
                             time_delta_src=pre_edge_data["time_delta_src"],
-                            # temp_delta=pre_edge_data['temp_delta'],
-                            # temp_delta_constraint=pre_edge_data['temp_delta_constraint'],
-                            # temp_delta_src=pre_edge_data['temp_delta_src'],
                             rollsensor_delta=rollsensor_delta,
                             rollsensor_delta_constraint=rollsensor_delta_constraint,
                             rollsensor_delta_src=rollsensor_delta_src,
@@ -580,9 +525,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                     "time_delta_constraint"
                                 ],
                                 time_delta_src=suc_edge_data["time_delta_src"],
-                                # temp_delta=suc_edge_data['temp_delta'],
-                                # temp_delta_constraint=suc_edge_data['temp_delta_constraint'],
-                                # temp_delta_src=suc_edge_data['temp_delta_src'],
                                 rollsensor_delta=rollsensor_delta,
                                 rollsensor_delta_constraint=rollsensor_delta_constraint,
                                 rollsensor_delta_src=rollsensor_delta_src,
@@ -777,7 +719,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         state.inspect.add_breakpoint("constraints", bp_0)
 
         next_states = self._traverse_one(state, discover=True)
-        # next_state = next_states[0]
         # detect required rollsensor delta
         steps: List[self.Deltas] = []
         deltas_info = []
@@ -807,14 +748,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     ):
                         delta_info["same_range"] = True
                         # fixme: should we remove this part since we are checking state id
-                        # continue
                         pass
 
                     for constraint in next_state.solver.constraints:
                         original_constraint = constraint
 
                         if delta.args[0] in constraint.variables:
-                            # print(constraint)
                             # add logic to simplify -1*var
                             op = constraint.op
 
@@ -849,42 +788,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                     raise NotImplementedError(
                                         f"unsupported comparison operator {op} in constraint: {constraint}"
                                     )
-                            """
-                            if constraint.args[0].op == '__add__':
-
-                                arg_num = len(constraint.args[0].args)
-                                if arg_num != 2:
-                                    raise NotImplementedError(f"expected 2 operands in __add__ constraint, got {arg_num}")
-
-                                # TODO: generalize it when -1 is in different position
-                                if constraint.args[0].args[0].op == '__mul__' and constraint.args[0].args[1].op == '__mul__' \
-                                        and constraint.args[0].args[0].args[0].op == 'BVV' \
-                                        and constraint.args[0].args[0].args[0] is claripy.BVV(-1, constraint.args[0].args[0].args[0].args[1]) \
-                                        and constraint.args[0].args[1].args[0].op == 'BVV' \
-                                        and constraint.args[0].args[1].args[0] is claripy.BVV(-1, constraint.args[0].args[0].args[0].args[1]):
-                                    if op == 'SLE':     # Question: can this be generalized?
-                                        left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
-                                        right = constraint.args[1] * -1
-                                        simplified_constraint = claripy.SGE(left, right)
-                                        constraint = simplified_constraint
-                                    elif op == 'SGE':
-                                        left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
-                                        right = constraint.args[1] * -1
-                                        simplified_constraint = claripy.SLE(left, right)
-                                        constraint = simplified_constraint
-                                    elif op == 'SLT':
-                                        left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
-                                        right = constraint.args[1] * -1
-                                        simplified_constraint = claripy.SGT(left, right)
-                                        constraint = simplified_constraint
-                                    elif op == 'SGT':
-                                        left = constraint.args[0].args[0].args[1] + constraint.args[0].args[1].args[1]
-                                        right = constraint.args[1] * -1
-                                        simplified_constraint = claripy.SLT(left, right)
-                                        constraint = simplified_constraint
-                                    else:
-                                        raise NotImplementedError(f"unsupported comparison operator {op} in constraint: {constraint}")
-                            """
 
                         else:
                             # pass if delta is not in this constraint
@@ -916,7 +819,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             blank = self.project.factory.blank_state()
                             blank.solver.add(constraint)
                             step = blank.solver.min(delta)
-                            # print(step)
                             step_info = (
                                 step,
                                 constraint,
@@ -927,21 +829,14 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                             continue
 
                 deltas_info.append(delta_info)
-            #
-            # # for channel pitch control in
-            # for each_delta_info in deltas_info:
-            #     print("check each delta info")
 
             # TODO: put this part in a function
             for each_delta_info in deltas_info:
                 # fixme here adding checks for other output variables
                 if each_delta_info["curr_id"] == each_delta_info["next_id"]:
-                    # if False:
                     # fixme here if we want to track constraints for self loops
                     continue  # fixme for rollsensor
-                    # pass
                 else:
-                    # if each_delta_info['step_info']:
                     # add object to list
                     for i in range(len(steps)):
                         if steps[i].next_id == each_delta_info["next_id"]:
@@ -992,22 +887,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 each.new_value = (
                     blank_state.solver.min(each.delta, signed=True) + 1
                 )  # fixme: min or max or eval?
-                # if blank_state.solver.eval(claripy.SLE(claripy.BVV(each.new_value,32), claripy.BVV(-18000,32))):
 
             # -----------------------------------
-
-            # if len(steps) == 0 and len(next_states) == 2:
-            #     # found branches but not deltas
-            #     for each_delta_info in deltas_info:
-            #         if not each_delta_info['same_range']:
-            #             one_step = self.Deltas(curr_id=each_delta_info['curr_id'], next_id=each_delta_info['next_id'],
-            #                                    state=each_delta_info['state'], delta=each_delta_info['delta'])
-            #
-            #             one_step.steps.append(each_delta_info['step_info'][0][0])
-            #             one_step.constraint = each_delta_info['step_info'][0][1]
-            #             one_step.constraint_sources.append(each_delta_info['step_info'][0][2])
-            #             one_step.new_value = each_delta_info['step_info'][0][0]
-            #             steps.append(one_step)
 
         # TODO: return original step_info
         return steps
@@ -1135,7 +1016,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             return simplified, source
 
         elif constraint.op in ("fpMul",):
-            # clarirs: fpMul(lhs, rhs, rm)
             if (
                 constraint.args[0].op == "FPV"
                 and constraint.args[0].concrete_value == 0.0
@@ -1183,11 +1063,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         )
 
         return {"tv_sec": self._tv_sec_var}
-
-        # if self.software == "beremiz":
-        #     return self._symbolize_timecounter_beremiz(state)
-        # elif self.software == 'arduino':
-        #     return self._symbolize_timecounter_arduino(state)
 
     # Traffic_Light Beremiz
     def _symbolize_timecounter_beremiz(
@@ -1301,12 +1176,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         rollsensor_delta = claripy.BVS(
             "rollsensor_delta", rollsensor_size * self.project.arch.byte_width
         )
-        # state.preconstrainer.preconstrain(claripy.BVV(1, 4*self.project.arch.byte_width), rollsensor_delta)
         # roll sensor range is (-180, 180)
-        # state.add_constraints(claripy.SGT(rollsensor_delta, -18000), claripy.SLT(rollsensor_delta, 18000))
 
-        # prev = state.memory.load(self._rollsensor_addr, size=4, endness=self.project.arch.memory_endness)
-        # state.memory.store(self._rollsensor_addr, prev + rollsensor_delta, endness=self.project.arch.memory_endness)
         state.memory.store(
             self._rollsensor_addr,
             rollsensor_delta,
@@ -1324,7 +1195,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             claripy.BVV(1, 4 * self.project.arch.byte_width), rollsensor_delta
         )
         # roll sensor range is (-180, 180)
-        # state.add_constraints(claripy.SGT(rollsensor_delta, -18000), claripy.SLT(rollsensor_delta, 18000))
 
         prev = state.memory.load(
             self._rollsensor_addr, size=4, endness=self.project.arch.memory_endness
@@ -1334,7 +1204,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             prev + rollsensor_delta,
             endness=self.project.arch.memory_endness,
         )
-        # state.memory.store(self._rollsensor_addr, rollsensor_delta, endness=self.project.arch.memory_endness)
         return [rollsensor_delta]
 
     def _advance_rollsensor(self, state: "SimState", delta) -> None:
@@ -1393,65 +1262,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         while simgr.active:
             s = simgr.active[0]
-            # print(f"{simgr.active},  {hex(simgr.active[0].addr - 0x0000555555554000)}")
-            # print(f"{simgr.active}")
-            # print(s.memory.load(0x8f9c14, 1))  # roll_dir
-            # print(s.memory.load(0x8f9c15, 1))  # pitch_dir
-            # if len(s.callstack) == 1:
-            #     print(f"{s.regs.rbp-0x1c}    {s.memory.load(s.regs.rbp-0x1c, 4, endness=self.project.arch.memory_endness)}")
-            # print(s.solver.constraints[-10:])
 
             if not discover:  # ignore multiple states when discovering deltas
                 if len(simgr.active) > 1:
                     raise RuntimeError(
                         "scan cycle execution forked into multiple active states"
                     )
-
-            # if unsat_flag:
-            #     if simgr.unsat:
-            #         print("unsat")
-            #
-            # if s.addr == 0x47e45e:
-            #     print("check flip angle in roll")
-
-            # # Copter modeflip
-            # if s.addr == 0x47e336:
-            #     print("START!")
-            # if s.addr == 0x47e3e4:
-            #     print("ROLL!")
-            # if s.addr == 0x47e491:
-            #     print("PITCH_A!")
-            # if s.addr == 0x47e558:
-            #     print("PITCH_B!")
-            # if s.addr == 0x47e61f:
-            #     print("RECOVER!")
-            # if s.addr == 0x47e75c:
-            #     print("ABANDON!")
-            # if s.addr == 0x47e70d:
-            #     print("finish recovery!")
-
-            # # Copter Mode alt_hold
-            # if s.addr == 0x476af5:
-            #     print("AltHold_MotorStopped")
-            # if s.addr == 0x476b3c:
-            #     print("AltHold_Landed_Ground_Idle")
-            # if s.addr == 0x476b54:
-            #     print("AltHold_Landed_Pre_Takeoff")
-            # if s.addr == 0x476b83:
-            #     print("AltHold_Takeoff")
-            # if s.addr == 0x476c04:
-            #     print("AltHold_Flying")
-            #
-
-            # if s.addr == 0x47e0a4:
-            #     print("check channel picth controlin")
-            # if s.addr == 0x47dfda:
-            #     print("check armed")
-
-            # if s.addr == 0x0000555555554000+0x779B9:
-            #     print("after get_at_hold_state")
-            # if s.addr == 0x47e312 or s.addr == 0x47e2ff:
-            #     print("check time")
 
             simgr.stash(
                 lambda x: x.addr == self._ret_trap,
@@ -1460,8 +1276,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             )
 
             simgr.step()
-        # import sys
-        # sys.stdout.write('\n')
         if not discover:
             assert len(simgr.finished) == 1
             return simgr.finished[0]
@@ -1471,15 +1285,10 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
     def _initialize_state(self, init_state=None) -> "SimState":
         if init_state is not None:
             s = init_state.copy()
-            # s.ip = self.func.addr
             s.ip = self.func
             # TODO: pass object address to StateGraphRecovery as arguments
-            # s.regs.rdi = 0x8f9b88    # mode_flip_addr
             s.regs.rdi = self.func_args["rdi"]
-            # s.regs.rdi = 0x8f9400       # mode_althold_addr
-            # s.regs.rdi = 0x555555a58400 # mode_althold_addr in arducopter_1
         else:
-            # s = self.project.factory.blank_state(addr=self.func.addr)
             s = self.project.factory.blank_state(addr=self.func)
             s.regs.rdi = 0xC0000000
             s.memory.store(0xC0000000, b"\x00" * 0x1000)

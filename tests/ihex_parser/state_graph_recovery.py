@@ -59,7 +59,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         self.ichar_info = inputs["c"]
         self.ichar = None
         self._tv_sec_var = None
-        # self._temperature = None
         self.state_graph = None
         self._expression_source = {}
         self.traverse()
@@ -68,18 +67,14 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         # create an empty state graph
         self.state_graph = MultiDiGraph_DedupeEdge()
-        # self.state_graph = networkx.DiGraph()
 
         # make the initial state
         init_state = self._initialize_state(init_state=self.init_state)
         symbolic_abstate_fields = self._symbolize_var_fields(init_state, self.fields)
-        # symbolic_input_fields = self._symbolize_var_fields(init_state, self.fields_input)
-        # symbolic_time_counters = self._symbolize_timecounter(init_state)
         symbolic_ichar = self._symbolize_ichar(init_state)
 
         # setup inspection points to catch where expressions are created
         all_vars = set(symbolic_abstate_fields.values())
-        # all_vars |= set(symbolic_time_counters.values())
         all_vars | set(symbolic_ichar.values())
         slice_gen = SliceGenerator(all_vars, bp=None)
         expression_bp = slice_gen.install_expr_hook(init_state)
@@ -125,12 +120,9 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
             # re-symbolize input fields, time counters, and update slice generator
             symbolic_abstate_fields = self._symbolize_var_fields(new_state, self.fields)
-            # symbolic_time_counters = self._symbolize_timecounter(new_state)
             symbolic_ichar = self._symbolize_ichar(new_state)
             all_vars = set(symbolic_abstate_fields.values())
-            # all_vars |= set(symbolic_time_counters.values())
             all_vars |= set(symbolic_ichar.values())
-            # all_vars |= self.config_vars
             slice_gen = SliceGenerator(all_vars, bp=expression_bp)
             state_queue.append(
                 (
@@ -158,19 +150,12 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 ichar_src,
             ) = state_queue.pop(0)
             print(prev_abs_state, ichar_delta, ichar_constraint, ichar_src)
-            # if prev_abs_state[0][1] == 1 and low_delta == 0:
-            # if time_delta is None:
-            #     pass
-            # else:
-            #     # advance the time stamp as required
-            #     self._advance_timecounter(prev_state, time_delta)
             if ichar_delta is not None:
                 self._advance_ichar(prev_state, ichar_delta)
 
             # symbolically trace the state
             expression_bp.enabled = True
             next_state = self._traverse_one(prev_state)
-            # print(next_state.solver.eval(next_state.memory.load(self._time_addr, 8, endness=self.project.arch.memory_endness)))
 
             expression_bp.enabled = False
 
@@ -181,16 +166,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             elif next_state.addr == 0x4018CB:
                 abs_state += (("returned", 0),)
 
-            # abs_state += (('time_delta', time_delta),
-            #               # ('tdc', time_delta_constraint),
-            #               # ('td_src', time_delta_src),
-            #               #   ('low_delta', low_delta),
-            #               #   ('low_constraint', low_constraint),
-            #               #   ('low_src', low_src),
-            #               #   ('high_delta', high_delta),
-            #               #   ('high_constraint', high_constraint),
-            #               #   ('high_src', high_src),
-            #               )
             if switched_on:
                 if abs_state in known_states.keys():
                     abs_state_id = known_states[abs_state]
@@ -209,7 +184,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             print("[.] There are %d nodes in the slice." % len(slice_gen.slice))
 
             transition = (prev_prev_abs, prev_abs_state, abs_state, ichar_delta)
-            # print(transition)
             if switched_on and transition in known_transitions:
                 continue
 
@@ -220,49 +194,11 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             self.state_graph.add_edge(
                 (("NODE_CTR", prev_abs_state_id),) + prev_abs_state,
                 (("NODE_CTR", abs_state_id),) + abs_state,
-                # time_delta=time_delta,
-                # time_delta_constraint=time_delta_constraint,
-                # time_delta_src=time_delta_src,
                 ichar_delta=ichar_delta,
                 ichar_constraint=ichar_constraint,
                 ichar_src=ichar_src,
-                # label = f'time_delta_constraint={time_delta_constraint},\nlow_constraint={low_constraint}, \nhigh_constraint={high_constraint}'
                 label=f"ichar_delta={ichar_delta}",
             )
-
-            # discover time deltas
-            # also discover what other input fields are used in the constraints
-            # time_delta_and_sources = self._discover_time_deltas(next_state)
-            #
-            # for delta, constraint, source in time_delta_and_sources:
-            #     if source is None:
-            #         block_addr, stmt_idx = -1, -1
-            #     else:
-            #         block_addr, stmt_idx = source
-            #     print(f"[.] Discovered a new time interval {delta} defined at {block_addr:#x}:{stmt_idx}")
-
-            # low_delta_and_sources = self._discover_low_deltas(next_state)
-            # for delta, constraint, source in low_delta_and_sources:
-            #     if source is None:
-            #         block_addr, stmt_idx = -1, -1
-            #     else:
-            #         block_addr, stmt_idx = source
-            #     print(f"[.] Discovered a new low sensor {delta} defined at {block_addr:#x}:{stmt_idx}")
-            #
-            # high_delta_and_sources = self._discover_high_deltas(next_state)
-            # if high_delta_and_sources:
-            #     for delta, constraint, source in high_delta_and_sources:
-            #         if source is None:
-            #             block_addr, stmt_idx = -1, -1
-            #         else:
-            #             block_addr, stmt_idx = source
-            #         print(f"[.] Discovered a new high sensor {delta} defined at {block_addr:#x}:{stmt_idx}")
-            # else:
-            #     high_delta_and_sources = [(None, None, None)]
-
-            # FIXME: This is a hack. We should fix it later.
-            # low_delta_and_sources = [(0, None, None), (1, None, None)]
-            # high_delta_and_sources = [(0, None, None), (1, None, None)]
 
             # for retutn (exit), add state in the graph but not in work queue
             if next_state.addr == self._ret_trap:
@@ -285,12 +221,9 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 symbolic_abstate_fields = self._symbolize_var_fields(
                     new_state, self.fields
                 )
-                # symbolic_time_counters = self._symbolize_timecounter(new_state)
                 symbolic_ichar = self._symbolize_ichar(new_state)
                 all_vars = set(symbolic_abstate_fields.values())
-                # all_vars |= set(symbolic_time_counters.values())
                 all_vars |= set(symbolic_ichar.values())
-                # all_vars |= self.config_vars
                 slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                 state_queue.append(
                     (
@@ -317,7 +250,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
             return []
         state = self._initialize_state(state)
         # test loop 1
-        # state = self._initialize_state(self.init_state)
         ichar_deltas = self._symbolically_advance_ichar(state)
         # setup inspection points to catch where comparison happens
         constraint_source = {}
@@ -333,8 +265,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         steps: List[Tuple[int, claripy.ast.Base, Tuple[int, int]]] = []
         for next_state in next_states:
             for delta in ichar_deltas:
-                # for constraint in next_state.solver.constraints:
-                #     original_constraint = constraint
                 all_delta_constraints = [
                     constraint
                     for constraint in next_state.solver.constraints
@@ -413,31 +343,22 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         while simgr.active:
             simgr.step()
 
-            # print(simgr.active)
             s = simgr.active[0]
-            # print(s)
             if not discover:
                 if len(simgr.active) > 1:
                     raise RuntimeError(
                         "scan cycle execution forked into multiple active states"
                     )
 
-            # if any(x.addr == 0x4016aa for x in simgr.active):
-            #     print("[D] check record type assignment")
-
-            # return
             simgr.stash(
                 lambda x: x.addr == self._ret_trap,
                 from_stash="active",
                 to_stash="finished",
             )
-            # break
             simgr.stash(
                 lambda x: x.addr == 0x4018CB, from_stash="active", to_stash="finished"
             )
 
-        # import sys
-        # sys.stdout.write('\n')
         if discover:
             return simgr.finished
         else:
@@ -461,7 +382,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         s.options[SYMBOL_FILL_UNCONSTRAINED_REGISTERS] = True
 
         if self.project.arch.call_pushes_ret:
-            # s.stack_push(claripy.BVV(self._ret_trap, self.project.arch.bits))
             # for loop, point last rbp to return trap
             s.memory.store(
                 0x7FFFFFFFFFF0000,

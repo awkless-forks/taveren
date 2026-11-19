@@ -72,12 +72,10 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
         # create an empty state graph
         self.state_graph = MultiDiGraph_DedupeEdge()
-        # self.state_graph = networkx.DiGraph()
 
         # make the initial state
         init_state = self._initialize_state(init_state=self.init_state)
         symbolic_abstate_fields = self._symbolize_var_fields(init_state, self.fields)
-        # symbolic_input_fields = self._symbolize_var_fields(init_state, self.fields_input)
         symbolic_time_counters = self._symbolize_timecounter(init_state)
         symbolic_altitude = self._symbolize_altitude(init_state)
 
@@ -85,15 +83,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         all_vars = set(symbolic_abstate_fields.values())
         all_vars |= set(symbolic_time_counters.values())
         all_vars | set(symbolic_altitude.values())
-        # slice_gen = SliceGenerator(all_vars, bp=None)
-        # expression_bp = slice_gen.install_expr_hook(init_state)
-
-        # # setup inspection points to catch where expressions are written to registers
-        # expression_logger = ExpressionLogger(self._expression_source, { v.args[0] for v in all_vars })
-        # regwrite_bp = BP(when=BP_BEFORE, enabled=True, action=expression_logger.on_register_write)
-        # init_state.inspect.add_breakpoint('reg_write', regwrite_bp)
-        # memread_bp = BP(when=BP_AFTER, enabled=True, action=expression_logger.on_memory_read)
-        # init_state.inspect.add_breakpoint('mem_read', memread_bp)
 
         # Abstract state ID counter
         abs_state_id_ctr = count(0)
@@ -143,7 +132,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 anomaly_src,
             ) = state_queue.pop(0)
             print(prev_abs_state, time_delta, altitude_delta, anomaly_delta)
-            # if prev_abs_state[0][1] == 1 and low_delta == 0:
             if time_delta is None:
                 pass
             else:
@@ -155,11 +143,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 self._advance_anomaly(prev_state, anomaly_delta)
 
             # symbolically trace the state
-            # expression_bp.enabled = True
             next_state = self._traverse_one(prev_state)
-            # print(next_state.solver.eval(next_state.memory.load(self._time_addr, 8, endness=self.project.arch.memory_endness)))
-
-            # expression_bp.enabled = False
 
             abs_state = self.fields.generate_abstract_state(next_state)
 
@@ -177,11 +161,8 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 pprint.pprint(abs_state)
             else:
                 self.printstate(abs_state)
-            # absstate_to_slice[abs_state] = slice_gen.slice
-            # print("[.] There are %d nodes in the slice." % len(slice_gen.slice))
 
             transition = (prev_prev_abs, prev_abs_state, abs_state, altitude_delta)
-            # print(transition)
             if switched_on and transition in known_transitions:
                 continue
 
@@ -229,7 +210,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 all_vars |= set(symbolic_time_counters.values())
                 all_vars |= set(symbolic_altitude.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                 state_queue.append(
                     (
                         new_state,
@@ -248,7 +228,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                     )
                 )
 
-            # anomaly_deltas_and_sources = self._discover_anomaly_values(next_state)
             # add new work states with deltas to queue
             for (
                 altitude_delta,
@@ -269,7 +248,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 all_vars |= set(symbolic_altitude.values())
                 all_vars |= set(symbolic_anomaly.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
                 if self.mode == "full":
                     state_queue.append(
                         (
@@ -340,7 +318,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                 all_vars |= set(symbolic_altitude.values())
                 all_vars |= set(symbolic_anomaly.values())
                 all_vars |= self.config_vars
-                # slice_gen = SliceGenerator(all_vars, bp=expression_bp)
 
                 state_queue.append(
                     (
@@ -376,21 +353,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                         None,
                     )
                 )
-
-            # else:
-            #     new_state = self._initialize_state(init_state=next_state)
-            #
-            #     # re-symbolize input fields, time counters, and update slice generator
-            #     symbolic_abstate_fields = self._symbolize_var_fields(new_state, self.fields)
-            #     symbolic_time_counters = self._symbolize_timecounter(new_state)
-            #     symbolic_altitude = self._symbolize_altitude(new_state)
-            #     all_vars = set(symbolic_abstate_fields.values())
-            #     all_vars |= set(symbolic_time_counters.values())
-            #     all_vars |= set(symbolic_altitude.values())
-            #     all_vars |= self.config_vars
-            #     slice_gen = SliceGenerator(all_vars, bp=expression_bp)
-            #     state_queue.append((
-            #                        new_state, abs_state_id, abs_state, prev_abs_state, None, None, None, None, None, None))
 
     def _discover_time_deltas(
         self, state: "SimState"
@@ -482,78 +444,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
                                 raise NotImplementedError(
                                     f"unsupported time delta constraint with {len(leaf_ast)} leaf ASTs: {constraint}"
                                 )
-                    # if constraint.op == "__eq__" and constraint.args[0] is delta:
-                    #     continue
-                    # elif constraint.op in ('ULE'):  # arduino arm32
-                    #     if constraint.args[0].args[1] is delta:
-                    #         if constraint.args[1].args[0].op == 'BVV':
-                    #             step = constraint.args[1].args[0].args[0]
-                    #             if step != 0:
-                    #                 steps.append((
-                    #                     step,
-                    #                     constraint,
-                    #                     constraint_source.get(original_constraint, None),
-                    #                 ))
-                    #                 continue
-                    #
-                    # elif constraint.op in ("__le__",):  # simulink arm32
-                    #     if constraint.args[0].args[1] is delta:
-                    #         if constraint.args[1].op == 'BVV':
-                    #             step = constraint.args[1].args[0]
-                    #             if step != 0 and step < 255:
-                    #                 steps.append((
-                    #                     step,
-                    #                     constraint,
-                    #                     constraint_source.get(original_constraint, None),
-                    #                 ))
-                    #                 continue
-                    #         elif constraint.args[1].args[0].op == 'BVV':    # arduino arm32 oven
-                    #             step = constraint.args[1].args[0].args[0]
-                    #             if step != 0:
-                    #                 steps.append((
-                    #                     step,
-                    #                     constraint,
-                    #                     constraint_source.get(original_constraint, None),
-                    #                 ))
-                    #                 continue
-                    # elif constraint.op == "__ne__":
-                    #     if constraint.args[0] is delta:     # amd64
-                    #         # found a potential step
-                    #         if constraint.args[1].op == 'BVV':
-                    #             step = constraint.args[1].concrete_value
-                    #             if step != 0 and step < 255:
-                    #                 steps.append((
-                    #                     step,
-                    #                     constraint,
-                    #                     constraint_source.get(original_constraint, None),
-                    #                 ))
-                    #                 continue
-                    #         else:
-                    #             # attempt to evaluate the right-hand side
-                    #             values = state.solver.eval_upto(constraint.args[1], 2)
-                    #             if len(values) == 1:
-                    #                 # it has a single value!
-                    #                 step = values[0]
-                    #                 if step != 0:
-                    #                     steps.append((
-                    #                         step,
-                    #                         constraint,
-                    #                         constraint_source.get(original_constraint, None),
-                    #                     ))
-                    #                     continue
-                    #
-                    #     if constraint.args[1].op == "BVS":      # arm32
-                    #         # access constraint.args[1].args[2]
-                    #         if constraint.args[1].args[2] is delta or constraint.args[1] is delta:
-                    #             if constraint.args[0].op == 'BVV':
-                    #                 step = constraint.args[0].args[0]
-                    #                 if step != 0:
-                    #                     steps.append((
-                    #                         step,
-                    #                         constraint,
-                    #                         constraint_source.get(original_constraint, None),
-                    #                     ))
-                    #                     continue
         return steps
 
     def _discover_altitude_deltas(
@@ -588,7 +478,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
                 if delta.args[0] in constraint.variables:
                     if constraint.op == "Or":
-                        # fixme: hack
                         constraint = constraint.args[0]
                         if constraint.op in ["Not", "fpLT"]:
                             leaf_ast = list(leaf_asts(constraint))
@@ -620,34 +509,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         print(steps)
 
         return steps
-
-    # def _discover_anomaly_values(self, state: 'SimState') -> List[Tuple[int,claripy.ast.Base,Tuple[int,int]]]:
-    #     """
-    #     Discover all possible anomaly value that may be required to transition the current state to successor states.
-    #
-    #     :param state:   The current initial state.
-    #     :return:        A list of ints where each int represents the required interval in number of seconds.
-    #     """
-    #     if self.altitude is None:
-    #         return []
-    #     state = self._initialize_state(state)
-    #
-    #     anomaly_deltas = self._symbolically_advance_anomaly(state)
-    #     # setup inspection points to catch where comparison happens
-    #     constraint_source = { }
-    #     constraint_logger = ConstraintLogger(constraint_source)
-    #     bp_0 = BP(when=BP_BEFORE, enabled=True, action=constraint_logger.on_adding_constraints)
-    #     state.inspect.add_breakpoint('constraints', bp_0)
-    #
-    #     next_states = self._traverse_one(state, discover=True)
-    # # detect required water delta
-    # steps: List[Tuple[int,claripy.ast.Base,Tuple[int,int]]] = [ ]
-    # for delta in anomaly_deltas:
-    #     for constraint in next_state.solver.constraints:
-    #         original_constraint = constraint
-    #
-    #         if delta.args[0] in constraint.variables:
-    #             if constraint.op == "Or":
 
     def _symbolically_advance_timecounter(
         self, state: "SimState"
@@ -753,9 +614,7 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
         simgr = self.project.factory.simgr(state)
 
         while simgr.active:
-            # print(simgr.active)
             s = simgr.active[0]
-            # print(s)
             if not discover:
                 if len(simgr.active) > 1:
                     raise RuntimeError(
@@ -777,8 +636,6 @@ class StateGraphRecoveryAnalysis(StateGraphRecoveryBase):
 
             simgr.step()
 
-        # import sys
-        # sys.stdout.write('\n')
         if discover:
             return simgr.finished
         else:
