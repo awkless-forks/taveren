@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Compare a PLC program against a reference: core dumps against libraries, and state graphs against state graphs."""
 
 from typing import Dict, Any, Tuple, List, Optional

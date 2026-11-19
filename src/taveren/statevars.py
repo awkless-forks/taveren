@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Identify the state variables of a PLC program.
 
 State variables hold the current state of the program's state machine from one scan cycle to the

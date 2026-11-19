@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Root cause analysis: trace a policy violation back to the bytes and instructions that decide it."""
 
 from typing import List, Dict, Tuple, Union, Optional

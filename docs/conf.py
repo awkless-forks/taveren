@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: BSD-2-Clause
 
 """Sphinx configuration for the Ta'veren documentation."""
 

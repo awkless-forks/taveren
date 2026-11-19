@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Abstract states: the nodes of a recovered state graph.
 
 A PLC program's concrete memory is far too large to use as an FSM state. Ta'veren instead

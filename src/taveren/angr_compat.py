@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """
 Compatibility layer between Ta'veren and upstream angr.
 

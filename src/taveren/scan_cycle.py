@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Detect the scan cycle function of a PLC binary.
 
 A PLC program runs its logic in a *scan cycle*: an endless loop that reads the inputs, runs the

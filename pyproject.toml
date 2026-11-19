@@ -1,19 +1,63 @@
 # SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: BSD-2-Clause
 
 [project]
 name = "taveren"
 version = "0.1.0"
 description = "Find blind-trust vulnerabilities in PLC binaries via state machine recovery"
+readme = "README.md"
+license = "BSD-2-Clause"
+license-files = ["LICENSE"]
 requires-python = ">=3.12,<3.13"
+authors = [
+    { name = "Fangzhou Dong" },
+    { name = "Arvind S Raj" },
+    { name = "Efrén López-Morales" },
+    { name = "Siyu Liu" },
+    { name = "Yan Shoshitaishvili" },
+    { name = "Tiffany Bao" },
+    { name = "Adam Doupé" },
+    { name = "Muslum Ozgur Ozmen" },
+    { name = "Ruoyu Wang" },
+]
+maintainers = [{ name = "Jason Pena", email = "jpalex@nmsu.edu" }]
+keywords = [
+    "plc",
+    "ics",
+    "binary-analysis",
+    "static-analysis",
+    "symbolic-execution",
+    "angr",
+    "state-machine",
+    "model-checking",
+    "security",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Information Technology",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Disassemblers",
+]
 dependencies = [
     # NOTE: claripy ships inside angr (as angr.claripy) since angr 10. The
     # patches our former angr/claripy forks carried live in
     # src/taveren/angr_compat.py.
     "angr[unicorn]>=10.0.1,<11",
     "networkx",
-    "pygraphviz",
 ]
+
+[project.urls]
+Homepage = "https://github.com/awkless-forks/taveren"
+Repository = "https://github.com/awkless-forks/taveren"
+Issues = "https://github.com/awkless-forks/taveren/issues"
+Changelog = "https://github.com/awkless-forks/taveren/blob/master/CHANGELOG.md"
+Paper = "https://bonnie1256.github.io/files/taveren.pdf"
 
 [project.scripts]
 taveren-scan-cycle = "taveren.scan_cycle:main"
@@ -21,7 +65,10 @@ taveren-init-finder = "taveren.init_finder:main"
 taveren-statevars = "taveren.statevars:main"
 
 [project.optional-dependencies]
-test = ["pytest"]
+# pygraphviz (needs the graphviz headers) is only used to write recovered
+# state graphs as .dot files, e.g. networkx.drawing.nx_agraph.write_dot.
+graphviz = ["pygraphviz"]
+test = ["pytest", "pygraphviz"]
 gui = ["angr-management>=10.0.1,<11"]
 docs = ["sphinx>=8", "furo"]
 
@@ -31,6 +78,19 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/taveren"]
+
+# Keep the sdist small: the PLC fixtures, experiment outputs and docs stay in
+# the git repository.
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/taveren",
+    "README.md",
+    "LICENSE",
+    "LICENSES/BSD-2-Clause.txt",
+    "REUSE.toml",
+    "CHANGELOG.md",
+    "pyproject.toml",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

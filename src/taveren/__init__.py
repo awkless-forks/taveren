@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """Ta'veren: find blind-trust vulnerabilities in PLC binaries via state machine recovery.
 
 Ta'veren recovers the finite state machine (FSM) implemented by a PLC program from its binary, then

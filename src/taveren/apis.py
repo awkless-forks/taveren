@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-FileCopyrightText: 2026 The Arizona Board of Regents
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
 """APIs for diagnosing and altering a state graph inside a binary.
 
 When a safety policy is violated, :class:`taveren.RootCauseAnalysis` traces the violation back to

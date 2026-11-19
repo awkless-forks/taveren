@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 Jason Pena <jpalex@nmsu.edu>
+# SPDX-License-Identifier: BSD-2-Clause
+
+# Copyright and licensing for files that cannot carry their own SPDX header
+# (data, binaries, generated output) or have none yet. When several
+# annotations match a path, the last one wins, so specific entries come after
+# general ones. With the default "closest" precedence, SPDX tags inside a file
+# take priority over this file.
+version = 1
+
+# Everything else: the upstream Ta'veren release plus this fork's changes.
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = [
+    "2026 The Arizona Board of Regents",
+    "2026 Jason Pena <jpalex@nmsu.edu>",
+]
+SPDX-License-Identifier = "BSD-2-Clause"
+
+# Files written for this fork.
+[[annotations]]
+path = [
+    ".dockerignore",
+    "CLAUDE.md",
+    "CHANGELOG.md",
+    "docs/**",
+    "experiments/init_finder/run_all.sh",
+    "experiments/scan_cycle/run_all.sh",
+    "tests/*/__init__.py",
+    "tests/ihex_parser/README.md",
+]
+SPDX-FileCopyrightText = "2026 Jason Pena <jpalex@nmsu.edu>"
+SPDX-License-Identifier = "BSD-2-Clause"
+
+# The paper's dataset, as released upstream. Third-party parts are below.
+[[annotations]]
+path = "tests/fixtures/**"
+SPDX-FileCopyrightText = "2026 The Arizona Board of Regents"
+SPDX-License-Identifier = "BSD-2-Clause"
+
+# Beremiz Python runtime copied into the OpenPLC/Beremiz builds.
+[[annotations]]
+path = "tests/fixtures/**/runtime_0.py"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2007 Edouard Tisserant and Laurent Bessard"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# Vending machine sketch by Jacques Bellavance (GPL version 3, no "or later"),
+# and the files the Arduino IDE derived from it.
+[[annotations]]
+path = [
+    "tests/fixtures/vending_machine/vending_machine.ino",
+    "tests/fixtures/vending_machine/arduino_build_389120/sketch/**",
+    "tests/fixtures/vending_machine/arduino_build_389120/preproc/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Jacques Bellavance"
+SPDX-License-Identifier = "GPL-3.0-only"
+
+# Arduino SAMD core objects (https://github.com/arduino/ArduinoCore-samd).
+[[annotations]]
+path = "tests/fixtures/vending_machine/arduino_build_389120/core/**"
+SPDX-FileCopyrightText = "2015 Arduino LLC"
+SPDX-License-Identifier = "LGPL-2.1-or-later"
+
+# Linked vending machine firmware: the sketch plus the Arduino core.
+[[annotations]]
+path = "tests/fixtures/vending_machine/arduino_build_389120/vending_machine.ino.*"
+SPDX-FileCopyrightText = [
+    "2017 Jacques Bellavance",
+    "2015 Arduino LLC",
+]
+SPDX-License-Identifier = "GPL-3.0-only AND LGPL-2.1-or-later"
+
+# ArduCopter 4.3.0 (https://github.com/ArduPilot/ardupilot/tree/Copter-4.3.0).
+[[annotations]]
+path = "tests/fixtures/binaries/arducopter"
+SPDX-FileCopyrightText = "ArduPilot Development Team"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Intel HEX parser (https://github.com/sfyip/Intel-HEX-file-parser).
+[[annotations]]
+path = "tests/fixtures/binaries/ihex_parser"
+SPDX-FileCopyrightText = "2020 yipxx"
+SPDX-License-Identifier = "MIT"

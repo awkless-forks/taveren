@@ -4,12 +4,19 @@ Usage
 Installation
 ------------
 
-Ta'veren requires Python 3.12 and the graphviz development headers (for
-``pygraphviz``)::
+Ta'veren requires Python 3.12. Install the released package from PyPI::
+
+   pip install taveren
+
+The optional ``graphviz`` extra installs ``pygraphviz``, used to write recovered
+state graphs as ``.dot`` files. It, and the ``test`` extra, need the graphviz
+development headers::
 
    sudo apt-get install graphviz graphviz-dev
+   pip install 'taveren[graphviz]'
 
-Then install the package with `uv <https://docs.astral.sh/uv/>`_::
+To run the test suite, install from a clone of the repository with
+`uv <https://docs.astral.sh/uv/>`_::
 
    uv sync --extra test
 

@@ -4,7 +4,28 @@ All notable changes since the upstream Ta'veren release (`31539fe`).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-19
+
+### Added
+- PyPI packaging metadata: README as the long description, `BSD-2-Clause`
+  license expression, authors, maintainers, project URLs, keywords and
+  classifiers.
+- `graphviz` extra for `pygraphviz`.
+
 ### Changed
+- **pygraphviz is no longer a core dependency.** The library never imports it;
+  it is only needed to write `.dot` files. It moved to the new `graphviz` extra
+  and the `test` extra, so `pip install taveren` no longer needs the graphviz
+  headers.
+- The sdist now contains only the package, README, LICENSE, CHANGELOG and
+  `pyproject.toml`. The PLC fixtures, experiments and docs stay in the git
+  repository.
+- README links are absolute GitHub URLs so they work on PyPI.
+- SPDX headers now say `BSD-2-Clause`, matching `LICENSE`.
+- The repository is now REUSE 3.3 compliant: SPDX headers in `src/taveren`,
+  license texts in `LICENSES/`, and a `REUSE.toml` that records the copyright
+  and license of data, binaries and third-party fixtures (Beremiz, ArduPilot,
+  the Arduino SAMD core, the Intel HEX parser and the vending machine sketch).
 - **Dependencies now come from PyPI.** Ta'veren depends on `angr>=10.0.1,<11`
   instead of git submodules pinned to angr 9.2.189 with patched angr/claripy
   forks. claripy now ships inside angr as `angr.claripy`. angr-management is an
