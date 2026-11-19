@@ -3,7 +3,7 @@
 
 [project]
 name = "taveren"
-version = "1.0.0"
+version = "1.0.0rc1"
 description = "Find blind-trust vulnerabilities in PLC binaries via state machine recovery"
 readme = "README.md"
 license = "BSD-2-Clause"
@@ -33,7 +33,7 @@ keywords = [
     "security",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Information Technology",

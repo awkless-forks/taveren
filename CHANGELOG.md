@@ -2,7 +2,7 @@
 
 All notable changes since the upstream Ta'veren release (`31539fe`).
 
-## [1.0.0] - 2026-11-19
+## [1.0.0rc1] - 2026-11-19
 
 ### Added
 
